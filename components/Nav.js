@@ -14,9 +14,10 @@ const Navbar = () => {
   const handleLoading = () => {
     setLoading(false);
   };
+  
  
   return (
-    <nav className=" w-100 p-3 navbar navbar-expand-lg navbar-light bg-light position-fixed top-0 start-0">
+    <nav className=" w-100 p-3 navbar navbar-expand-lg navbar-light position-fixed top-0 start-0">
       <div className="container-fluid">
         <Link href="/" passHref>
         <a className="navbarBrand fw-bold">
@@ -38,10 +39,10 @@ const Navbar = () => {
           className="collapse navbar-collapse justify-content-end"
           id="navbarNavDropdown"
         >
-          <ul className="navbar-nav">
+          <ul className="navbar-nav text-center">
             <Link href="/">
               <a className="nav-link">
-                <li className="nav-item">Home</li>
+                <li className="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Home</li>
               </a>
             </Link>
             <li className="nav-item dropdown">
@@ -56,18 +57,13 @@ const Navbar = () => {
                 Trucks
               </a>
               <ul
-                className="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <Link href="/trucks/smalltrucks">
-                  <a className="nav-link">
-                    <li className="nav-item">Small Trucks</li>
-                  </a>
+                className="dropdown-menu bg-white text-center">
+                <li><h6 className="dropdown-header">Select Truck Type</h6></li>
+                <Link href="/trucks/smalltrucks" passHref>
+                    <li className="dropdown-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Small Trucks</li>    
                 </Link>
-                <Link href="/trucks/heavytrucks">
-                  <a className="nav-link">
-                    <li className="nav-item">Heavy Trucks</li>
-                  </a>
+                <Link href="/trucks/heavytrucks" passHref>
+                    <li className="dropdown-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Heavy Trucks</li>
                 </Link>
               </ul>
             </li>
@@ -83,29 +79,23 @@ const Navbar = () => {
                 Vehicles
               </a>
               <ul
-                className="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
+                className="dropdown-menu bg-white " 
               >
-                <Link href="/vehicles/cars">
-                  <a className="nav-link">
-                    <li className="nav-item"> Cars</li>
-                  </a>
+              <li><h6 className="dropdown-header">Select Vehicle Type</h6></li>
+                <Link href="/vehicles/cars" passHref>     
+                    <li className="dropdown-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"> Cars</li>
                 </Link>
-                <Link href="/vehicles/buses">
-                  <a className="nav-link">
-                    <li className="nav-item">Buses</li>
-                  </a>
+                <Link href="/vehicles/buses" passHref>
+                    <li className="dropdown-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Buses</li>
                 </Link>
-                <Link href="/vehicles/vans">
-                  <a className="nav-link">
-                    <li className="nav-item">Vans</li>
-                  </a>
+                <Link href="/vehicles/vans" passHref>
+                    <li className="dropdown-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Vans</li>
                 </Link>
               </ul>
             </li>
             <Link href="/drivers">
               <a className="nav-link">
-                <li className="nav-item"
+                <li className="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
                >
                Drivers</li>
               </a>
@@ -113,44 +103,45 @@ const Navbar = () => {
 
             <Link href="/aboutus">
               <a className="nav-link">
-                <li className="nav-item">About Us</li>
+                <li className="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">About Us</li>
               </a>
             </Link>
             <Link href="/contactus">
               <a className="nav-link">
-                <li className="nav-item">Contact Us</li>
+                <li className="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Contact Us</li>
               </a>
             </Link>
           </ul>
 
           {!isLoggedIn ? (
-            <div className="navbar-nav ">
+            <div className="navbar-nav text-center">
               <Link href="/login">
                 <a className="nav-link">
-                  <button type="button" className="btn ">
+                  <button type="button" className="btn " data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
                     Login
                   </button>
                 </a>
               </Link>
               <Link href="/signup">
                 <a className="nav-link">
-                  <button type="button" className="btn ">
+                  <button type="button" className="btn " data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
                     Sign Up
                   </button>
                 </a>
               </Link>
             </div>
           ) : (
-            <div className="navbar-nav ">
+            <div className="navbar-nav text-center ">
               <Link href="/dashboard">
                 <a className="nav-link">
-                  <button type="button" className="btn ">
+                  <button type="button" className="btn " data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
                     Dashboard
                   </button>
                 </a>
               </Link>
                 <a className="nav-link">
                   <button type="button" className="btn "
+                  data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"
                   onClick={() => {
                     setLoading(true);
                     dispatch(logOutRequest(handleLoading));

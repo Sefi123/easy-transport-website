@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import bannerimg from "../assets/images/landingpage/banner-img.png";
 import truckimg from "../assets/images/truck.png";
 import carimg from "../assets/images/car.png";
 import driverimg from "../assets/images/Driver.png";
