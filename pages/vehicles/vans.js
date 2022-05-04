@@ -52,8 +52,8 @@ const Vans = () => {
   }
   
   return (
-    <section className={styles.driversection}>
-      <div className={styles.drivercontainer}>
+    <section className="ftco-section">
+      <div className="container-fluid">
         <CardTitle tag="h6" className="p-2 mb-5 container text-center">
           <div className="row justify-content-center">
             <div className="col-md-3 form-group mb-3">

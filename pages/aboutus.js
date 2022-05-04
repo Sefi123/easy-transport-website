@@ -11,8 +11,8 @@ import driver4 from "../assets/images/drivers/d1.jpg";
 
 const AboutUs = () => {
   return (
-    <section className={styles.driversection}>
-      <div className={styles.drivercontainer}>
+    <section className="ftco-section">
+      <div className="container-fluid">
         <CardTitle tag="h2" className="border-bottom p-3 mb-4 text-center text-muted ">
          
           <i className="bi bi-person-hearts me-2"></i>
