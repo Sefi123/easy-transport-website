@@ -16,6 +16,9 @@ a {
 }
 .navbar {
   z-index: 10;
+  background-color: white;
+  border-bottom: 1px solid #ececec;
+
 }
 
 .btn {
@@ -78,10 +81,8 @@ a {
   color: #dc3545;
 }
 .dropdown-menu {
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-
-  
+  border-radius: 15px;
+  text-align: center;
 }
 
 .gradient-custom-2 {
@@ -405,10 +406,7 @@ a {
   box-shadow: 0 0.3rem 0.5rem rgb(187, 187, 187);
   
 }
-.dropdown-menu {
-  box-shadow: 0 0.3rem 0.5rem rgb(187, 187, 187);
-  
-}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -419,7 +417,6 @@ a {
  }
 .btn-white {
    border: 1px solid transparent;
-  
  }
 .simplebar-scrollbar:before {
   background: #a0a0a0;
@@ -537,4 +534,50 @@ a {
 
 .fontWeight{
   font-weight:400;
+}
+
+.btn-outline-white-banner {
+  border: 2px solid white;
+  background: transparent;
+  color: rgb(255, 255, 255);
+  border-radius: 20px;
+  height: 45px;
+  width: 110px;
+  font-weight: 600;
+  font-size: 16px;
+}
+.btn-outline-white-banner:hover {
+  border: 2px solid white;
+  background: white;
+  color: black;
+  border-radius: 20px;
+  height: 45px;
+  width: 110px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.btn-outline-white-banner1{
+  border: 2px solid white;
+  background: white;
+  color: black;
+  border-radius: 20px;
+  height: 45px;
+  width: 110px;
+  font-weight: 600;
+  font-size: 16px;
+}
+.btn-outline-white-banner1:hover {
+  border: 2px solid white;
+  background: transparent;
+  color: rgb(255, 255, 255);
+  border-radius: 20px;
+  height: 45px;
+  width: 110px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.servicesPara{
+  text-align: justify;
 }

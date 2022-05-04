@@ -106,14 +106,43 @@
 } */
 
 .Banner {
-  margin-top: 5rem;
-  position: relative;
+  margin-top: 4rem;
+}
+.mobileBanner{
+position: relative;
+
 }
 
 .bannerdiv{
   position: absolute;
   top: 17rem;
   left: 9rem;
+}
+.mobilebanner{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  text-align: center;
+  width: 90%;
+}
+
+.mobilebannerbutton{
+  position: absolute;
+  top: 25rem;
+}
+.mobilebanner h1{
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  padding: 15px;
+  
+}
+.mobilebanner h4{
+  font-size: 14px;
+  text-align: justify;
+  font-weight: 400;
+  color: #ffffff;
 }
 
 .bannerdiv h4 {
@@ -128,6 +157,7 @@
   .bannerdiv h4 {
     font-size: 8pt;
   }
+  
 }
 @media (max-width: 692px) {
   .bannerdiv{
@@ -180,6 +210,7 @@
   justify-content: center;
   text-align: center;
   align-items: center;
+  
 }
 
 .featuresdiv h1 {
@@ -207,7 +238,8 @@
 @media (max-width: 692px) {
   .featuresdiv h4 {
     font-size: 11pt;
-    text-align: center;
+    text-align: justify;
+    color: #6c6c6c;
   }
 }
 
