@@ -1,13 +1,55 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import styles from "../../styles/Drivers.module.css";
 import { loginRequest } from "../../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserLgTrucks } from "../../redux/vehicles/vehicles.actions";
 import carimg from "../../assets/images/truck.png";
+
 const HeavyTrucks = () => {
+
+  const dispatch = useDispatch();
+  const userTrucks = useSelector(({ vehicles }) => vehicles.userLgTrucks);
+  const [loading, setLoading] = useState(false);
+  const [filterData, setFilterData]=useState([]);
+  const [searchData, setSearchData]=useState({
+    fromCity:"Lahore",
+    toCity:"Karachi",
+  })
+  const handleLoading = () => {
+    setLoading(false);
+  };
+  const handleData = (key, value) => {
+    setSearchData({ ...searchData, [key]: value });
+  };
+
+  useEffect(() => {
+    const payload = {
+      vehicleType: "Heavy Truck",
+    };
+    setLoading(true);
+    dispatch(getUserLgTrucks(payload, handleLoading));
+
+  }, [])
+
+  useEffect(() => {
+    setFilterData(userTrucks);
+}, [userTrucks])
+
+const filterDataFunction=()=>{
+  const newData=userTrucks.filter((item)=>{
+       const fromCity=item.fromCity.toUpperCase();
+       const toCity=item.toCity.toUpperCase();
+       const matchFromCity=searchData.fromCity.toUpperCase();
+       const matchToCity=searchData.toCity.toUpperCase();
+       return fromCity.includes(matchFromCity) && toCity.includes(matchToCity);
+  })
+  setFilterData(newData);
+}
+
   return (
     <section className={styles.driversection}>
       <div className={styles.drivercontainer}>
@@ -20,7 +62,7 @@ const HeavyTrucks = () => {
               <select
                 id="selectCity"
                 className={`${styles.searchCard} form-control  `}
-                onChange={(e) => handleData("city", e.target.value)}
+                onChange={(e) => handleData("fromCity", e.target.value)}
               >
                 <option value="Lahore">Lahore</option>
                 <option value="Karachi">Karachi</option>
@@ -38,7 +80,7 @@ const HeavyTrucks = () => {
               <select
                 id="selectCity"
                 className={`${styles.searchCard} form-control  `}
-                onChange={(e) => handleData("city", e.target.value)}
+                onChange={(e) => handleData("toCity", e.target.value)}
               >
                 <option value="Karachi">Karachi</option>
                 <option value="Lahore">Lahore</option>
@@ -50,7 +92,7 @@ const HeavyTrucks = () => {
               </select>
             </div>
             <div className="col-md-3 form-group searchButton">
-              <button type="submit" className="signin-btn">
+              <button onClick={filterDataFunction} type="submit" className="signin-btn">
                 Search
               </button>
             </div>
@@ -58,164 +100,55 @@ const HeavyTrucks = () => {
         </CardTitle>
 
         <div className="row">
-          <Link href={"/trucks/truckdetails"} passHref>
-            <div className="col-md-6 col-lg-3">
-              <div className={styles.card}>
-                <Image
-                  src={carimg}
-                  alt="hero banner"
-                  className={styles.driverimg}
-                  width={500}
-                  height={250}
-                  layout="responsive"
-                />
-                <div className="card-body">
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Vehicle Name</h6>
-                    <p className="mb-0 text-muted">Lveco Truck </p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Model Year</h6>
-                    <p className="text-muted mb-0">2020</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">From City</h6>
-                    <p className="text-muted mb-0">Lahore</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">To City</h6>
-                    <p className="text-muted mb-0">Karachi</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Truck Capacity</h6>
-                    <p className="text-muted mb-0">900 KG</p>
-                  </div>
-                  <div className="topBorder mb-3"></div>
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0">Average Charges</h6>
-                    <h6 className="text-muted mb-0">PKR 20000</h6>
-                  </div>
+
+        {filterData !== null ? (filterData.map((truck, key) =>
+            <>
+              <Link href={{
+                pathname: "/trucks/truckdetails",
+                query: truck,
+              }} passHref>
+                <div className="col-md-6 col-lg-3">
+                <Card className="effectCard">
+                    <Image
+                      src={truck.photoUrl}
+                      alt="hero banner"
+                      className={styles.driverimg}
+                      width={500}
+                      height={250}
+                      layout="responsive"
+                    />
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Vehicle Name</h6>
+                        <p className="mb-0 text-muted text-capitalize">{truck.name}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Model Year</h6>
+                        <p className="text-muted mb-0">{truck.modelYear}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">From City</h6>
+                        <p className="text-muted mb-0">{truck.fromCity}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">To City</h6>
+                        <p className="text-muted mb-0">{truck.toCity}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Truck Capacity</h6>
+                        <p className="text-muted mb-0">{truck.luggageCapacity} KG</p>
+                      </div>
+                      <div className="topBorder mb-3"></div>
+                      <div className="d-flex justify-content-between">
+                        <h6 className="mb-0">Average Charges</h6>
+                        <h6 className="text-muted mb-0">PKR {truck.perDayPrice}</h6>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
-              </div>
-            </div>
-          </Link>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={carimg}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={250}
-                layout="responsive"
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Vehicle Name</h6>
-                  <p className="mb-0 text-muted">Lveco Truck </p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Model Year</h6>
-                  <p className="text-muted mb-0">2020</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">From City</h6>
-                  <p className="text-muted mb-0">Lahore</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">To City</h6>
-                  <p className="text-muted mb-0">Karachi</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Truck Capacity</h6>
-                  <p className="text-muted mb-0">900 KG</p>
-                </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="mb-0">Average Charges</h6>
-                  <h6 className="text-muted mb-0">PKR 20000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={carimg}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={250}
-                layout="responsive"
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Vehicle Name</h6>
-                  <p className="mb-0 text-muted">Lveco Truck </p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Model Year</h6>
-                  <p className="text-muted mb-0">2020</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">From City</h6>
-                  <p className="text-muted mb-0">Lahore</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">To City</h6>
-                  <p className="text-muted mb-0">Karachi</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Truck Capacity</h6>
-                  <p className="text-muted mb-0">900 KG</p>
-                </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="mb-0">Average Charges</h6>
-                  <h6 className="text-muted mb-0">PKR 20000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={carimg}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={250}
-                layout="responsive"
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Vehicle Name</h6>
-                  <p className="mb-0 text-muted">Lveco Truck </p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Model Year</h6>
-                  <p className="text-muted mb-0">2020</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">From City</h6>
-                  <p className="text-muted mb-0">Lahore</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">To City</h6>
-                  <p className="text-muted mb-0">Karachi</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Truck Capacity</h6>
-                  <p className="text-muted mb-0">900 KG</p>
-                </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="mb-0">Average Charges</h6>
-                  <h6 className="text-muted mb-0">PKR 20000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
+              </Link>
+            </>
+          )) : <></>}
         </div>
       </div>
     </section>

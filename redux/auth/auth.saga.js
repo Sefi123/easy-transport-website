@@ -127,8 +127,6 @@ export default function* rootSaga() {
   yield all([takeEvery(actionTypes.USER_SIGNUP_REQUEST, userSignUpSaga)]);
   yield all([takeEvery(actionTypes.LOGIN_REQUEST, loginSaga)]);
   yield all([takeEvery(actionTypes.LOGOUT, logOutSaga)]);
-  yield all([
-    takeLatest(actionTypes.FORGOTPASSWORD_REQUEST, forgotpasswordSaga),
-  ]);
+  yield all([takeLatest(actionTypes.FORGOTPASSWORD_REQUEST, forgotpasswordSaga)]);
   yield all([takeLatest(actionTypes.RESETPASSWORD_REQUEST, resetPasswordSaga)]);
 }

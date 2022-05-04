@@ -7,13 +7,15 @@ import {
   errorNotification,
   warningNotification,
 } from "../components/notification/notification";
-import { useDispatch } from "react-redux";
 import { userSignUpRequest } from "../redux/auth/auth.actions";
 import FileUploader from "../components/FileUploader";
 import { uploadImage } from "../components/ImageUpload";
+import { useDispatch, useSelector } from "react-redux";
 import convertImageToBase64 from "../components/ImageBase64";
+import Page404Error from "../pages/error/404page";
 
 const Signup = () => {
+  const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [imgName, setimgName] = useState("");
@@ -98,7 +100,6 @@ const Signup = () => {
           user_type: data.accountType,
           role: data.role,
         };
-        console.log(payload);
       }
       setLoading(true);
       dispatch(userSignUpRequest(payload, handleLoading));
@@ -146,6 +147,10 @@ const Signup = () => {
   };
 
   return (
+    <div>
+    {isLoggedIn ? (
+      <Page404Error />
+    ) : (
     <section className="ftco-section">
       <div className="container">
         <div className="row justify-content-center">
@@ -433,6 +438,8 @@ const Signup = () => {
         </div>
       </div>
     </section>
+    )}
+  </div>
   );
 };
 

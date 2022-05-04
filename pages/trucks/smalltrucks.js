@@ -6,24 +6,49 @@ import { Card, CardTitle, CardBody } from "reactstrap";
 import styles from "../../styles/Drivers.module.css";
 import { loginRequest } from "../../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserVehicles } from "../../redux/vehicles/vehicles.actions";
+import { getUserSmTrucks } from "../../redux/vehicles/vehicles.actions";
 import carimg from "../../assets/images/truck.png";
-const SmallTrucks = () => {
-  const dispatch = useDispatch();
-  const userTrucks = useSelector(({ vehicles }) => vehicles.vehicles);
 
+const SmallTrucks = () => {
+  
+  const dispatch = useDispatch();
+  const userTrucks = useSelector(({ vehicles }) => vehicles.userSmTrucks);
   const [loading, setLoading] = useState(false);
+  const [filterData, setFilterData]=useState([]);
+  const [searchData, setSearchData]=useState({
+    fromCity:"Lahore",
+    toCity:"Karachi",
+  })
   const handleLoading = () => {
     setLoading(false);
   };
+  const handleData = (key, value) => {
+    setSearchData({ ...searchData, [key]: value });
+  };
+
   useEffect(() => {
     const payload = {
       vehicleType: "Small Truck",
     };
     setLoading(true);
-    dispatch(getUserVehicles(payload, handleLoading));
+    dispatch(getUserSmTrucks(payload, handleLoading));
 
   }, [])
+
+  useEffect(() => {
+    setFilterData(userTrucks);
+}, [userTrucks])
+
+const filterDataFunction=()=>{
+  const newData=userTrucks.filter((item)=>{
+       const fromCity=item.fromCity.toUpperCase();
+       const toCity=item.toCity.toUpperCase();
+       const matchFromCity=searchData.fromCity.toUpperCase();
+       const matchToCity=searchData.toCity.toUpperCase();
+       return fromCity.includes(matchFromCity) && toCity.includes(matchToCity);
+  })
+  setFilterData(newData);
+}
 
   return (
     <section className={styles.driversection}>
@@ -37,7 +62,7 @@ const SmallTrucks = () => {
               <select
                 id="selectCity"
                 className={`${styles.searchCard} form-control  `}
-                onChange={(e) => handleData("city", e.target.value)}
+                onChange={(e) => handleData("fromCity", e.target.value)}
               >
                 <option value="Lahore">Lahore</option>
                 <option value="Karachi">Karachi</option>
@@ -55,7 +80,7 @@ const SmallTrucks = () => {
               <select
                 id="selectCity"
                 className={`${styles.searchCard} form-control  `}
-                onChange={(e) => handleData("city", e.target.value)}
+                onChange={(e) => handleData("toCity", e.target.value)}
               >
                 <option value="Karachi">Karachi</option>
                 <option value="Lahore">Lahore</option>
@@ -67,7 +92,7 @@ const SmallTrucks = () => {
               </select>
             </div>
             <div className="col-md-3 form-group searchButton">
-              <button type="submit" className="signin-btn">
+              <button onClick={filterDataFunction} type="submit" className="signin-btn">
                 Search
               </button>
             </div>
@@ -76,7 +101,7 @@ const SmallTrucks = () => {
 
         <div className="row">
 
-          {userTrucks !== null ? (userTrucks.map((truck, key) =>
+          {filterData !== null ? (filterData.map((truck, key) =>
             <>
               <Link href={{
                 pathname: "/trucks/truckdetails",

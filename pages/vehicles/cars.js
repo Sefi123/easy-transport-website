@@ -5,10 +5,11 @@ import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import styles from "../../styles/Drivers.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserVehicles } from "../../redux/vehicles/vehicles.actions";
+import { getUserCars } from "../../redux/vehicles/vehicles.actions";
+
 const Cars = () => {
   const dispatch = useDispatch();
-  const userCars = useSelector(({ vehicles }) => vehicles.vehicles);
+  const userCars = useSelector(({ vehicles }) => vehicles.userCars);
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData]=useState([]);
   const [searchData, setSearchData]=useState({
@@ -28,7 +29,7 @@ const Cars = () => {
       vehicleType: "Car",
     };
     setLoading(true);
-    dispatch(getUserVehicles(payload, handleLoading));
+    dispatch(getUserCars(payload, handleLoading));
 
   }, [])
 
@@ -46,8 +47,6 @@ const Cars = () => {
     })
     setFilterData(newData);
   }
-
-  
 
   return (
     <section className={styles.driversection}>
@@ -142,13 +141,9 @@ const Cars = () => {
                   </Card>
                 </div>
               </Link>
-
             </>
-
-
           )) : <></>}
-
-
+          
         </div>
       </div>
     </section>

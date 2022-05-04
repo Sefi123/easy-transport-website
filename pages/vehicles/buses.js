@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
@@ -7,7 +7,49 @@ import styles from "../../styles/Drivers.module.css";
 import { loginRequest } from "../../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
 import carimg from "../../assets/images/bus1.jpg";
+import { getUserBuses } from "../../redux/vehicles/vehicles.actions";
+
 const Buses = () => {
+  const dispatch = useDispatch();
+  const userBuses = useSelector(({ vehicles }) => vehicles.userBuses);
+  const [loading, setLoading] = useState(false);
+  const [filterData, setFilterData]=useState([]);
+  const [searchData, setSearchData]=useState({
+    city:"Lahore",
+    transmission:"Auto",
+  })
+  const handleLoading = () => {
+    setLoading(false);
+  };
+
+  const handleData = (key, value) => {
+    setSearchData({ ...searchData, [key]: value });
+  };
+
+  useEffect(() => {
+    const payload = {
+      vehicleType: "Bus",
+    };
+    setLoading(true);
+    dispatch(getUserBuses(payload, handleLoading));
+
+  }, [])
+
+  useEffect(() => {
+      setFilterData(userBuses);
+  }, [userBuses])
+
+  const filterDataFunction=()=>{
+    const newData=userBuses.filter((item)=>{
+         const city=item.fromCity.toUpperCase();
+         const transmission=item.transmission.toUpperCase();
+         const matchCity=searchData.city.toUpperCase();
+         const matchTransmission=searchData.transmission.toUpperCase();
+         return city.includes(matchCity) && transmission.includes(matchTransmission);
+    })
+    setFilterData(newData);
+  }
+
   return (
     <section className={styles.driversection}>
       <div className={styles.drivercontainer}>
@@ -36,14 +78,14 @@ const Buses = () => {
               <select
                 id="transmissionType"
                 className={`${styles.searchCard} form-control `}
-                onChange={(e) => handleData("transmissionType", e.target.value)}
+                onChange={(e) => handleData("transmission", e.target.value)}
               >
-                <option value="Car">Auto</option>
-                <option value="Bus">Manual</option>
+                <option value="Auto">Auto</option>
+                <option value="Manual">Manual</option>
               </select>
             </div>
             <div className="col-md-3 form-group searchButton">
-              <button type="submit" className="signin-btn">
+              <button onClick={filterDataFunction} type="submit" className="signin-btn">
                 Search
               </button>
             </div>
@@ -51,168 +93,60 @@ const Buses = () => {
         </CardTitle>
 
         <div className="row">
-          <Link href={""} passHref>
-            <div className="col-md-6 col-lg-3">
-              <div className={styles.card}>
-                <Image
-                  src={carimg}
-                  alt="hero banner"
-                  className={styles.driverimg}
-                  width={500}
-                  height={250}
-                  layout="responsive"
-                 
-                />
-                <div className="card-body">
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Vehicle Name</h6>
-                    <p className="mb-0 text-muted">Daewoo Express</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Color</h6>
-                    <p className="text-muted mb-0">Blue</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Model Year</h6>
-                    <p className="text-muted mb-0">2020</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">Transmission</h6>
-                    <p className="text-muted mb-0">Auto</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">City</h6>
-                    <p className="text-muted mb-0">Lahore</p>
-                  </div>
-                  <div className="topBorder mb-3"></div>
-                  <div className="d-flex justify-content-between">
-                    <h6 className="mb-0">Per Day Charges</h6>
-                    <h6 className="text-muted mb-0">PKR 7000</h6>
-                  </div>
+
+        {filterData !== null ? (filterData.map((bus, key) =>
+            <>
+
+              <Link href={{
+                pathname: "/vehicles/vehicledetails",
+                query: bus,
+              }}
+                passHref>
+                <div className="col-md-6 col-lg-3">
+                  <Card className="effectCard">
+                    <Image
+                      src={bus.photoUrl}
+                      alt="Bus Image"
+                      className={styles.driverimg}
+                      width={500}
+                      height={250}
+                      layout="responsive"
+
+                    />
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Vehicle Name</h6>
+                        <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Color</h6>
+                        <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Model Year</h6>
+                        <p className="text-muted mb-0">{bus.modelYear}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Transmission</h6>
+                        <p className="text-muted mb-0">{bus.transmission}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">City</h6>
+                        <p className="text-muted mb-0">{bus.fromCity}</p>
+                      </div>
+                      <div className="topBorder mb-3"></div>
+                      <div className="d-flex justify-content-between">
+                        <h6 className="mb-0">Per Day Charges</h6>
+                        <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
-              </div>
-            </div>
-          </Link>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={carimg}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={250}
-                layout="responsive"
-               
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Vehicle Name</h6>
-                  <p className="mb-0 text-muted">Daewoo Express</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Color</h6>
-                  <p className="text-muted mb-0">Blue</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Model Year</h6>
-                  <p className="text-muted mb-0">2020</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Transmission</h6>
-                  <p className="text-muted mb-0">Auto</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">City</h6>
-                    <p className="text-muted mb-0">Lahore</p>
-                  </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="mb-0">Per Day Charges</h6>
-                  <h6 className="text-muted mb-0">PKR 7000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={carimg}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                  height={250}
-                  layout="responsive"
-                
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Vehicle Name</h6>
-                  <p className="mb-0 text-muted">Daewoo Express</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Color</h6>
-                  <p className="text-muted mb-0">Blue</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Model Year</h6>
-                  <p className="text-muted mb-0">2020</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Transmission</h6>
-                  <p className="text-muted mb-0">Auto</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">City</h6>
-                    <p className="text-muted mb-0">Lahore</p>
-                  </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="mb-0">Per Day Charges</h6>
-                  <h6 className="text-muted mb-0">PKR 7000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={carimg}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={250}
-                layout="responsive"
-                
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Vehicle Name</h6>
-                  <p className="mb-0 text-muted">Daewoo Express</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Color</h6>
-                  <p className="text-muted mb-0">Blue</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Model Year</h6>
-                  <p className="text-muted mb-0">2020</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Transmission</h6>
-                  <p className="text-muted mb-0">Auto</p>
-                </div>
-                <div className="d-flex justify-content-between mb-3">
-                    <h6 className="mb-0">City</h6>
-                    <p className="text-muted mb-0">Lahore</p>
-                  </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between">
-                  <h6 className="mb-0">Per Day Charges</h6>
-                  <h6 className="text-muted mb-0">PKR 7000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
+              </Link>
+
+            </>
+          )) : <></>}
+
         </div>
       </div>
     </section>

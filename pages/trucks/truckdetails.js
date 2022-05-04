@@ -110,7 +110,7 @@ function TruckDetails() {
                 </div>
               </CardBody>
             </Card>
-          </div> : <div className="col-md-6"> <VehicleBooking/> </div>}
+          </div> : <div className="col-md-6"> <VehicleBooking vehicleDetails={truck}/> </div>}
           
           
         </div>

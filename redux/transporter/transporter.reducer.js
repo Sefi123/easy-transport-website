@@ -2,6 +2,7 @@ import transporterActionTypes from "./transporter.types";
 
 export const initState = {
   transporterVehicles: null,
+  transporterBookings: null,
 };
 
 function TransporterReducer(state = initState, action) {
@@ -10,6 +11,11 @@ function TransporterReducer(state = initState, action) {
       return {
         ...state,
         ...{transporterVehicles: action.transporterVehicles},
+      };
+      case transporterActionTypes.TRANSPORTER_BOOKINGS_SUCCESS:
+      return {
+        ...state,
+        ...{transporterBookings: action.bookingsResult},
       };
     default:
       return state;

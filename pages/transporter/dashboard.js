@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import FullLayout from "../../components/TransporterDashboard/components/Layout/FullLayout";
 import Image from "next/image";
@@ -8,127 +9,36 @@ import user3 from "../../components/TransporterDashboard/images/users/user3.jpg"
 import user4 from "../../components/TransporterDashboard/images/users/user4.jpg";
 import user5 from "../../components/TransporterDashboard/images/users/user5.jpg";
 import { useDispatch, useSelector } from "react-redux";
+import { transporterBookings } from "../../redux/transporter/transporter.actions";
 import Page404Error from "../error/404page";
 
 export default function Home() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const user = useSelector(({ auth }) => auth.user);
-  const tableData = [
-    {
-      avatar: user1,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user2,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user3,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user4,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user5,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user5,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user5,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-    {
-      avatar: user5,
-      name: "Arslan Ahmad",
-      cnic: "343031242653",
-      phone: "03092016575",
-      address: "Shershaw Coloni Raiwind Road Lahore",
-      vehicleName: "Honda Civic",
-      numberPlate: "LES3100",
-      withDriver: "NO",
-      fromCity: "Lahore",
-      toCity: "Gujranwala",
-      dateIn: "12th March 2022",
-      dateOut: "13th March 2022",
-    },
-  ];
+  const bookingsRequests = useSelector(({ transporter }) => transporter.transporterBookings);
+  const [loading, setLoading] = useState(false);
+  const [bookings, setBookings] = useState([]);
+  const handleLoading = () => {
+    setLoading(false);
+  };
 
+  useEffect(() => {
+    if (user !== null) {
+      const payload = {
+        registeredOwner_id: user.id,
+      };
+      setLoading(true);
+      dispatch(transporterBookings(payload, handleLoading));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (bookingsRequests !== null) {
+      setBookings(bookingsRequests);
+    }
+  }, [bookingsRequests]);
+  
   return (
     <div>
       {!isLoggedIn ? (
@@ -140,90 +50,87 @@ export default function Home() {
               <Card>
                 <CardBody>
                   <CardTitle tag="h5">Booking Requests</CardTitle>
-                  <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    Overview of the Requests
-                  </CardSubtitle>
-                  <div className="table-responsive scrollit">
+                  {bookings.length <= 0 ? (<h6 className="text-center">No Bookings Available</h6>) : (<div className="table-responsive scrollit">
                     <Table className="text-nowrap mt-3 align-middle" borderless>
                       <thead>
                         <tr>
                           <th>Customer Details</th>
                           <th>Vehicle Details</th>
                           <th>Booking Details</th>
-                          <th>Accept</th>
-                          <th>Reject</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {tableData.map((tdata, index) => (
+                        {bookings.map((booking, index) => (
                           <tr key={index} className="border-top">
                             <td>
-                              <div className="d-flex align-items-center p-2">
-                                <Image
-                                  src={tdata.avatar}
+                              <div className="d-flex align-items-center">
+                                {/* <Image
+                                  src={user.photoUrl}
                                   className="rounded-circle"
                                   alt="avatar"
-                                  width="45"
-                                  height="45"
-                                />
-                                <div className="ms-3">
-                                  <h6 className="mb-0">{tdata.name}</h6>
-                                  <span className="text-muted">
-                                    {tdata.cnic}
-                                  </span>
-                                  <h6 className="mb-0">{tdata.phone}</h6>
-                                  <h6 className="mb-0">{tdata.address}</h6>
+                                  width="70"
+                                  height="70"
+                                /> */}
+                                <div className="ms-2">
+                                  <h6 className="mb-1 text-muted text-capitalize fontWeight">{booking.name}</h6>
+                                  <h6 className="mb-1 text-muted fontWeight">{booking.cnic}</h6>
+                                  <h6 className="mb-1 text-muted fontWeight">{booking.phone_no}</h6>
+                                  <h6 className="mb-1 text-muted text-capitalize fontWeight ">{booking.address}</h6>
                                 </div>
                               </div>
                             </td>
 
                             <td>
-                              <div className="ms-3">
-                                <h6 className="mb-0">{tdata.vehicleName}</h6>
-                                <span className="text-muted">
-                                  {tdata.numberPlate}
-                                </span>
-                                <h6 className="mb-0">
-                                  Driver: {tdata.withDriver}
-                                </h6>
+                              <div className="ms-0">
+                                <h6 className="mb-1 text-muted text-capitalize fontWeight">{booking.vehicle_name}</h6>
+                                <h6 className="mb-1 text-muted text-uppercase fontWeight">{booking.numberPlate}</h6>
+                                <h6 className="mb-1 text-muted text-capitalize fontWeight">{booking.modelYear}</h6>
                               </div>
                             </td>
 
                             <td>
-                              <div className="ms-3">
-                                <h6 className="mb-0">From: {tdata.fromCity}</h6>
-                                <h6 className="mb-0">To: {tdata.toCity}</h6>
-                                <span className="text-muted">
-                                  Date In: {tdata.dateIn}
-                                </span>
-                                <h6 className="mb-0">
-                                  Date Out: {tdata.dateOut}
+                              <div className="ms-0">
+                                <h6 className="mb-1 text-muted text-capitalize fontWeight">Pickup City: {booking.fromCity}</h6>
+                                <h6 className="mb-1 text-muted text-capitalize fontWeight">Destination: {booking.toCity}</h6>
+                                <h6 className="mb-1 text-muted fontWeight">
+                                  Date In: {booking.dateIn.split("T")[0]}
                                 </h6>
+                                <h6 className="mb-1 text-muted fontWeight">
+                                  Date Out: {booking.dateOut.split("T")[0]}
+                                </h6>
+                                <h6 className="mb-1 text-muted fontWeight">Charges: PKR {booking.perDayPrice}</h6>
                               </div>
                             </td>
 
                             <td>
-                              <button
-                                type="button"
-                                className="btn-success tableButton"
-                              >
-                                Accept
-                              </button>
+                              <div className="ms-0">
+                                <div>
+                                  <button
+                                    type="button"
+                                    className="btn-success tableButton"
+                                  >
+                                    Accept
+                                  </button>
+                                </div>
+                                <div className="mt-3">
+                                  <button
+                                    type="button"
+                                    className="btn-danger tableButton"
+                                  >
+                                    Reject
+                                  </button>
+                                </div>
+                              </div>
                             </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn-danger tableButton"
-                              >
-                                Reject
-                              </button>
-                            </td>
+
                           </tr>
                         ))}
                       </tbody>
                     </Table>
-                  </div>
+                  </div>)}
+
                 </CardBody>
               </Card>
             </div>

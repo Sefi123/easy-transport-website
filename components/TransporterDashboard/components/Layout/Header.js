@@ -58,7 +58,7 @@ const Header = ({ showMobmenu }) => {
           {/* <DropdownToggle color="secondary"> */}
             <div >
               <Image
-                src={user1}
+                src={user.photoUrl}
                 alt="profile"
                 className="rounded-circle"
                 width="40"

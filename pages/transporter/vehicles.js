@@ -12,7 +12,7 @@ import VehicleAddForm from "../../components/TransporterDashboard/components/Veh
 import user1 from "../../assets/images/car.png";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { getVehicles } from "../../redux/transporter/transporter.actions";
+import { getVehicles, deleteVehicle } from "../../redux/transporter/transporter.actions";
 import { connect } from "react-redux";
 import ErrorPage from "../../pages/error/404page"
 
@@ -52,6 +52,16 @@ const Vehicles = () => {
 
   }
 
+  const handleDelete =(id,numberplate)=>{
+    const payload = {
+      registeredOwner_id: id,
+      numberPlate: numberplate,
+    };
+    setLoading(true);
+    dispatch(deleteVehicle(payload, handleLoading));
+  }
+  
+
   return (
     <div>
       {!isLoggedIn ? (<ErrorPage/>) : <FullLayout>
@@ -89,10 +99,18 @@ const Vehicles = () => {
                               <h6 className="mb-0">Vehicle Name</h6>
                               <p className="mb-0 text-muted text-capitalize">{vehicle.name}</p>
                             </div>
-                            <div className="d-flex justify-content-between mb-3">
-                              <h6 className="mb-0">City</h6>
-                              <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity}</p>
-                            </div>
+                           
+                            {vehicle.vehicleType==="Small Truck" || vehicle.vehicleType==="Heavy Truck"?
+                            (<div className="d-flex justify-content-between mb-3">
+                            <h6 className="mb-0">City</h6>
+                            <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity} To {vehicle.toCity}</p>
+                          </div>)
+                          :
+                          ( <div className="d-flex justify-content-between mb-3">
+                            <h6 className="mb-0">City</h6>
+                            <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity}</p>
+                          </div>) 
+                           }
                             <div className="d-flex justify-content-between mb-3">
                               <h6 className="mb-0">Number Plate</h6>
                               <p className="text-muted mb-0 text-uppercase">{vehicle.numberPlate}</p>
@@ -105,15 +123,12 @@ const Vehicles = () => {
                             <div className="topBorder mb-3"></div>
                             <div className="d-flex justify-content-between">
                               <button type="button" className="btn-success tableButton">Edit</button>
-                              <button type="button" className="btn-danger tableButton">Delete</button>
+                              <button className="btn-danger tableButton" onClick={() => handleDelete(vehicle.registeredOwner_id,vehicle.numberPlate)}>Delete</button>
                             </div>
                           </div>
-                      
                       </Card>
                     </div>
                   </>
-
-
                 )) : <></>}
               </div>
             </CardBody>

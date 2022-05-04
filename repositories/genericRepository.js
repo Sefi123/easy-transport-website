@@ -1,7 +1,8 @@
 import axios from "axios";
 
+let accessToken;
 if (typeof window !== 'undefined') {
- var accessToken = localStorage.getItem('user_accessToken')
+ accessToken = localStorage.getItem('user_accessToken')
 } 
 
 const baseDomain = "https://easy-transport-fyp.herokuapp.com";

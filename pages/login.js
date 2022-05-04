@@ -10,9 +10,10 @@ import {
   warningNotification,
   infoNotification,
 } from "../components/notification/notification";
+import Page404Error from "../pages/error/404page";
 
 const Login = () => {
-
+  const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [data, setData] = useState({
@@ -38,6 +39,10 @@ const Login = () => {
 
 
   return (
+    <div>
+    {isLoggedIn ? (
+      <Page404Error />
+    ) : (
     <section className="ftco-section">
       <div className="container">
         <div className="row justify-content-center">
@@ -136,6 +141,8 @@ const Login = () => {
         </div>
       </div>
     </section>
+    )}
+    </div>
   );
 };
 

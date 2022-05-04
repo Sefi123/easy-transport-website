@@ -63,7 +63,7 @@ const Login = () => {
                   </div>
                  
                 </div>
-                <form action="#" className="signin-form">
+                <form onSubmit={(e) => handleSubmit(e)} className="signin-form">
                   <div className="form-group mb-3">
                     <label className="label">Email</label>
                     <input
@@ -77,9 +77,7 @@ const Login = () => {
                   </div>
                   
                   <div className="form-group">
-                    <button type="submit" className="signin-btn"
-                    onClick={(e) => handleSubmit(e)}
-                    >
+                    <button type="submit" className="signin-btn" >
                       Reset Password
                     </button>                  
                   </div>

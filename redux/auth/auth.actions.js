@@ -26,16 +26,12 @@ export function logOutSuccess() {
 
 export function forgotpasswordrequests(payload, callback) {
   return {
-    type: actionTypes.FORGOTPASSWORD_REQUEST,
-    payload,
-    callback,
+    type: actionTypes.FORGOTPASSWORD_REQUEST, payload, callback,
   };
 }
 
 export function resetPasswordRequests(payload, callback) {
   return {
-    type: actionTypes.RESETPASSWORD_REQUEST,
-    payload,
-    callback,
+    type: actionTypes.RESETPASSWORD_REQUEST, payload, callback,
   };
 }
