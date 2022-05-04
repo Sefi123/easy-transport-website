@@ -64,7 +64,7 @@ const ContactUs = () => {
                     <div>
                     <i className="bi bi-telephone-fill"></i>
                     </div>
-                    <div className="h5 ms-2">Let's Talk</div>
+                    <div className="h5 ms-2">Lets Talk</div>
                   </div>
                   <p className="d-flex justify-content-center">+923092016575</p>
                 </div>
