@@ -56,7 +56,7 @@ const Login = () => {
               <div className="text-wrap p-5 p-lg-5 text-center d-flex align-items-center order-md-last">
                 <div className="text w-100">
                   <h2>Welcome to Login</h2>
-                  <p>Don't have an account?</p>
+                  <p>Do not have an account?</p>
                   <Link href="/signup">
                     <a>
                       <button

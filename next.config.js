@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
  nextConfig = {
   reactStrictMode: true,
+  crossOrigin: 'anonymous',
   images: {
     domains: [
       
