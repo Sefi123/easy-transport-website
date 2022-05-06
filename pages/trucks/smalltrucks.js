@@ -10,14 +10,14 @@ import { getUserSmTrucks } from "../../redux/vehicles/vehicles.actions";
 import carimg from "../../assets/images/truck.png";
 
 const SmallTrucks = () => {
-  
+
   const dispatch = useDispatch();
   const userTrucks = useSelector(({ vehicles }) => vehicles.userSmTrucks);
   const [loading, setLoading] = useState(false);
-  const [filterData, setFilterData]=useState([]);
-  const [searchData, setSearchData]=useState({
-    fromCity:"Lahore",
-    toCity:"Karachi",
+  const [filterData, setFilterData] = useState([]);
+  const [searchData, setSearchData] = useState({
+    fromCity: "Lahore",
+    toCity: "Karachi",
   })
   const handleLoading = () => {
     setLoading(false);
@@ -37,18 +37,18 @@ const SmallTrucks = () => {
 
   useEffect(() => {
     setFilterData(userTrucks);
-}, [userTrucks])
+  }, [userTrucks])
 
-const filterDataFunction=()=>{
-  const newData=userTrucks.filter((item)=>{
-       const fromCity=item.fromCity.toUpperCase();
-       const toCity=item.toCity.toUpperCase();
-       const matchFromCity=searchData.fromCity.toUpperCase();
-       const matchToCity=searchData.toCity.toUpperCase();
-       return fromCity.includes(matchFromCity) && toCity.includes(matchToCity);
-  })
-  setFilterData(newData);
-}
+  const filterDataFunction = () => {
+    const newData = userTrucks.filter((item) => {
+      const fromCity = item.fromCity.toUpperCase();
+      const toCity = item.toCity.toUpperCase();
+      const matchFromCity = searchData.fromCity.toUpperCase();
+      const matchToCity = searchData.toCity.toUpperCase();
+      return fromCity.includes(matchFromCity) && toCity.includes(matchToCity);
+    })
+    setFilterData(newData);
+  }
 
   return (
     <section className="ftco-section">
@@ -98,7 +98,14 @@ const filterDataFunction=()=>{
             </div>
           </div>
         </CardTitle>
-
+        {loading ? (<div className="d-flex justify-content-center vehicles-spinner">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+        </div>) : (
         <div className="row">
 
           {filterData !== null ? (filterData.map((truck, key) =>
@@ -108,7 +115,7 @@ const filterDataFunction=()=>{
                 query: truck,
               }} passHref>
                 <div className="col-md-6 col-lg-3">
-                <Card className="effectCard">
+                  <Card className="effectCard">
                     <Image
                       src={truck.photoUrl}
                       alt="hero banner"
@@ -149,7 +156,8 @@ const filterDataFunction=()=>{
               </Link>
             </>
           )) : <></>}
-        </div>
+        </div>)}
+
       </div>
     </section>
   );

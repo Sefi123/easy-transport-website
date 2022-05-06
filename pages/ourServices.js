@@ -14,7 +14,6 @@ import DriverBooking from "../components/DriverBooking";
 function OurServices() {
   return (
     <div className="ftco-section">
-      
         <div className="container">
         <CardTitle className="border-bottom text-center mb-4 ">     
           <h3 className="text-center mb-1 mt-2 pb-2 text-danger fw-bold">Our Services</h3>
@@ -22,7 +21,7 @@ function OurServices() {
             Our aim is to provide most amazing services to our users.
           </p>
           </CardTitle>
-          <div className="row">
+          <div className="row justify-content-center">
           <div className="row mt-2 text-center text-dark">
                 <div className="col-md-4">
                     <div className="servicesicon">

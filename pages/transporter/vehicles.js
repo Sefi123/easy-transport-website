@@ -22,7 +22,7 @@ const Vehicles = () => {
   const registerVehicles = useSelector(({ transporter }) => transporter.transporterVehicles);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-  const router=useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleShow = () => {
@@ -37,7 +37,7 @@ const Vehicles = () => {
   //  } 
 
   useEffect(() => {
-    if (user!==null) {
+    if (user !== null) {
       const payload = {
         registeredOwner_id: user.id,
       };
@@ -48,11 +48,11 @@ const Vehicles = () => {
 
   }, [user]);
 
-  const makeAvailable=()=>{
+  const makeAvailable = () => {
 
   }
 
-  const handleDelete =(id,numberplate)=>{
+  const handleDelete = (id, numberplate) => {
     const payload = {
       registeredOwner_id: id,
       numberPlate: numberplate,
@@ -60,11 +60,11 @@ const Vehicles = () => {
     setLoading(true);
     dispatch(deleteVehicle(payload, handleLoading));
   }
-  
+
 
   return (
     <div>
-      {!isLoggedIn ? (<ErrorPage/>) : <FullLayout>
+      {!isLoggedIn ? (<ErrorPage />) : <FullLayout>
         <div>
           <Card>
             <CardTitle tag="h6" className="border-bottom p-3 mb-0">
@@ -83,54 +83,60 @@ const Vehicles = () => {
               Registered Vehicles
             </CardTitle>
             <CardBody className="">
-
-              <div className="row">
+              {loading ? (<div className="d-flex justify-content-center vehicles-spinner">
+                <div className="spinner-grow text-danger" role="status">
+                  <span className="sr-only">Loading...</span> </div>
+                <div className="spinner-grow text-danger" role="status">
+                  <span className="sr-only">Loading...</span> </div>
+                <div className="spinner-grow text-danger" role="status">
+                  <span className="sr-only">Loading...</span> </div>
+              </div>) : (<div className="row">
                 {registerVehicles !== null ? (registerVehicles.map((vehicle, key) =>
                   <>
                     <div className="col-md-6 col-lg-4">
                       <Card >
-                        
-                          <Image src={vehicle.photoUrl} alt="hero banner"
-                            width={500}
-                            height={250}
-                            layout="responsive" />
-                          <div className="card-body">
-                            <div className="d-flex justify-content-between mb-3">
-                              <h6 className="mb-0">Vehicle Name</h6>
-                              <p className="mb-0 text-muted text-capitalize">{vehicle.name}</p>
-                            </div>
-                           
-                            {vehicle.vehicleType==="Small Truck" || vehicle.vehicleType==="Heavy Truck"?
-                            (<div className="d-flex justify-content-between mb-3">
-                            <h6 className="mb-0">City</h6>
-                            <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity} To {vehicle.toCity}</p>
-                          </div>)
-                          :
-                          ( <div className="d-flex justify-content-between mb-3">
-                            <h6 className="mb-0">City</h6>
-                            <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity}</p>
-                          </div>) 
-                           }
-                            <div className="d-flex justify-content-between mb-3">
-                              <h6 className="mb-0">Number Plate</h6>
-                              <p className="text-muted mb-0 text-uppercase">{vehicle.numberPlate}</p>
-                            </div>
-                            <div className="d-flex justify-content-between mb-3">
-                              <h6 className="mb-0">Booking Status</h6>
-                              <p className="text-muted mb-0">{!vehicle.booked ? (<>Available</>) : (<>Booked</>)}</p>
-                            </div>
-                           {vehicle.booked?(<h6 className="mb-2 text-center text-danger " onClick={makeAvailable}>Make Available</h6>):<></>}
-                            <div className="topBorder mb-3"></div>
-                            <div className="d-flex justify-content-between">
-                              <button type="button" className="btn-success tableButton">Edit</button>
-                              <button className="btn-danger tableButton" onClick={() => handleDelete(vehicle.registeredOwner_id,vehicle.numberPlate)}>Delete</button>
-                            </div>
+                        <Image src={vehicle.photoUrl} alt="hero banner"
+                          width={500}
+                          height={250}
+                          layout="responsive" />
+                        <div className="card-body">
+                          <div className="d-flex justify-content-between mb-3">
+                            <h6 className="mb-0">Vehicle Name</h6>
+                            <p className="mb-0 text-muted text-capitalize">{vehicle.name}</p>
                           </div>
+
+                          {vehicle.vehicleType === "Small Truck" || vehicle.vehicleType === "Heavy Truck" ?
+                            (<div className="d-flex justify-content-between mb-3">
+                              <h6 className="mb-0">City</h6>
+                              <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity} To {vehicle.toCity}</p>
+                            </div>)
+                            :
+                            (<div className="d-flex justify-content-between mb-3">
+                              <h6 className="mb-0">City</h6>
+                              <p className="text-muted mb-0 text-capitalize">{vehicle.fromCity}</p>
+                            </div>)
+                          }
+                          <div className="d-flex justify-content-between mb-3">
+                            <h6 className="mb-0">Number Plate</h6>
+                            <p className="text-muted mb-0 text-uppercase">{vehicle.numberPlate}</p>
+                          </div>
+                          <div className="d-flex justify-content-between mb-3">
+                            <h6 className="mb-0">Booking Status</h6>
+                            <p className="text-muted mb-0">{!vehicle.booked ? (<>Available</>) : (<>Booked</>)}</p>
+                          </div>
+                          {vehicle.booked ? (<h6 className="mb-2 text-center text-danger " onClick={makeAvailable}>Make Available</h6>) : <></>}
+                          <div className="topBorder mb-3"></div>
+                          <div className="d-flex justify-content-between">
+                            <button type="button" className="btn-success tableButton">Edit</button>
+                            <button className="btn-danger tableButton" onClick={() => handleDelete(vehicle.registeredOwner_id, vehicle.numberPlate)}>Delete</button>
+                          </div>
+                        </div>
                       </Card>
                     </div>
                   </>
                 )) : <></>}
-              </div>
+              </div>)}
+
             </CardBody>
           </Card>
 

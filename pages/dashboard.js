@@ -16,7 +16,7 @@ const Dashboard = () => {
    :
    isLoggedIn && user.user_type==="Transporter" ? router.push('/transporter/dashboard')
    :
-   router.push('/error/404page') 
+   router.push('/login') 
     
   }, [])
 

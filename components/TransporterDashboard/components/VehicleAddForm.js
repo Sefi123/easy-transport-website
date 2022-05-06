@@ -114,7 +114,14 @@ const VehicleAddForm = () => {
             <h3 className="mb-4">Please Fill Vehicle Details Correctly</h3>
           </div>
         </div>
-        <form onSubmit={(e) => handleSubmit(e)} className="row">
+        {loading?( <div className="d-flex justify-content-center vehicles-spinner">
+            <div className="spinner-grow text-danger" role="status">
+              <span className="sr-only">Loading...</span> </div>
+            <div className="spinner-grow text-danger" role="status">
+              <span className="sr-only">Loading...</span> </div>
+            <div className="spinner-grow text-danger" role="status">
+              <span className="sr-only">Loading...</span> </div>
+          </div>):(  <form onSubmit={(e) => handleSubmit(e)} className="row">
           <div className="col-md-4 form-group mb-3">
             <label className="label">Select Vehicle Type</label>
             <select
@@ -253,7 +260,7 @@ const VehicleAddForm = () => {
                     maxFiles={1}
                     maxSize={3000000}
                     onDrop={(acceptedFiles, rejectedFiles) =>
-                      onDrop(acceptedFiles, rejectedFiles, "frontSideImage")
+                      onDrop(acceptedFiles, rejectedFiles, "Image")
                     }
                   />
                 </div>
@@ -312,7 +319,7 @@ const VehicleAddForm = () => {
               </div>
             )}
           </div>
-        </form>
+        </form>)}
       </div>
     </div>
   );

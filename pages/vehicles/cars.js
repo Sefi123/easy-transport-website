@@ -11,10 +11,10 @@ const Cars = () => {
   const dispatch = useDispatch();
   const userCars = useSelector(({ vehicles }) => vehicles.userCars);
   const [loading, setLoading] = useState(false);
-  const [filterData, setFilterData]=useState([]);
-  const [searchData, setSearchData]=useState({
-    city:"Lahore",
-    transmission:"Auto",
+  const [filterData, setFilterData] = useState([]);
+  const [searchData, setSearchData] = useState({
+    city: "Lahore",
+    transmission: "Auto",
   })
   const handleLoading = () => {
     setLoading(false);
@@ -34,16 +34,16 @@ const Cars = () => {
   }, [])
 
   useEffect(() => {
-      setFilterData(userCars);
+    setFilterData(userCars);
   }, [userCars])
 
-  const filterDataFunction=()=>{
-    const newData=userCars.filter((item)=>{
-         const city=item.fromCity.toUpperCase();
-         const transmission=item.transmission.toUpperCase();
-         const matchCity=searchData.city.toUpperCase();
-         const matchTransmission=searchData.transmission.toUpperCase();
-         return city.includes(matchCity) && transmission.includes(matchTransmission);
+  const filterDataFunction = () => {
+    const newData = userCars.filter((item) => {
+      const city = item.fromCity.toUpperCase();
+      const transmission = item.transmission.toUpperCase();
+      const matchCity = searchData.city.toUpperCase();
+      const matchTransmission = searchData.transmission.toUpperCase();
+      return city.includes(matchCity) && transmission.includes(matchTransmission);
     })
     setFilterData(newData);
   }
@@ -89,62 +89,72 @@ const Cars = () => {
             </div>
           </div>
         </CardTitle>
+        {loading ? (
+          <div className="d-flex justify-content-center vehicles-spinner">
+            <div className="spinner-grow text-danger" role="status">
+              <span className="sr-only">Loading...</span> </div>
+            <div className="spinner-grow text-danger" role="status">
+              <span className="sr-only">Loading...</span> </div>
+            <div className="spinner-grow text-danger" role="status">
+              <span className="sr-only">Loading...</span> </div>
+          </div>
+        ) : (
+          <div className="row">
 
-        <div className="row">
+            {filterData !== null ? (filterData.map((car, key) =>
+              <>
 
-          {filterData !== null ? (filterData.map((car, key) =>
-            <>
+                <Link href={{
+                  pathname: "/vehicles/vehicledetails",
+                  query: car,
+                }}
+                  passHref>
+                  <div className="col-md-6 col-lg-3">
+                    <Card className="effectCard">
+                      <Image
+                        src={car.photoUrl}
+                        alt="Car Image"
+                        className={styles.driverimg}
+                        width={500}
+                        height={250}
+                        layout="responsive"
 
-              <Link href={{
-                pathname: "/vehicles/vehicledetails",
-                query: car,
-              }}
-                passHref>
-                <div className="col-md-6 col-lg-3">
-                  <Card className="effectCard">
-                    <Image
-                      src={car.photoUrl}
-                      alt="Car Image"
-                      className={styles.driverimg}
-                      width={500}
-                      height={250}
-                      layout="responsive"
+                      />
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Vehicle Name</h6>
+                          <p className="mb-0 text-muted text-capitalize">{car.name}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Color</h6>
+                          <p className="text-muted mb-0 text-capitalize">{car.color}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Model Year</h6>
+                          <p className="text-muted mb-0">{car.modelYear}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Transmission</h6>
+                          <p className="text-muted mb-0">{car.transmission}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">City</h6>
+                          <p className="text-muted mb-0">{car.fromCity}</p>
+                        </div>
+                        <div className="topBorder mb-3"></div>
+                        <div className="d-flex justify-content-between">
+                          <h6 className="mb-0">Per Day Charges</h6>
+                          <h6 className="text-muted mb-0">PKR {car.perDayPrice}</h6>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </Link>
+              </>
+            )) : <></>}
 
-                    />
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Vehicle Name</h6>
-                        <p className="mb-0 text-muted text-capitalize">{car.name}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Color</h6>
-                        <p className="text-muted mb-0 text-capitalize">{car.color}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Model Year</h6>
-                        <p className="text-muted mb-0">{car.modelYear}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Transmission</h6>
-                        <p className="text-muted mb-0">{car.transmission}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">City</h6>
-                        <p className="text-muted mb-0">{car.fromCity}</p>
-                      </div>
-                      <div className="topBorder mb-3"></div>
-                      <div className="d-flex justify-content-between">
-                        <h6 className="mb-0">Per Day Charges</h6>
-                        <h6 className="text-muted mb-0">PKR {car.perDayPrice}</h6>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
-              </Link>
-            </>
-          )) : <></>}
-          
-        </div>
+          </div>)}
+
       </div>
     </section>
   );

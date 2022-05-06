@@ -91,63 +91,70 @@ const Buses = () => {
             </div>
           </div>
         </CardTitle>
+{loading?( <div className="d-flex justify-content-center vehicles-spinner">
+     <div className="spinner-grow text-danger" role="status">
+  <span className="sr-only">Loading...</span> </div>
+  <div className="spinner-grow text-danger" role="status">
+  <span className="sr-only">Loading...</span> </div>
+  <div className="spinner-grow text-danger" role="status">
+  <span className="sr-only">Loading...</span> </div>
+</div>):( 
+   <div className="row">
 
-        <div className="row">
+{filterData !== null ? (filterData.map((bus, key) =>
+    <>
+      <Link href={{
+        pathname: "/vehicles/vehicledetails",
+        query: bus,
+      }}
+        passHref>
+        <div className="col-md-6 col-lg-3">
+          <Card className="effectCard">
+            <Image
+              src={bus.photoUrl}
+              alt="Bus Image"
+              className={styles.driverimg}
+              width={500}
+              height={250}
+              layout="responsive"
 
-        {filterData !== null ? (filterData.map((bus, key) =>
-            <>
-
-              <Link href={{
-                pathname: "/vehicles/vehicledetails",
-                query: bus,
-              }}
-                passHref>
-                <div className="col-md-6 col-lg-3">
-                  <Card className="effectCard">
-                    <Image
-                      src={bus.photoUrl}
-                      alt="Bus Image"
-                      className={styles.driverimg}
-                      width={500}
-                      height={250}
-                      layout="responsive"
-
-                    />
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Vehicle Name</h6>
-                        <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Color</h6>
-                        <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Model Year</h6>
-                        <p className="text-muted mb-0">{bus.modelYear}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Transmission</h6>
-                        <p className="text-muted mb-0">{bus.transmission}</p>
-                      </div>
-                      <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">City</h6>
-                        <p className="text-muted mb-0">{bus.fromCity}</p>
-                      </div>
-                      <div className="topBorder mb-3"></div>
-                      <div className="d-flex justify-content-between">
-                        <h6 className="mb-0">Per Day Charges</h6>
-                        <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
-              </Link>
-
-            </>
-          )) : <></>}
-
+            />
+            <div className="card-body">
+              <div className="d-flex justify-content-between mb-3">
+                <h6 className="mb-0">Vehicle Name</h6>
+                <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <h6 className="mb-0">Color</h6>
+                <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <h6 className="mb-0">Model Year</h6>
+                <p className="text-muted mb-0">{bus.modelYear}</p>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <h6 className="mb-0">Transmission</h6>
+                <p className="text-muted mb-0">{bus.transmission}</p>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <h6 className="mb-0">City</h6>
+                <p className="text-muted mb-0">{bus.fromCity}</p>
+              </div>
+              <div className="topBorder mb-3"></div>
+              <div className="d-flex justify-content-between">
+                <h6 className="mb-0">Per Day Charges</h6>
+                <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
+              </div>
+            </div>
+          </Card>
         </div>
+      </Link>
+
+    </>
+  )) : <></>}
+
+</div>)}
+     
       </div>
     </section>
   );

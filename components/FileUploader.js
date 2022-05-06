@@ -3,14 +3,14 @@ import Dropzone from "react-dropzone";
 const FileUploader = ({ placeholder, image, ...props }) => {
   return (
     <div className="form-group mb-3">
-      <div className="form-control imageupload">
+      <div className="form-control imageupload ">
         <Dropzone {...props}>
           {({ getRootProps, getInputProps }) => (
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 <div className="imageicon">
-                <p className="imagetext">
+                <p className="imagetext ">
                   {placeholder}
                 </p>
                 <svg

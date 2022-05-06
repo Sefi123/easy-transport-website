@@ -118,7 +118,12 @@ a {
   padding: 7em 0;
   background-color: rgb(255, 255, 255);
 }
-
+.signup-spinner{
+  padding: 25em 0;
+}
+.vehicles-spinner{
+  padding: 12em 0;
+}
 .container {
   width: 100%;
   padding-right: 15px;
@@ -370,6 +375,8 @@ a {
 }
 .imageupload{
   color: gray;
+  
+  
 }
 .imageicon{
   justify-content: space-between;
@@ -377,6 +384,12 @@ a {
 }
 .imagetext{
   margin-top: 4pt;
+  display:inline-block;
+  overflow:hidden !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 220px;
+  
 }
 
 .dashnav{
@@ -579,5 +592,8 @@ a {
 }
 
 .servicesPara{
+  text-align: justify;
+}
+.FAQSText{
   text-align: justify;
 }
