@@ -56,6 +56,11 @@ a {
     flex-direction: column-reverse;
   }
 }
+@media (max-width: 750px) and (min-width: 693px) {
+  .featuresDiv {
+    flex-direction: column-reverse;
+  }
+}
 
 .features-btn:hover {
   background-color: #ca1426;
@@ -596,4 +601,127 @@ a {
 }
 .FAQSText{
   text-align: justify;
+  font-size: 15px;
 }
+
+.searchCard{
+  background: #fff;
+  border-radius: 50px;
+  -webkit-box-shadow: 0px 3px 5px #d6d6d6;
+  -moz-box-shadow: 0px 3px 5px #d6d6d6;
+  box-shadow: 0px 3px 5px #d6d6d6;
+  cursor: pointer;
+
+}
+
+.pageHeading{
+  text-align: center;
+  font-size: 3.5rem;
+  font-family: 'Product Sans Bold';
+  
+}
+.pageBody{
+  display: block;
+  text-align: justify;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  line-height: 2rem;
+  font-size: 16px;
+  color: #000;
+}
+
+.how-it-works{
+  background-color: #ffffff;
+  color: #dc3545;
+  padding: 5.6rem 0;
+}
+.how-it-works-home{
+  background-color: #ffffff;
+  color: #dc3545;
+  padding: 2srem 0;
+    
+}
+.how-it-works-home h2{
+  font-family: Georgia, serif;
+  font-weight: bold;
+  font-size: 28pt;
+}
+.section-heading{
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+}
+.how-it-works-details{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #000;
+}
+
+.circle{
+  background-color: #dc3545;
+  border-radius: 50%;
+  color: white;
+  width: 45px;
+  height: 45px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.flexbox{
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+
+}
+.howitworksdec{
+  text-align: justify;
+  
+}
+.becomeDriver{
+  
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  
+}
+.becomeDriver h1{
+  font-size: 2.5rem;
+  color: #000;
+  font-family: Georgia, serif;
+}
+.becomeDriver h6{
+  text-align: justify;
+  color: #707070;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  
+}
+
+.abc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-becomeDriver{
+  border: 2px solid white;
+  background: #dc3545;
+  color: rgb(255, 255, 255);
+  border-radius: 30px;
+  height: 65px;
+  width: 170px;
+  font-weight: 600;
+  font-size: 16px;
+}
+.btn-becomeDriver:hover {
+  border: 2px solid rgb(0, 0, 0);
+  background: transparent;
+  color: rgb(0, 0, 0);
+  border-radius: 30px;
+  height: 65px;
+  width: 170px;
+  font-weight: 600;
+  font-size: 16px;
+}
+

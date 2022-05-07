@@ -16,7 +16,7 @@ function FAQ() {
           </p>
           </CardTitle>
           <div className="row text-center">
-            <div className="col-md-6 col-lg-4 mb-4">
+            <div className="col-md-6 col-lg-4 mb-4 ">
               <h6 className="mb-3 text-danger">
                 <i className="bi bi-question-circle text-danger pe-2"></i> 
                 Do I have to create a account?

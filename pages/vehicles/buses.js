@@ -13,10 +13,10 @@ const Buses = () => {
   const dispatch = useDispatch();
   const userBuses = useSelector(({ vehicles }) => vehicles.userBuses);
   const [loading, setLoading] = useState(false);
-  const [filterData, setFilterData]=useState([]);
-  const [searchData, setSearchData]=useState({
-    city:"Lahore",
-    transmission:"Auto",
+  const [filterData, setFilterData] = useState([]);
+  const [searchData, setSearchData] = useState({
+    city: "Lahore",
+    transmission: "Auto",
   })
   const handleLoading = () => {
     setLoading(false);
@@ -36,16 +36,16 @@ const Buses = () => {
   }, [])
 
   useEffect(() => {
-      setFilterData(userBuses);
+    setFilterData(userBuses);
   }, [userBuses])
 
-  const filterDataFunction=()=>{
-    const newData=userBuses.filter((item)=>{
-         const city=item.fromCity.toUpperCase();
-         const transmission=item.transmission.toUpperCase();
-         const matchCity=searchData.city.toUpperCase();
-         const matchTransmission=searchData.transmission.toUpperCase();
-         return city.includes(matchCity) && transmission.includes(matchTransmission);
+  const filterDataFunction = () => {
+    const newData = userBuses.filter((item) => {
+      const city = item.fromCity.toUpperCase();
+      const transmission = item.transmission.toUpperCase();
+      const matchCity = searchData.city.toUpperCase();
+      const matchTransmission = searchData.transmission.toUpperCase();
+      return city.includes(matchCity) && transmission.includes(matchTransmission);
     })
     setFilterData(newData);
   }
@@ -59,7 +59,7 @@ const Buses = () => {
               <label className="label text-danger mb-1">Select City</label>
               <select
                 id="selectCity"
-                className={`${styles.searchCard} form-control  `}
+                className={`searchCard form-control  `}
                 onChange={(e) => handleData("city", e.target.value)}
               >
                 <option value="Lahore">Lahore</option>
@@ -77,7 +77,7 @@ const Buses = () => {
               </label>
               <select
                 id="transmissionType"
-                className={`${styles.searchCard} form-control `}
+                className={`searchCard form-control `}
                 onChange={(e) => handleData("transmission", e.target.value)}
               >
                 <option value="Auto">Auto</option>
@@ -91,70 +91,70 @@ const Buses = () => {
             </div>
           </div>
         </CardTitle>
-{loading?( <div className="d-flex justify-content-center vehicles-spinner">
-     <div className="spinner-grow text-danger" role="status">
-  <span className="sr-only">Loading...</span> </div>
-  <div className="spinner-grow text-danger" role="status">
-  <span className="sr-only">Loading...</span> </div>
-  <div className="spinner-grow text-danger" role="status">
-  <span className="sr-only">Loading...</span> </div>
-</div>):( 
-   <div className="row">
+        {loading ? (<div className="d-flex justify-content-center vehicles-spinner">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+        </div>) : (
+          <div className="row">
 
-{filterData !== null ? (filterData.map((bus, key) =>
-    <>
-      <Link href={{
-        pathname: "/vehicles/vehicledetails",
-        query: bus,
-      }}
-        passHref>
-        <div className="col-md-6 col-lg-3">
-          <Card className="effectCard">
-            <Image
-              src={bus.photoUrl}
-              alt="Bus Image"
-              className={styles.driverimg}
-              width={500}
-              height={250}
-              layout="responsive"
+            {filterData !== null ? (filterData.map((bus, key) =>
+              <>
+                <Link href={{
+                  pathname: "/vehicles/vehicledetails",
+                  query: bus,
+                }}
+                  passHref>
+                  <div className="col-md-6 col-lg-3">
+                    <Card className="effectCard">
+                      <Image
+                        src={bus.photoUrl}
+                        alt="Bus Image"
+                        className={styles.driverimg}
+                        width={500}
+                        height={250}
+                        layout="responsive"
 
-            />
-            <div className="card-body">
-              <div className="d-flex justify-content-between mb-3">
-                <h6 className="mb-0">Vehicle Name</h6>
-                <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
-              </div>
-              <div className="d-flex justify-content-between mb-3">
-                <h6 className="mb-0">Color</h6>
-                <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
-              </div>
-              <div className="d-flex justify-content-between mb-3">
-                <h6 className="mb-0">Model Year</h6>
-                <p className="text-muted mb-0">{bus.modelYear}</p>
-              </div>
-              <div className="d-flex justify-content-between mb-3">
-                <h6 className="mb-0">Transmission</h6>
-                <p className="text-muted mb-0">{bus.transmission}</p>
-              </div>
-              <div className="d-flex justify-content-between mb-3">
-                <h6 className="mb-0">City</h6>
-                <p className="text-muted mb-0">{bus.fromCity}</p>
-              </div>
-              <div className="topBorder mb-3"></div>
-              <div className="d-flex justify-content-between">
-                <h6 className="mb-0">Per Day Charges</h6>
-                <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </Link>
+                      />
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Vehicle Name</h6>
+                          <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Color</h6>
+                          <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Model Year</h6>
+                          <p className="text-muted mb-0">{bus.modelYear}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">Transmission</h6>
+                          <p className="text-muted mb-0">{bus.transmission}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                          <h6 className="mb-0">City</h6>
+                          <p className="text-muted mb-0">{bus.fromCity}</p>
+                        </div>
+                        <div className="topBorder mb-3"></div>
+                        <div className="d-flex justify-content-between">
+                          <h6 className="mb-0">Per Day Charges</h6>
+                          <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </Link>
 
-    </>
-  )) : <></>}
+              </>
+            )) : <></>}
 
-</div>)}
-     
+          </div>)}
+
       </div>
     </section>
   );

@@ -61,7 +61,7 @@ const SmallTrucks = () => {
               </label>
               <select
                 id="selectCity"
-                className={`${styles.searchCard} form-control  `}
+                className={`searchCard form-control  `}
                 onChange={(e) => handleData("fromCity", e.target.value)}
               >
                 <option value="Lahore">Lahore</option>
@@ -79,7 +79,7 @@ const SmallTrucks = () => {
               </label>
               <select
                 id="selectCity"
-                className={`${styles.searchCard} form-control  `}
+                className={`searchCard form-control  `}
                 onChange={(e) => handleData("toCity", e.target.value)}
               >
                 <option value="Karachi">Karachi</option>

@@ -22,9 +22,11 @@ const Footer = () => {
                 <a href="#">our services</a>
               </li>
               </Link>
+              <Link href="/privacy-policy">
               <li>
                 <a href="#">privacy policy</a>
               </li>
+              </Link>
             </ul>
           </div>
           <div className={styles.footercol}>
@@ -40,9 +42,11 @@ const Footer = () => {
                 <a href="#">Contact Us</a>
               </li>
               </Link>
+              <Link href="/how-it-works" passHref>
               <li>
                 <a href="#">How it Works?</a>
               </li>
+              </Link>
             </ul>
           </div>
           <div className={styles.footercol}>

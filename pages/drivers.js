@@ -20,7 +20,7 @@ const Drivers = () => {
               <label className="label text-danger mb-1">Select City</label>
               <select
                 id="selectCity"
-                className={`${styles.searchCard} form-control  `}
+                className={`searchCard form-control  `}
                 onChange={(e) => handleData("city", e.target.value)}
               >
                 <option value="Lahore">Lahore</option>
@@ -38,7 +38,7 @@ const Drivers = () => {
               </label>
               <select
                 id="driverType"
-                className={`${styles.searchCard} form-control `}
+                className={`searchCard form-control `}
                 onChange={(e) => handleData("driverType", e.target.value)}
               >
                 <option value="Car">Car</option>
