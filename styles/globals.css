@@ -36,58 +36,9 @@ a {
   box-shadow: none;
 }
 
-
-.features-btn {
-  border-radius: 10px;
-  background-color: #dc3545;
-  color: white;
-  width: 110px;
-  height: 40px;
-  border: 1px solid transparent;
-}
-@media (max-width: 692px) {
-  .featuresBtn {
-    justify-content: center;
-    
-  }
-}
-@media (max-width: 692px) {
-  .featuresDiv {
-    flex-direction: column-reverse;
-  }
-}
-@media (max-width: 750px) and (min-width: 693px) {
-  .featuresDiv {
-    flex-direction: column-reverse;
-  }
-}
-
-.features-btn:hover {
-  background-color: #ca1426;
-  color: white;
-  border: 1px solid transparent;
-}
 .login-btn {
   height: 40px;
   color: white;
-}
-
-.nav-item {
-  color: rgb(0, 0, 0);
-}
-#navbarDropdownMenuLink {
-  color: rgb(0, 0, 0);
-}
-
-.nav-item:hover {
-  color: #dc3545;
-}
-#navbarDropdownMenuLink:hover {
-  color: #dc3545;
-}
-.dropdown-menu {
-  border-radius: 15px;
-  text-align: center;
 }
 
 .gradient-custom-2 {
@@ -157,17 +108,6 @@ a {
   }
 }
 
-.heading-section {
-  font-size: 28px;
-  color: #000;
-}
-.text-wrap {
-  white-space: normal !important;
-  background-color: #dc3545;
-  color: white;
-  width: 100%;
-  
-}
 .text-left {
   text-align: left !important;
 }
@@ -190,19 +130,6 @@ a {
   margin-left: -15px;
 }
 
-.btn-outline-white {
-  border: 1px solid white;
-  background: #fff;
-  color: #000;
-  border-radius: 20px;
-  height: 40px;
-  width: 90px;
-}
-.btn-outline-white:hover {
-  border: 1px solid white;
-  background: #dc3545;
-  color: rgb(255, 255, 255);
-}
 .signin-btn {
   color: white;
   background-color: #dc3545;
@@ -309,12 +236,6 @@ a {
 
 .remember-me {
   color: #ca1426;
-}
-
-.navbarBrand{
-  font-size: 15pt;
-  color: #dc3545;
-  font-family: "Lucida Handwriting", "Brush Script MT", cursive;
 }
 
 .checkbox:focus{
@@ -440,33 +361,6 @@ a {
   background: #a0a0a0;
 }
 
-.sidebarArea {
-  flex-shrink: 0;
-  width: 260px;
-  background-color: white;
-  
-}
-
-.sidenav-bg:hover {
-  background-color: rgb(243, 243, 243);
-  border-radius: 0.3rem;
-}
-
-@media (max-width: 992px) { 
-
-  .sidebarArea {
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-    z-index: 1;
-    margin-left: -260px;
-    transition: 0.2s ease-in;
-  }
-  .sidebarArea.showSidebar {
-    margin-left: 0px;
- }
- }
-
  .vehicleForm h3{
    font-weight: 300;
  }
@@ -476,23 +370,6 @@ a {
  }
  .searchButton{
   margin-top: 1.5rem;
-}
-
- .tableButton{
-   border-radius: 10px;
-   border: 1px solid transparent;
-   color: white;
-   height: 35px;
-   width: 105px;
- }
-
- .scrollit {
-  overflow:scroll;
-  height:480px;
-}
-.userScrollit{
-  overflow:scroll;
-  height:300px;
 }
 
 .topBorder{
@@ -523,16 +400,6 @@ a {
   border-radius: 30px;
 }
 
-.effectCard{
-  border-radius: 30px;
-  cursor: pointer;
-  
-}
-.effectCard:hover{
-  transform: scale(1.02);
-  transition: all 0.5s ease;
-}
-
 .servicesicon{
     background-color: #fff;
     display: inline-block;
@@ -551,49 +418,7 @@ a {
 }
 
 .fontWeight{
-  font-weight:400;
-}
-
-.btn-outline-white-banner {
-  border: 2px solid white;
-  background: transparent;
-  color: rgb(255, 255, 255);
-  border-radius: 20px;
-  height: 45px;
-  width: 110px;
-  font-weight: 600;
-  font-size: 16px;
-}
-.btn-outline-white-banner:hover {
-  border: 2px solid white;
-  background: white;
-  color: black;
-  border-radius: 20px;
-  height: 45px;
-  width: 110px;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.btn-outline-white-banner1{
-  border: 2px solid white;
-  background: white;
-  color: black;
-  border-radius: 20px;
-  height: 45px;
-  width: 110px;
-  font-weight: 600;
-  font-size: 16px;
-}
-.btn-outline-white-banner1:hover {
-  border: 2px solid white;
-  background: transparent;
-  color: rgb(255, 255, 255);
-  border-radius: 20px;
-  height: 45px;
-  width: 110px;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight:450;
 }
 
 .servicesPara{
@@ -602,16 +427,6 @@ a {
 .FAQSText{
   text-align: justify;
   font-size: 15px;
-}
-
-.searchCard{
-  background: #fff;
-  border-radius: 50px;
-  -webkit-box-shadow: 0px 3px 5px #d6d6d6;
-  -moz-box-shadow: 0px 3px 5px #d6d6d6;
-  box-shadow: 0px 3px 5px #d6d6d6;
-  cursor: pointer;
-
 }
 
 .pageHeading{
@@ -629,99 +444,5 @@ a {
   color: #000;
 }
 
-.how-it-works{
-  background-color: #ffffff;
-  color: #dc3545;
-  padding: 5.6rem 0;
-}
-.how-it-works-home{
-  background-color: #ffffff;
-  color: #dc3545;
-  padding: 2srem 0;
-    
-}
-.how-it-works-home h2{
-  font-family: Georgia, serif;
-  font-weight: bold;
-  font-size: 28pt;
-}
-.section-heading{
-  font-size: 3rem;
-  margin-bottom: 3rem;
-  margin-top: 2rem;
-}
-.how-it-works-details{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  color: #000;
-}
 
-.circle{
-  background-color: #dc3545;
-  border-radius: 50%;
-  color: white;
-  width: 45px;
-  height: 45px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-.flexbox{
-   justify-content: center;
-   align-items: center;
-   display: flex;
-   flex-direction: column;
-
-}
-.howitworksdec{
-  text-align: justify;
-  
-}
-.becomeDriver{
-  
-  margin-top: 5rem;
-  margin-bottom: 5rem;
-  
-}
-.becomeDriver h1{
-  font-size: 2.5rem;
-  color: #000;
-  font-family: Georgia, serif;
-}
-.becomeDriver h6{
-  text-align: justify;
-  color: #707070;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
-  
-}
-
-.abc{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.btn-becomeDriver{
-  border: 2px solid white;
-  background: #dc3545;
-  color: rgb(255, 255, 255);
-  border-radius: 30px;
-  height: 65px;
-  width: 170px;
-  font-weight: 600;
-  font-size: 16px;
-}
-.btn-becomeDriver:hover {
-  border: 2px solid rgb(0, 0, 0);
-  background: transparent;
-  color: rgb(0, 0, 0);
-  border-radius: 30px;
-  height: 65px;
-  width: 170px;
-  font-weight: 600;
-  font-size: 16px;
-}
 

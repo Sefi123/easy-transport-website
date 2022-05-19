@@ -2,7 +2,8 @@ import Repository, {baseUrl, getError} from "./genericRepository";
 
 const routes = {
     getVehicles:"/v1/vehicle/get_vehicles/",
-    vehicleBooking:"/v1/users/vehicle_request"
+    vehicleBooking:"/v1/users/vehicle_request",
+    getUserBookings:"/v1/users/get_Customer_Booking_List"
   };
 
   class VehiclesRepository {
@@ -103,13 +104,48 @@ const routes = {
           payload
         );
         const {data} = request;
-        console.log(data);
         return {
           results: data.results,
         };
       } catch (error) {
         throw getError(error);
       }
+    }
+    async getUserBookings(payload) {
+     
+      try {
+        const request = await Repository.post(
+          `${baseUrl}${routes.getUserBookings}`,
+          payload,
+         
+        );
+        const {data} = request;
+        const userbookings=data.results;
+        return {
+          userbookings,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
+  
+    }
+    async getUserVehicleBookings(payload) {
+     
+      try {
+        const request = await Repository.post(
+          `${baseUrl}${routes.getUserBookings}`,
+          payload,
+         
+        );
+        const {data} = request;
+        const uservehiclebookings=data.results;
+        return {
+          uservehiclebookings,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
+  
     }
     
     

@@ -12,11 +12,11 @@ import VehicleAddForm from "../../components/TransporterDashboard/components/Veh
 import user1 from "../../assets/images/car.png";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { getVehicles, deleteVehicle } from "../../redux/transporter/transporter.actions";
+import { getVehicles, deleteVehicle, makeVehicleAvailable } from "../../redux/transporter/transporter.actions";
 import { connect } from "react-redux";
 import ErrorPage from "../../pages/error/404page"
 
-const Vehicles = () => {
+const TransporterVehicles = () => {
   const user = useSelector(({ auth }) => auth.user);
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const registerVehicles = useSelector(({ transporter }) => transporter.transporterVehicles);
@@ -24,6 +24,8 @@ const Vehicles = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded]=useState(false);
+  const [vehicles, setVehicles] =useState([]);
 
   const handleShow = () => {
     setShow(true);
@@ -31,10 +33,6 @@ const Vehicles = () => {
   const handleLoading = () => {
     setLoading(false);
   };
-
-  // if (typeof window !== 'undefined') {
-  //   var userId = localStorage.getItem('user_id')
-  //  } 
 
   useEffect(() => {
     if (user !== null) {
@@ -45,26 +43,49 @@ const Vehicles = () => {
       dispatch(getVehicles(payload, handleLoading));
     }
 
-
   }, [user]);
 
-  const makeAvailable = () => {
+  useEffect(() => {
+    if (registerVehicles !== null) {
+      setVehicles(registerVehicles);
+    }
+    if (isLoggedIn||!isLoggedIn) {
+      setLoaded(true);
+    }
 
+  }, [registerVehicles,isLoggedIn]);
+
+  const makeAvailable = (ownerid,vehicleid) => {
+    const payload={
+      registeredOwner_id: ownerid,
+      vehicle_id: vehicleid,
+      booking_type:"vehicle",
+    }
+    setLoading(true);
+    dispatch(makeVehicleAvailable(payload,handleLoading));
   }
 
-  const handleDelete = (id, numberplate) => {
+  const handleDelete = (ownerid, vehicleid) => {
     const payload = {
-      registeredOwner_id: id,
-      numberPlate: numberplate,
+      registeredOwner_id: ownerid,
+      vehicle_id: vehicleid,
     };
     setLoading(true);
     dispatch(deleteVehicle(payload, handleLoading));
+    const newData = vehicles.filter((item) => item.id !== vehicleid);
+    setVehicles(newData);
   }
-
+  useEffect(()=>{
+    if(loaded){
+    if(!isLoggedIn){
+      router.push("/login")
+    }
+  }
+  },[isLoggedIn,loaded]);
 
   return (
     <div>
-      {!isLoggedIn ? (<ErrorPage />) : <FullLayout>
+      <FullLayout>
         <div>
           <Card>
             <CardTitle tag="h6" className="border-bottom p-3 mb-0">
@@ -91,7 +112,7 @@ const Vehicles = () => {
                 <div className="spinner-grow text-danger" role="status">
                   <span className="sr-only">Loading...</span> </div>
               </div>) : (<div className="row">
-                {registerVehicles !== null ? (registerVehicles.map((vehicle, key) =>
+                {(vehicles.map((vehicle, key) =>
                   <>
                     <div className="col-md-6 col-lg-4">
                       <Card >
@@ -122,26 +143,25 @@ const Vehicles = () => {
                           </div>
                           <div className="d-flex justify-content-between mb-3">
                             <h6 className="mb-0">Booking Status</h6>
-                            <p className="text-muted mb-0">{!vehicle.booked ? (<>Available</>) : (<>Booked</>)}</p>
+                            <p className="text-muted mb-0">{!vehicle.booked ? (<>Available</>) : (<h6 className="mb-2 text-danger cursor-pointer " onClick={()=> makeAvailable(vehicle.registeredOwner_id, vehicle.id)}>Make Available</h6>)}</p>
                           </div>
-                          {vehicle.booked ? (<h6 className="mb-2 text-center text-danger " onClick={makeAvailable}>Make Available</h6>) : <></>}
                           <div className="topBorder mb-3"></div>
                           <div className="d-flex justify-content-between">
                             <button type="button" className="btn-success tableButton">Edit</button>
-                            <button className="btn-danger tableButton" onClick={() => handleDelete(vehicle.registeredOwner_id, vehicle.numberPlate)}>Delete</button>
+                            <button className="btn-danger tableButton" onClick={() => handleDelete(vehicle.registeredOwner_id, vehicle.id)}>Delete</button>
                           </div>
                         </div>
                       </Card>
                     </div>
                   </>
-                )) : <></>}
+                ))}
               </div>)}
 
             </CardBody>
           </Card>
 
         </div>
-      </FullLayout>}
+      </FullLayout>
 
     </div>
 
@@ -158,4 +178,4 @@ const Vehicles = () => {
 // const VehicleMapped= connect(mapStateToProps,null)(Vehicles);
 
 // export default VehicleMapped;
-export default Vehicles;
+export default TransporterVehicles;

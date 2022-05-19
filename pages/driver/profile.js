@@ -3,11 +3,16 @@ import { useState, useEffect } from "react";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/router';
 import FullLayout from "../../components/DriverDashboard/components/Layout/FullLayout";
-import user from "../../components/TransporterDashboard/images/users/user1.jpg";
+import {makeDriverAvailable} from "../../redux/drivers/driver.actions";
 function Profile() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const user = useSelector(({ auth }) => auth.user);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const token = useSelector(({ auth }) => auth.token);
   const [data, setData] = useState({});
 
@@ -15,7 +20,10 @@ function Profile() {
     if (user !== null) {
       setData(user);
     }
-  }, [user])
+    if (isLoggedIn || !isLoggedIn) {
+      setLoaded(true);
+    }
+  }, [user, isLoggedIn])
 
   const handleData = (key, value) => {
     setData({ ...data, [key]: value });
@@ -45,9 +53,25 @@ function Profile() {
     dispatch(userSignUpRequest(payload, handleLoading));
   };
 
+  useEffect(() => {
+    if (loaded) {
+      if (!isLoggedIn) {
+        router.push("/login")
+      }
+    }
+  }, [isLoggedIn, loaded]);
+
+  const makeAvailable = () => {
+    const payload={
+      registeredOwner_id: user.id,
+      booking_type:"driver",
+    }
+    dispatch(makeDriverAvailable(payload,handleLoading));
+  }
+
   return (
     <div>
-      {!isLoggedIn ? <div className="ftco-section">Please Login First</div> : <FullLayout>
+      <FullLayout>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-8">
@@ -115,7 +139,7 @@ function Profile() {
                           handleData("city", e.target.value)
                         }
                       >
-                       
+
                         <option value="Lahore">Lahore</option>
                         <option value="Karachi">Karachi</option>
                         <option value="Islamabad">Islamabad</option>
@@ -257,22 +281,26 @@ function Profile() {
                 <CardBody>
                   <div className="justify-content-center row">
                     <div className="transporterImg">
-                      <Image
-                        src={user.photoUrl}
+                      {data.photoUrl?(<Image
+                        src={data.photoUrl}
                         alt="hero banner"
                         height={300}
                         width={300}
                         className="rounded-circle"
-                      />
+                      />):(<></>)}
                     </div>
                   </div>
                   <div className="text-center">
-                    <h3 className="text-danger">{user.name}</h3>
+                    <h3 className="text-danger">{data.name}</h3>
                     <div className="d-flex row">
-                      <h5 className="text-muted">{user.email}</h5>
+                      <h5 className="text-muted">{data.email}</h5>
                     </div>
                     <div>
-                      <h6 className="text-muted"> {user.phone_no}</h6>
+                      <h6 className="text-muted"> {data.phone_no}</h6>
+                    </div>
+                    <div className="d-flex justify-content-center mb-3">
+                      <h6 className="mb-0 text-muted">Driver Status:</h6>
+                      <p className="text-muted mb-0 ms-2">{!data.booked ? (<h6>Available</h6>) : (<h6 className="mb-2 text-danger cursor-pointer  " onClick={() => makeAvailable()}>Make Available</h6>)}</p>
                     </div>
                   </div>
                 </CardBody>
@@ -280,7 +308,7 @@ function Profile() {
             </div>
           </div>
         </div>
-      </FullLayout>}
+      </FullLayout>
     </div>
 
   );

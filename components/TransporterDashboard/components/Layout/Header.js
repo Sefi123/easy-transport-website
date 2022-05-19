@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState , useEffect} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -22,6 +22,13 @@ const Header = ({ showMobmenu }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const user = useSelector(({ auth }) => auth.user);
+  const [data, setData]=useState({});
+
+  useEffect(() => {
+    if(user!==null){
+    setData(user);
+    }
+  }, [user])
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
@@ -52,18 +59,19 @@ const Header = ({ showMobmenu }) => {
 
       <Collapse navbar isOpen={isOpen}>
         <Nav className="me-auto">
-         <h4 className="text-light">Welcome {user.name}</h4>
+         <h4 className="text-light">Welcome {data.name}</h4>
         </Nav>
         {/* <Dropdown isOpen={dropdownOpen} toggle={toggle}> */}
           {/* <DropdownToggle color="secondary"> */}
             <div >
-              <Image
-                src={user.photoUrl}
+              {data.photoUrl?( <Image
+                src={data.photoUrl}
                 alt="profile"
                 className="rounded-circle"
                 width="40"
                 height="40"
-              />
+              />):(<></>)}
+             
             </div>
           {/* </DropdownToggle> */}
           {/* <DropdownMenu>

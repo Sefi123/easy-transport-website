@@ -3,11 +3,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import styles from "../../styles/Drivers.module.css";
 import { loginRequest } from "../../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserVans } from "../../redux/vehicles/vehicles.actions";
-import carimg from "../../assets/images/hiace.jpg";
 
 const Vans = () => {
 
@@ -115,7 +113,7 @@ const Vans = () => {
                       <Image
                         src={van.photoUrl}
                         alt="Car Image"
-                        className={styles.driverimg}
+                        className="productsIMG"
                         width={500}
                         height={250}
                         layout="responsive"

@@ -1,7 +1,8 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable @next/next/no-sync-scripts */
 import "../styles/globals.css";
 import "../styles/vehicles.css";
+import "../styles/dashboard.css";
+import "../styles/drivers.css";
+import "../styles/home.css";
 import Navbar from "../components/Nav";
 import Footer from "../components/Footer";
 import Head from "next/head";

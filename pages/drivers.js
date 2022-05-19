@@ -1,16 +1,69 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import styles from "../styles/Drivers.module.css";
-import { loginRequest } from "../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
 import driver1 from "../assets/images/drivers/d2.jpg";
-import driver2 from "../assets/images/drivers/d3.jpg";
-import driver3 from "../assets/images/drivers/d4.jpg";
-import driver4 from "../assets/images/drivers/d1.jpg";
+import { getDrivers } from "../redux/drivers/driver.actions";
+
 const Drivers = () => {
+  const dispatch = useDispatch();
+  const driversResult = useSelector(({ drivers }) => drivers.driversResult);
+  const [loading, setLoading] = useState(false);
+  const [filterData, setFilterData] = useState([]);
+  const [filterData1, setFilterData1] = useState([]);
+  const [searchData, setSearchData] = useState({
+    city: "Lahore",
+    driverType: "Car",
+    matchStatus: false,
+  })
+  const handleLoading = () => {
+    setLoading(false);
+  };
+
+  const handleData = (key, value) => {
+    setSearchData({ ...searchData, [key]: value });
+  };
+  useEffect(() => {
+    const payload = {
+      user_type: "Driver",
+    };
+    setLoading(true);
+    dispatch(getDrivers(payload, handleLoading));
+
+  }, [])
+
+
+  useEffect(() => {
+    if (driversResult != null) {
+      const newData = driversResult.filter((item) => {
+         const bookingStatus = item.booked.toString().toUpperCase();
+         const matchStatus = searchData.matchStatus.toString().toUpperCase();
+        return bookingStatus.includes(matchStatus);
+      })
+      setFilterData(newData);
+     
+    }
+  }, [driversResult])
+
+  const filterDataFunction = () => {
+    const newData1 = driversResult.filter((item) => {
+      const bookingStatus = item.booked.toString().toUpperCase();
+      const matchStatus = searchData.matchStatus.toString().toUpperCase();
+     return bookingStatus.includes(matchStatus);
+   })
+   setFilterData1(newData1);
+
+    const newData = filterData1.filter((item) => {
+      const city = item.city.toUpperCase();
+      const drivertype = item.driver_type.toUpperCase();
+      const matchCity = searchData.city.toUpperCase();
+      const matchType = searchData.driverType.toUpperCase();
+      return city.includes(matchCity) && drivertype.includes(matchType);
+    })
+    setFilterData(newData);
+  }
   return (
     <section className="ftco-section">
       <div className="container-fluid">
@@ -49,186 +102,64 @@ const Drivers = () => {
               </select>
             </div>
             <div className="col-md-3 form-group searchButton">
-              <button type="submit" className="signin-btn">
+              <button onClick={filterDataFunction} type="submit" className="signin-btn">
                 Search
               </button>
             </div>
           </div>
         </CardTitle>
+        {loading ? (<div className="d-flex justify-content-center vehicles-spinner">
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span> </div>
+        </div>) : (
+          <div className="row">
+            {(filterData.map((driver, key) =>
+              <>
+                <Link href={{
+                  pathname: "/driver-details",
+                  query: driver,
+                }} passHref>
+                  <div className="col-md-6 col-lg-3">
+                    <Card className="effectCard">
+                      <Image
+                        src={driver.photoUrl}
+                        alt="hero banner"
+                        className="productsIMG"
+                        width={500}
+                        height={500}
+                        layout="responsive"
+                      />
 
-        <div className="row">
-          <Link href={"/driver-details"} passHref>
-            <div className="col-md-6 col-lg-3">
-              <div className={styles.card}>
-                <Image
-                  src={driver1}
-                  alt="hero banner"
-                  className={styles.driverimg}
-                  width={500}
-                  height={500}
-                  layout="responsive"
-                />
-
-                <div className="card-body">
-                  <div className="d-flex justify-content-between">
-                    <p className="small">
-                      <a href="#!" className="text-muted">
-                        City
-                      </a>
-                    </p>
-                    <p className="small text-danger">Lahore</p>
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">City</h6>
+                          <p className="mb-0 text-capitalize text-danger">{driver.city}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Driver Type</h6>
+                          <p className="mb-0 text-capitalize text-danger">{driver.driver_type}</p>
+                        </div>
+                        <div className="d-flex justify-content-between mb-3">
+                        <h6 className="mb-0">Driving Experience</h6>
+                          <p className="mb-0 text-capitalize text-danger">{driver.drive_experience} Years</p>
+                        </div>
+                        <div className="topBorder mb-3"></div>
+                        <div className="d-flex justify-content-between">
+                          <h6 className="mb-0">Per Day Charges</h6>
+                          <h6 className="text-danger mb-0">PKR {driver.perDayPrice}</h6>
+                        </div>
+                      </div>
+                    </Card>
                   </div>
-                  <div className="d-flex justify-content-between">
-                    <p className="small">
-                      <a href="#!" className="text-muted">
-                        Driver Type
-                      </a>
-                    </p>
-                    <p className="small text-danger">Car</p>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <p className="small">
-                      <a href="#!" className="text-muted">
-                        Driving Experience
-                      </a>
-                    </p>
-                    <p className="small text-danger">10 Years</p>
-                  </div>
-                  <div className="d-flex justify-content-between mb-1">
-                    <h6 className="mb-0">Arslan Ahmad</h6>
-                    <h6 className="text-dark mb-0">PKR 1500</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={driver2}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={500}
-                layout="responsive"
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      City
-                    </a>
-                  </p>
-                  <p className="small text-danger">Lahore</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      Driver Type
-                    </a>
-                  </p>
-                  <p className="small text-danger">Car</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      Driving Experience
-                    </a>
-                  </p>
-                  <p className="small text-danger">08 Years</p>
-                </div>
-                <div className="d-flex justify-content-between mb-1">
-                  <h6 className="mb-0">Safeer Ahmad</h6>
-                  <h6 className="text-dark mb-0">PKR 1000</h6>
-                </div>
-              </div>
-            </div>
+                </Link>
+              </>
+            ))}
           </div>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={driver3}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={500}
-                layout="responsive"
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      City
-                    </a>
-                  </p>
-                  <p className="small text-danger">Karachi</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      Driver Type
-                    </a>
-                  </p>
-                  <p className="small text-danger">Car</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      Driving Experience
-                    </a>
-                  </p>
-                  <p className="small text-danger">12 Years</p>
-                </div>
-                <div className="d-flex justify-content-between mb-1">
-                  <h6 className="mb-0">Shahzaib</h6>
-                  <h6 className="text-dark mb-0">PKR 2000</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className={styles.card}>
-              <Image
-                src={driver4}
-                alt="hero banner"
-                className={styles.driverimg}
-                width={500}
-                height={500}
-                layout="responsive"
-              />
-              <div className="card-body">
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      City
-                    </a>
-                  </p>
-                  <p className="small text-danger">Islamabad</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      Driver Type
-                    </a>
-                  </p>
-                  <p className="small text-danger">Car</p>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <p className="small">
-                    <a href="#!" className="text-muted">
-                      Driving Experience
-                    </a>
-                  </p>
-                  <p className="small text-danger">05 Years</p>
-                </div>
-                <div className="d-flex justify-content-between mb-1">
-                  <h6 className="mb-0">Talha Ahmad</h6>
-                  <h6 className="text-dark mb-0">PKR 2500</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );

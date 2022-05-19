@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from '../styles/Home.module.css'
 import { loginRequest } from "../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/router'
 import {
   errorNotification,
   warningNotification,
@@ -15,6 +16,7 @@ import Page404Error from "../pages/error/404page";
 const Login = () => {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
   const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",
@@ -35,11 +37,16 @@ const Login = () => {
     dispatch(loginRequest(data, handleLoading));
   };
 
+  const handleRouter = () => {
+    // e.preventDefault()
+    router.push("/dashboard")
+  }
+
 
   return (
     <div>
       {isLoggedIn ? (
-        <Page404Error />
+        handleRouter()
       ) : (
         <section className="ftco-section">
           <div className="container">

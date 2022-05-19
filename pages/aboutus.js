@@ -3,11 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import styles from "../styles/AboutUs.module.css";
 import driver1 from "../assets/images/drivers/d2.jpg";
 import driver2 from "../assets/images/drivers/d3.jpg";
 import driver3 from "../assets/images/drivers/d4.jpg";
-import driver4 from "../assets/images/drivers/d1.jpg";
 
 const AboutUs = () => {
   return (
@@ -22,11 +20,11 @@ const AboutUs = () => {
 
         <div className="row justify-content-center">
             <div className="col-md-6 col-lg-3">
-              <Card className={styles.card}>
+              <Card className="aboutUSCard">
                 <Image
                   src={driver1}
                   alt="hero banner"
-                  className={styles.driverimg}
+                  className="productsIMG"
                   width={500}
                   height={500}
                   layout="responsive"
@@ -63,11 +61,11 @@ const AboutUs = () => {
             </div>
           
             <div className="col-md-6 col-lg-3">
-              <Card className={styles.card}>
+              <Card className="aboutUSCard">
                 <Image
                   src={driver2}
                   alt="hero banner"
-                  className={styles.driverimg}
+                  className="productsIMG"
                   width={500}
                   height={500}
                   layout="responsive"
@@ -104,11 +102,11 @@ const AboutUs = () => {
             </div>
           
             <div className="col-md-6 col-lg-3">
-              <Card className={styles.card}>
+              <Card className="aboutUSCard">
                 <Image
                   src={driver3}
                   alt="hero banner"
-                  className={styles.driverimg}
+                  className="productsIMG"
                   width={500}
                   height={500}
                   layout="responsive"

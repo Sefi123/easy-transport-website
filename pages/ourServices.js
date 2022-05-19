@@ -8,8 +8,6 @@ import driverIcon from "../assets/images/Driver.png";
 import dashboardIcon from "../assets/images/home.png";
 import registerIcon from "../assets/images/plus.png";
 import profileIcon from "../assets/images/driver-profile.png";
-import styles from "../styles/Drivers.module.css";
-import DriverBooking from "../components/DriverBooking";
 
 function OurServices() {
   return (

@@ -2,9 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import Image from "next/image";
-import driver from "../assets/images/drivers/d2.jpg";
-import styles from "../styles/Drivers.module.css";
-import DriverBooking from "../components/DriverBooking";
+
 function FAQ() {
   return (
     <div className="ftco-section">

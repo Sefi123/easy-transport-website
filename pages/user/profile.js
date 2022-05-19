@@ -1,13 +1,17 @@
 import React from "react";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from 'next/router';
 import FullLayout from "../../components/UserDashboard/components/Layout/FullLayout";
 import user from "../../components/TransporterDashboard/images/users/user1.jpg";
 function Profile() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const user = useSelector(({ auth }) => auth.user);
+  const router = useRouter();
+  const [loaded, setLoaded]=useState(false);
+  const [loading, setLoading] = useState(false);
   const token = useSelector(({ auth }) => auth.token);
   const [data, setData] = useState({
     name: "",
@@ -28,6 +32,13 @@ function Profile() {
     setLoading(false);
   };
 
+  useEffect(() => {
+
+    if (isLoggedIn||!isLoggedIn) {
+      setLoaded(true);
+    }
+  }, [isLoggedIn])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
@@ -43,9 +54,18 @@ function Profile() {
     dispatch(userSignUpRequest(payload, handleLoading));
   };
 
+  useEffect(()=>{
+    if(loaded){
+    if(!isLoggedIn){
+      router.push("/login")
+    }
+  }
+  },[isLoggedIn,loaded]);
+
   return (
     <div>
-      {!isLoggedIn? <div className="ftco-section">Please Login First</div> : <FullLayout>
+      {!isLoggedIn? <div className="ftco-section">Please Login First</div> : 
+      <FullLayout>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-8">

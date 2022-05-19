@@ -1,38 +1,58 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import driver from "../assets/images/drivers/d2.jpg";
-import styles from "../styles/Drivers.module.css";
-import DriverBooking from "../components/DriverBooking"
+import DriverBooking from "../components/DriverBooking";
+import {
+  errorNotification,
+  warningNotification,
+  infoNotification,
+} from "../components/notification/notification";
 function DriverDetails() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
+  const driversResult = useSelector(({ drivers }) => drivers.driversResult);
+  const user = useSelector(({ auth }) => auth.user);
+  const router = useRouter();
+  const driver = router.query;
   const [show, setShow] = useState(false);
-  const handleShow = () =>{
-      setShow(true);
+  const handleShow = () => {
+      if(isLoggedIn && user.user_type==="Customer"){
+        setShow(true);
+      }
+      else if(isLoggedIn && (user.user_type==="Transporter" || user.user_type==="Driver")){
+       infoNotification("Information",`Bookings are not allowed on ${user.user_type} account`)
+      }
+      else{
+        errorNotification("Login First","Please Login First to Book this Driver")
+      }
+      
   }
   
+
   return (
     <div className="ftco-section">
       <div className="container-fluid ">
         <div className="row justify-content-center">
           <div className="col-md-5 col-lg-3 justify-content-center  ">
-            <div className={styles.card}>
-              <div className={styles.driverimg}>
+            <Card className="effectCard">
+            {driver.photoUrl?( <div>
+              
                 <Image
-                  src={driver}
+                  src={driver.photoUrl}
                   alt="hero banner"
-                  className={styles.driverIMG}
-                  width={500}
+                  className="productDetailsIMG"
+                  width={600}
                   height={600}
                   layout="responsive"
                 />
-              </div>
-            </div>
+               </div>):<></>}
+            </Card>
           </div>
-       {!show? <div className="col-md-6 col-lg-4">
-            <Card className={`${styles.driverData} bg-white container-fluid`}>
+          {!show ? <div className="col-md-6 col-lg-4">
+            <Card className={`effectCard bg-white container-fluid`}>
               <CardTitle
                 tag="h6"
                 className="border-bottom p-3 mb-0 text-center "
@@ -41,24 +61,15 @@ function DriverDetails() {
                 Driver Details
               </CardTitle>
               <CardBody>
-                <div className={`d-flex justify-content-between mb-3`}>
-                  <h6 className="mb-0">Name</h6>
-                  <p className="mb-0 text-muted">Arslan Ahmad</p>
-                </div>
-                <div className="topBorder mb-3"></div>
-                <div className="d-flex justify-content-between mb-3">
-                  <h6 className="mb-0">Phone Number</h6>
-                  <p className="mb-0 text-muted">03092016575</p>
-                </div>
-                <div className="topBorder mb-3"></div>
+                
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Age</h6>
-                  <p className="mb-0 text-muted">22</p>
+                  <p className="mb-0 text-muted">{driver.age}</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">City</h6>
-                  <p className="mb-0 text-muted">Lahore</p>
+                  <p className="mb-0 text-muted">{driver.city}</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
@@ -68,29 +79,29 @@ function DriverDetails() {
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Driving Experience</h6>
-                  <p className="mb-0 text-muted">10 Years</p>
+                  <p className="mb-0 text-muted">{driver.drive_experience} Years</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Driving Type</h6>
-                  <p className="mb-0 text-muted">Car</p>
+                  <p className="mb-0 text-muted text-capitalize">{driver.driver_type}</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Per Day Charges</h6>
-                  <p className="mb-0 text-muted">PKR 1500</p>
+                  <p className="mb-0 text-muted">PKR {driver.perDayPrice}</p>
                 </div>
                 <div className="topBorder mb-3 "></div>
                 <div className="d-flex justify-content-center">
-                <button type="button" className="btn-danger tableButton "
-                onClick={handleShow}
-                >Book Now</button>
+                  <button type="button" className="btn-danger tableButton "
+                    onClick={handleShow}
+                  >Book Now</button>
                 </div>
               </CardBody>
             </Card>
-          </div> : <div className="col-md-6"> <DriverBooking/> </div>}
-          
-          
+          </div> : <div className="col-md-6"> <DriverBooking driverDetails={driver} /> </div>}
+
+
         </div>
       </div>
     </div>

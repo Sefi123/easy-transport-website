@@ -20,6 +20,7 @@ import {getUserVansSuccess} from "./vehicles.actions";
 import {getUserBusesSuccess} from "./vehicles.actions";
 import {getUserSmTrucksSuccess} from "./vehicles.actions";
 import {getUserLgTrucksSuccess} from "./vehicles.actions";
+import {getUserBookingsSuccess,getUserVehicleBookingsSuccess} from "./vehicles.actions";
 import {appName} from "../../repositories/genericRepository";
 
 
@@ -122,6 +123,38 @@ function* vehicleBookingRequestSaga(action) {
     yield cancel();
   }
 }
+function* getUserBookingsSaga(action) {
+  try {
+      let _userBookings;
+        const {userbookings} = yield call(VehiclesService.getUserBookings, action.payload);
+        _userBookings = userbookings;
+      yield put(getUserBookingsSuccess(_userBookings));
+      action.callback();
+    } catch (error) {
+      if (action && action.callback) {
+        action.callback();
+        errorNotification("Error", error);        
+      }
+    } finally {
+      yield cancel();
+    }
+}
+function* getUserVehicleBookingsSaga(action) {
+  try {
+      let _userVehicleBookings;
+        const {uservehiclebookings} = yield call(VehiclesService.getUserVehicleBookings, action.payload);
+        _userVehicleBookings = uservehiclebookings;
+      yield put(getUserVehicleBookingsSuccess(_userVehicleBookings));
+      action.callback();
+    } catch (error) {
+      if (action && action.callback) {
+        action.callback();
+        errorNotification("Error", error);        
+      }
+    } finally {
+      yield cancel();
+    }
+}
 
 
 
@@ -132,5 +165,7 @@ export default function* rootSagas() {
   yield all([takeEvery(vehiclesActionTypes.GET_USER_SMTRUCKS, getUserSmTrucksSaga)]);
   yield all([takeEvery(vehiclesActionTypes.GET_USER_LGTRUCKS, getUserLgTrucksSaga)]);
   yield all([takeEvery(vehiclesActionTypes.VEHICLE_BOOKING_REQUEST, vehicleBookingRequestSaga)]);
+  yield all([takeEvery(vehiclesActionTypes.GET_USER_BOOKINGS, getUserBookingsSaga)]);
+  yield all([takeEvery(vehiclesActionTypes.GET_USER_VEHICLE_BOOKINGS, getUserVehicleBookingsSaga)]);
   
 }

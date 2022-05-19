@@ -43,3 +43,19 @@ export function getUserCars(payload, callback) {
   export function vehicleBookingRequest(payload, callback) {
     return { type: vehicleActionTypes.VEHICLE_BOOKING_REQUEST, payload, callback };
   }
+  export function getUserBookings(payload, callback) {
+  
+    return { type: vehicleActionTypes.GET_USER_BOOKINGS, payload, callback };
+  }
+  export function getUserBookingsSuccess(result) {
+    
+    return { type: vehicleActionTypes.GET_USER_BOOKINGS_SUCCESS, result };
+  }
+  export function getUserVehicleBookings(payload, callback) {
+  
+    return { type: vehicleActionTypes.GET_USER_VEHICLE_BOOKINGS, payload, callback };
+  }
+  export function getUserVehicleBookingsSuccess(result) {
+    
+    return { type: vehicleActionTypes.GET_USER_VEHICLE_BOOKINGS_SUCCESS, result };
+  }

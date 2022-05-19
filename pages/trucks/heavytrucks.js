@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import styles from "../../styles/Drivers.module.css";
 import { loginRequest } from "../../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLgTrucks } from "../../redux/vehicles/vehicles.actions";
@@ -119,7 +118,7 @@ const HeavyTrucks = () => {
                       <Image
                         src={truck.photoUrl}
                         alt="hero banner"
-                        className={styles.driverimg}
+                        className="productsIMG"
                         width={500}
                         height={250}
                         layout="responsive"

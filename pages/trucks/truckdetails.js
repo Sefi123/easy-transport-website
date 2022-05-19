@@ -3,16 +3,13 @@ import { useState } from "react";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import carimg from "../../assets/images/truck.png";
 import { useRouter } from "next/router";
 import {
   errorNotification,
   warningNotification,
   infoNotification,
 } from "../../components/notification/notification";
-import styles from "../../styles/Drivers.module.css";
 import VehicleBooking from "../../components/VehicleBooking"
-import { Tr } from "@chakra-ui/react";
 
 function TruckDetails() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
@@ -37,22 +34,22 @@ function TruckDetails() {
       <div className="container-fluid ">
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-4 justify-content-center  ">
-            <div className={styles.card}>
-              <div className={styles.driverimg}>
+            <Card className="effectCard">
+              <div>
                 {truck.photoUrl?( <Image
                   src={truck.photoUrl}
                   alt="hero banner"
-                  className={styles.driverIMG}
+                  className="productDetailsIMG"
                   width={500}
                   height={250}
                   layout="responsive"
                 />):<></>}
                
               </div>
-            </div>
+            </Card>
           </div>
        {!show? <div className="col-md-6 col-lg-4">
-            <Card className={`${styles.driverData} bg-white container-fluid`}>
+            <Card className={`effectCard bg-white container-fluid`}>
               <CardTitle
                 tag="h6"
                 className="border-bottom p-3 mb-0 text-center "

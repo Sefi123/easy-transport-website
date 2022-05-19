@@ -6,7 +6,6 @@ import {
   warningNotification,
 } from "./notification/notification";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import styles from "../styles/Drivers.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { vehicleBookingRequest } from "../redux/vehicles/vehicles.actions";
 
@@ -44,6 +43,18 @@ const VehicleBooking = (props) => {
     setLoading(false);
   };
 
+  const PhoneValidation = () => {
+    const phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
+    if (data.PhoneNo.match(phoneNo)) {
+      return <div></div>;
+    } else {
+      return (
+        <div className="password-match">Please Enter Correct Phone Number</div>
+      );
+    }
+  };
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let fromCity;
@@ -65,6 +76,8 @@ const VehicleBooking = (props) => {
       toCity: toCity,
       vehicle_id: vehicle.id,
       vehicle_name: vehicle.name,
+      booking_type:"vehicle",
+      accepted:false,
       perDayPrice: vehicle.perDayPrice,
       numberPlate: vehicle.numberPlate,
       modelYear: vehicle.modelYear,
@@ -80,8 +93,8 @@ const VehicleBooking = (props) => {
   };
 
   return (
-    <Card className={`${styles.driverData} container-fluid`}>
-      <CardTitle className={styles.cardTitle}>
+    <Card className={`aboutUSCard container-fluid`}>
+      <CardTitle className="cardTitle">
         <div className="border-bottom mt-2 text-center">
           <h3 className="mb-2">Please Fill Booking Details </h3>
         </div>
@@ -108,6 +121,7 @@ const VehicleBooking = (props) => {
             onChange={(e) => handleData("PhoneNo", e.target.value)}
             required
           />
+          {!data.PhoneNo ? <></> : <PhoneValidation />}
         </div>
 
         <div className="col-md-6 form-group mb-3">

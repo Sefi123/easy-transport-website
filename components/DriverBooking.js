@@ -5,27 +5,37 @@ import {
   errorNotification,
   warningNotification,
 } from "./notification/notification";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { driverBooking } from "../redux/drivers/driver.actions";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import styles from "../styles/Drivers.module.css";
 
-const DriverBooking = () => {
+const DriverBooking = (props) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector(({ auth }) => auth.user);
   const [imgName, setimgName] = useState("");
+  const driver = props.driverDetails;
   const [data, setData] = useState({
     Name: "",
-    Email: "",
     PhoneNo: "",
     Address: "",
     CNIC: "",
-    charges: "",
     FromCity: "",
     ToCity: "",
     DateIn: "",
     DateOut: "",
-    DriverId: "",
+
   });
+
+  const CNICValidation = () =>{
+    if(!/^[0-9]+$/.test(data.CNIC) || (data.CNIC.length<13 || data.CNIC.length>13))
+    {return(
+      <div className="password-match">Please Enter Correct CNIC Number</div>
+    )
+    } else{
+      return <></>
+    }
+  }
 
   const handleData = (key, value) => {
     setData({ ...data, [key]: value });
@@ -34,23 +44,45 @@ const DriverBooking = () => {
     setLoading(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!LoggedIn) {
-      errorNotification("Error", "Please Login First");
-      return;
+  const PhoneValidation = () => {
+    const phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
+    if (data.PhoneNo.match(phoneNo)) {
+      return <div></div>;
     } else {
-      const payload = {
-        
-      };
-      setLoading(true);
-      dispatch(driverBookingRequest(payload, handleLoading));
+      return (
+        <div className="password-match">Please Enter Correct Phone Number</div>
+      );
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const payload = {
+      user_id: user.id,
+      name: data.Name,
+      cnic: data.CNIC,
+      phone_no: data.PhoneNo,
+      fromCity: data.FromCity,
+      toCity: data.ToCity,
+      driver_name: driver.name,
+      booking_type:"driver",
+      accepted:false,
+      perDayPrice: driver.perDayPrice,
+      age:driver.age,
+      experience:driver.drive_experience,
+      address: data.Address,
+      dateIn: data.DateIn.replaceAll('-','/'),
+      dateOut: data.DateOut.replaceAll('-','/'),
+      registeredOwner_id: driver.id,
+
+    };
+    setLoading(true);
+    dispatch(driverBooking(payload, handleLoading));
+  };
+
   return (
-    <Card className={`${styles.driverData} container-fluid`}>
-      <CardTitle className={styles.cardTitle}>
+    <Card className={`aboutUSCard container-fluid`}>
+      <CardTitle className="cardTitle">
         <div className="border-bottom mt-2 text-center">
           <h3 className="mb-2">Please Fill Booking Details </h3>
         </div>
@@ -68,17 +100,6 @@ const DriverBooking = () => {
           />
         </div>
         <div className="col-md-6 form-group mb-3">
-          <label className="label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Email"
-            value={data.Email}
-            onChange={(e) => handleData("Email", e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-md-6 form-group mb-3">
           <label className="label">Phone Number</label>
           <input
             type="text"
@@ -88,6 +109,7 @@ const DriverBooking = () => {
             onChange={(e) => handleData("PhoneNo", e.target.value)}
             required
           />
+           {!data.PhoneNo ? <></> : <PhoneValidation />}
         </div>
 
         <div className="col-md-6 form-group mb-3">
@@ -111,6 +133,7 @@ const DriverBooking = () => {
             onChange={(e) => handleData("CNIC", e.target.value)}
             required
           />
+           {!data.CNIC?(<></>):(<CNICValidation/>)}
         </div>
         <div className="col-md-6 form-group mb-3">
           <label className="label">From City</label>

@@ -22,4 +22,9 @@ export function registerVehicle(payload, callback) {
   export function deleteVehicle(payload, callback) {
     return { type: transporterActionTypes.DELETE_VEHICLE, payload, callback };
   }
-  
+  export function updateBookingStatus(payload, callback) {
+    return { type: transporterActionTypes.UPDATE_BOOKING_STATUS, payload, callback };
+  }
+  export function makeVehicleAvailable(payload, callback) {
+    return { type: transporterActionTypes.MAKE_VEHICLE_AVAILABLE, payload, callback };
+  }

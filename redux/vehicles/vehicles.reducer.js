@@ -6,6 +6,8 @@ export const initState = {
   userBuses:null,
   userSmTrucks:null,
   userLgTrucks:null,
+  userBookings:null,
+  userVehicleBookings:null,
 };
 
 function UserVehiclesReducer(state = initState, action) {
@@ -35,6 +37,16 @@ function UserVehiclesReducer(state = initState, action) {
         ...state,
         ...{userLgTrucks: action.result},
       };
+      case actionTypes.GET_USER_BOOKINGS_SUCCESS:
+        return {
+          ...state,
+          ...{userBookings: action.result},
+        };
+        case actionTypes.GET_USER_VEHICLE_BOOKINGS_SUCCESS:
+        return {
+          ...state,
+          ...{userVehicleBookings: action.result},
+        };
     default:
       return state;
   }

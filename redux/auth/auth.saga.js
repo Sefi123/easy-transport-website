@@ -84,7 +84,7 @@ function* logOutSaga(action) {
     localStorage.removeItem(`user_refreshToken`);
     successNotification("Success", "Logout Successfully");
     action.callback();
-    Router.push("/");
+    Router.push("/login");
     yield put(logOutSuccess());
   } catch (err) {
     console.log(err);

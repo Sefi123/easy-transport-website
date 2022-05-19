@@ -9,8 +9,6 @@ import {
   warningNotification,
   infoNotification,
 } from "../../components/notification/notification";
-import carimg from "../../assets/images/car.png";
-import styles from "../../styles/Drivers.module.css";
 import VehicleBooking from "../../components/VehicleBooking"
 
 function VehicleDetails() {
@@ -38,11 +36,11 @@ function VehicleDetails() {
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-4 justify-content-center  ">
           <Card className="effectCard">
-            {vehicle.photoUrl?( <div className={styles.driverimg}>
+            {vehicle.photoUrl?( <div>
                 <Image
                   src={vehicle.photoUrl}
                   alt="Image"
-                  className={styles.driverIMG}
+                  className="productDetailsIMG"
                   width={500}
                   height={250}
                   layout="responsive"
@@ -52,7 +50,7 @@ function VehicleDetails() {
             </Card>
           </div>
        {!show? <div className="col-md-6 col-lg-4">
-            <Card className={`${styles.driverData} bg-white container-fluid`}>
+            <Card className={`effectCard bg-white container-fluid`}>
               <CardTitle
                 tag="h6"
                 className="border-bottom p-3 mb-0 text-center "

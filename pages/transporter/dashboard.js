@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
 import FullLayout from "../../components/TransporterDashboard/components/Layout/FullLayout";
 import Image from "next/image";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { transporterBookings } from "../../redux/transporter/transporter.actions";
+import { updateBookingStatus } from "../../redux/transporter/transporter.actions";
 import Page404Error from "../error/404page";
 
-export default function Home() {
+const Home = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const user = useSelector(({ auth }) => auth.user);
-  const router = useRouter();
   const bookingsRequests = useSelector(({ transporter }) => transporter.transporterBookings);
+  const router = useRouter()
   const [loading, setLoading] = useState(false);
   const [bookings, setBookings] = useState([]);
+  const [loaded, setLoaded]=useState(false);
   const handleLoading = () => {
     setLoading(false);
   };
@@ -35,25 +36,48 @@ export default function Home() {
     if (bookingsRequests !== null) {
       setBookings(bookingsRequests);
     }
-  }, [bookingsRequests]);
+    if (isLoggedIn||!isLoggedIn) {
+      setLoaded(true);
+    }
+  }, [bookingsRequests,isLoggedIn]);
 
+  useEffect(()=>{
+      if(loaded){
+      if(!isLoggedIn){
+        router.push("/login")
+    }
+  }
+  },[isLoggedIn,loaded]);
+
+  const handleAccept=(vehicleid,ownerid,type)=>{
+    const payload={
+      vehicle_id: vehicleid,
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    setLoading(true);
+    dispatch(updateBookingStatus(payload, handleLoading));
+    
+  }
+ 
   return (
     <div>
-      {isLoggedIn ? (
          <FullLayout>
          <div>
            <div className="col-md-12 col-lg-12">
              <Card>
                <CardBody>
                  <CardTitle tag="h5">Booking Requests</CardTitle>
-                 {loading ? (<div className="d-flex justify-content-center vehicles-spinner">
+                 {loading ? (
+                 <div className="d-flex justify-content-center vehicles-spinner">
                    <div className="spinner-grow text-danger" role="status">
                      <span className="sr-only">Loading...</span> </div>
                    <div className="spinner-grow text-danger" role="status">
                      <span className="sr-only">Loading...</span> </div>
                    <div className="spinner-grow text-danger" role="status">
                      <span className="sr-only">Loading...</span> </div>
-                 </div>) : (<> {bookings.length <= 0 ? (<h6 className="text-center">No Bookings Available</h6>)
+                 </div>
+                 ) : (<> {bookings.length <= 0 ? (<h6 className="text-center">No Bookings Available</h6>)
                    :
                    (
                      <div className="table-responsive scrollit">
@@ -80,42 +104,45 @@ export default function Home() {
                                  height="70"
                                /> */}
                                    <div className="ms-2">
-                                     <h6 className="mb-1 text-muted text-capitalize fontWeight">{booking.name}</h6>
-                                     <h6 className="mb-1 text-muted fontWeight">{booking.cnic}</h6>
-                                     <h6 className="mb-1 text-muted fontWeight">{booking.phone_no}</h6>
-                                     <h6 className="mb-1 text-muted text-capitalize fontWeight ">{booking.address}</h6>
+                                     <h6 className="mb-1 text-capitalize fontWeight">{booking.name}</h6>
+                                     <h6 className="mb-1 fontWeight">{booking.cnic}</h6>
+                                     <h6 className="mb-1 fontWeight">{booking.phone_no}</h6>
+                                     <h6 className="mb-1 text-capitalize fontWeight ">{booking.address}</h6>
                                    </div>
                                  </div>
                                </td>
 
                                <td>
                                  <div className="ms-0">
-                                   <h6 className="mb-1 text-muted text-capitalize fontWeight">{booking.vehicle_name}</h6>
-                                   <h6 className="mb-1 text-muted text-uppercase fontWeight">{booking.numberPlate}</h6>
-                                   <h6 className="mb-1 text-muted text-capitalize fontWeight">{booking.modelYear}</h6>
+                                   <h6 className="mb-1 text-capitalize fontWeight">{booking.vehicle_name}</h6>
+                                   <h6 className="mb-1 text-uppercase fontWeight">{booking.numberPlate}</h6>
+                                   <h6 className="mb-1 text-capitalize fontWeight">Model: {booking.modelYear}</h6>
                                  </div>
                                </td>
 
                                <td>
                                  <div className="ms-0">
-                                   <h6 className="mb-1 text-muted text-capitalize fontWeight">Pickup City: {booking.fromCity}</h6>
-                                   <h6 className="mb-1 text-muted text-capitalize fontWeight">Destination: {booking.toCity}</h6>
-                                   <h6 className="mb-1 text-muted fontWeight">
+                                   <h6 className="mb-1 text-capitalize fontWeight">Pickup City: {booking.fromCity}</h6>
+                                   <h6 className="mb-1 text-capitalize fontWeight">Destination: {booking.toCity}</h6>
+                                   <h6 className="mb-1 fontWeight">
                                      Date In: {booking.dateIn.split("T")[0]}
                                    </h6>
-                                   <h6 className="mb-1 text-muted fontWeight">
+                                   <h6 className="mb-1 fontWeight">
                                      Date Out: {booking.dateOut.split("T")[0]}
                                    </h6>
-                                   <h6 className="mb-1 text-muted fontWeight">Charges: PKR {booking.perDayPrice}</h6>
+                                   <h6 className="mb-1 fontWeight">Charges: PKR {booking.perDayPrice}</h6>
                                  </div>
                                </td>
 
                                <td>
                                  <div className="ms-0">
+                                   {!booking.accepted?(
+                                     <> 
                                    <div>
                                      <button
                                        type="button"
                                        className="btn-success tableButton"
+                                      onClick={()=> handleAccept(booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
                                      >
                                        Accept
                                      </button>
@@ -128,6 +155,16 @@ export default function Home() {
                                        Reject
                                      </button>
                                    </div>
+                                   </>):( 
+                                     <>
+                                     <button
+                                       type="button"
+                                       className="btn-success acceptedButton"
+                                       disabled
+                                     >
+                                       Booking Accepted
+                                     </button>
+                                     </>)}
                                  </div>
                                </td>
 
@@ -141,9 +178,8 @@ export default function Home() {
            </div>
          </div>
        </FullLayout>
-      ) : (
-        <Page404Error/>
-      )}
+     
     </div>
   );
 }
+export default Home;
