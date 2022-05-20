@@ -1,10 +1,4 @@
 import axios from "axios";
-
-let accessToken;
-if (typeof window !== 'undefined') {
- accessToken = localStorage.getItem('user_accessToken')
-} 
-
 const baseDomain = "https://easy-transport-fyp.herokuapp.com";
 
 export const appName = "easy_transport";
@@ -12,17 +6,35 @@ export const appName = "easy_transport";
 export const customHeaders = {
   Accept: "application/json",
   "content-type": "application/json",
-  "Authorization" : `Bearer ${accessToken}`
 };
 
 export const baseUrl = `${baseDomain}`;
 
 const instance = axios.create({
-   baseUrl,
-   headers: customHeaders,
+  baseUrl,
+  headers: customHeaders,
 });
 
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("user_accessToken");
+    config.headers.Authorization = token ? `Bearer ${token}` : "";
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export default instance;
+
+// export const serializeQuery = (query) => {
+//   return Object.keys(query)
+//     .map(
+//       (key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
+//     )
+//     .join("&");
+// };
 
 export const getError = (error) => {
   if (error.response) {

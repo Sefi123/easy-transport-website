@@ -34,13 +34,17 @@ const TransporterVehicles = () => {
     setLoading(false);
   };
 
+  const getRegisteredVehicles =()=>{
+    const payload = {
+      registeredOwner_id: user.id,
+    };
+    setLoading(true);
+    dispatch(getVehicles(payload, handleLoading));
+  }
+
   useEffect(() => {
     if (user !== null) {
-      const payload = {
-        registeredOwner_id: user.id,
-      };
-      setLoading(true);
-      dispatch(getVehicles(payload, handleLoading));
+     getRegisteredVehicles();
     }
 
   }, [user]);
@@ -61,8 +65,8 @@ const TransporterVehicles = () => {
       vehicle_id: vehicleid,
       booking_type:"vehicle",
     }
-    setLoading(true);
     dispatch(makeVehicleAvailable(payload,handleLoading));
+    getRegisteredVehicles();
   }
 
   const handleDelete = (ownerid, vehicleid) => {
@@ -111,7 +115,8 @@ const TransporterVehicles = () => {
                   <span className="sr-only">Loading...</span> </div>
                 <div className="spinner-grow text-danger" role="status">
                   <span className="sr-only">Loading...</span> </div>
-              </div>) : (<div className="row">
+              </div>) : (
+              <div className="row scrollit">
                 {(vehicles.map((vehicle, key) =>
                   <>
                     <div className="col-md-6 col-lg-4">

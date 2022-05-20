@@ -43,17 +43,18 @@ const Drivers = () => {
         return bookingStatus.includes(matchStatus);
       })
       setFilterData(newData);
+      setFilterData1(newData);
      
     }
   }, [driversResult])
 
   const filterDataFunction = () => {
-    const newData1 = driversResult.filter((item) => {
-      const bookingStatus = item.booked.toString().toUpperCase();
-      const matchStatus = searchData.matchStatus.toString().toUpperCase();
-     return bookingStatus.includes(matchStatus);
-   })
-   setFilterData1(newData1);
+  //   const newData1 = driversResult.filter((item) => {
+  //     const bookingStatus = item.booked.toString().toUpperCase();
+  //     const matchStatus = searchData.matchStatus.toString().toUpperCase();
+  //    return bookingStatus.includes(matchStatus);
+  //  })
+  //  setFilterData1(newData1);
 
     const newData = filterData1.filter((item) => {
       const city = item.city.toUpperCase();
@@ -66,7 +67,7 @@ const Drivers = () => {
   }
   return (
     <section className="ftco-section">
-      <div className="container-fluid">
+      <div className="container-fluid customFluid">
         <CardTitle tag="h6" className="p-2 mb-4 container text-center">
           <div className="row justify-content-center">
             <div className="col-md-3 form-group mb-3">
@@ -115,50 +116,51 @@ const Drivers = () => {
             <span className="sr-only">Loading...</span> </div>
           <div className="spinner-grow text-danger" role="status">
             <span className="sr-only">Loading...</span> </div>
-        </div>) : (
-          <div className="row">
-            {(filterData.map((driver, key) =>
-              <>
-                <Link href={{
-                  pathname: "/driver-details",
-                  query: driver,
-                }} passHref>
-                  <div className="col-md-6 col-lg-3">
-                    <Card className="effectCard">
-                      <Image
-                        src={driver.photoUrl}
-                        alt="hero banner"
-                        className="productsIMG"
-                        width={500}
-                        height={500}
-                        layout="responsive"
-                      />
+        </div>) : (filterData.length<=0?(<div className="noData"><h6 className="GradientBorder">No Drivers Available</h6></div>)
+        :( <div className="row">
+        {(filterData.map((driver, key) =>
+          <>
+            <Link href={{
+              pathname: "/driver-details",
+              query: driver,
+            }} passHref>
+              <div className="col-md-6 col-lg-3">
+                <Card className="effectCard">
+                  <Image
+                    src={driver.photoUrl}
+                    alt="hero banner"
+                    className="productsIMG"
+                    width={500}
+                    height={500}
+                    layout="responsive"
+                  />
 
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">City</h6>
-                          <p className="mb-0 text-capitalize text-danger">{driver.city}</p>
-                        </div>
-                        <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Driver Type</h6>
-                          <p className="mb-0 text-capitalize text-danger">{driver.driver_type}</p>
-                        </div>
-                        <div className="d-flex justify-content-between mb-3">
-                        <h6 className="mb-0">Driving Experience</h6>
-                          <p className="mb-0 text-capitalize text-danger">{driver.drive_experience} Years</p>
-                        </div>
-                        <div className="topBorder mb-3"></div>
-                        <div className="d-flex justify-content-between">
-                          <h6 className="mb-0">Per Day Charges</h6>
-                          <h6 className="text-danger mb-0">PKR {driver.perDayPrice}</h6>
-                        </div>
-                      </div>
-                    </Card>
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between mb-3">
+                    <h6 className="mb-0">City</h6>
+                      <p className="mb-0 text-capitalize text-danger">{driver.city}</p>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                    <h6 className="mb-0">Driver Type</h6>
+                      <p className="mb-0 text-capitalize text-danger">{driver.driver_type}</p>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                    <h6 className="mb-0">Driving Experience</h6>
+                      <p className="mb-0 text-capitalize text-danger">{driver.drive_experience} Years</p>
+                    </div>
+                    <div className="topBorder mb-3"></div>
+                    <div className="d-flex justify-content-between">
+                      <h6 className="mb-0">Per Day Charges</h6>
+                      <h6 className="text-danger mb-0">PKR {driver.perDayPrice}</h6>
+                    </div>
                   </div>
-                </Link>
-              </>
-            ))}
-          </div>
+                </Card>
+              </div>
+            </Link>
+          </>
+        ))}
+      </div>)
+         
         )}
       </div>
     </section>

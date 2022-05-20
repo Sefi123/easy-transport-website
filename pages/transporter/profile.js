@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 import FullLayout from "../../components/TransporterDashboard/components/Layout/FullLayout";
 import user1 from "../../components/TransporterDashboard/images/users/user1.jpg";
-import { useDeprecatedAnimatedState } from "framer-motion";
 
 function Profile() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
@@ -185,7 +184,7 @@ function Profile() {
                       type="password"
                       className="form-control"
                       placeholder="Confirm Password"
-                      value={data.confirmpassword}
+                      value={confPass}
                       onChange={(e) =>
                         setConfPass(e.target.value)
                       }
@@ -222,7 +221,8 @@ function Profile() {
                       height={300}
                       width={300}
                       className="rounded-circle"
-                    />):(<></>)}
+                    />
+                    ):(<></>)}
                   
                   </div>
                 </div>

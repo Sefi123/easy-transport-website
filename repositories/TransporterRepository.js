@@ -2,7 +2,7 @@ import Repository, {baseUrl, getError} from "./genericRepository";
 
 const routes = {
     registerVehicle: "/v1/vehicle/register",
-    getVehicles:"/v1/vehicle/get_vehicles_by_id",
+    getVehicles:"/v1/vehicle/get_vehicles_by_id?limit=100",
     getBookings:"/v1/users/get_vehicle_request",
     deleteVehicle:"/v1/vehicle/delete_vehicle?limit=1000",
     updateStatus:"/v1/vehicle/post_accept_booking",

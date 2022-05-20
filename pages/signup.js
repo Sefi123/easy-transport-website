@@ -120,6 +120,37 @@ const Signup = () => {
     }
   };
 
+  const CNICValidation = () =>{
+    if(!/^[0-9]+$/.test(data.cnic) || (data.cnic.length<13 || data.cnic.length>13))
+    {return(
+      <div className="password-match">Please Enter Correct CNIC Number</div>
+    )
+    } else{
+      return <></>
+    }
+  }
+  const AgeValidation=()=>{
+    if(data.age<18){
+      return <div className="password-match">Age should not less than 18</div>;
+    } else {
+      return <div></div>;
+    }
+  }
+  const ExpValidation=()=>{
+    if(data.drivingExperience<0){
+      return <div className="password-match">Experience should not less than 0</div>;
+    } else {
+      return <div></div>;
+    }
+  }
+  const ChargesValidation=()=>{
+    if(data.perDayCharges<0){
+      return <div className="password-match">Charges should not less than 0</div>;
+    } else {
+      return <div></div>;
+    }
+  }
+
   const PasswordMatch = () => {
     if (data.password != data.confirmpassword) {
       return <div className="password-match">Password not Matched</div>;
@@ -296,6 +327,7 @@ const Signup = () => {
                               onChange={(e) => handleData("cnic", e.target.value)}
                               required
                             />
+                            {!data.cnic?(<></>):(<CNICValidation/>)}
                           </div>
                         </div>
                       ) : (
@@ -314,6 +346,7 @@ const Signup = () => {
                                   }
                                   required
                                 />
+                                {!data.age?(<></>):(<AgeValidation/>)}
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">CNIC Number</label>
@@ -327,6 +360,7 @@ const Signup = () => {
                                   }
                                   required
                                 />
+                                {!data.cnic?(<></>):(<CNICValidation/>)}
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">
@@ -359,7 +393,7 @@ const Signup = () => {
                               <div className="form-group mb-3">
                                 <label className="label">Per Day Charges</label>
                                 <input
-                                  type="text"
+                                  type="number"
                                   className="form-control"
                                   placeholder="Per Day Charges "
                                   value={data.perDayCharges}
@@ -368,6 +402,7 @@ const Signup = () => {
                                   }
                                   required
                                 />
+                                 {!data.perDayCharges?(<></>):(<ChargesValidation/>)}
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">Driving Experience</label>
@@ -381,6 +416,7 @@ const Signup = () => {
                                   }
                                   required
                                 />
+                                 {!data.drivingExperience?(<></>):(<ExpValidation/>)}
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">Select Driver Type</label>

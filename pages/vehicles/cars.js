@@ -43,17 +43,18 @@ const Cars = () => {
       return bookingStatus.includes(matchStatus);
     })
     setFilterData(newData);
+    setFilterData1(newData);
   }
 }, [userCars])
 
   const filterDataFunction = () => {
 
-      const newData1 = userCars.filter((item) => {
-         const bookingStatus = item.booked.toString().toUpperCase();
-         const matchStatus = searchData.matchStatus.toString().toUpperCase();
-        return bookingStatus.includes(matchStatus);
-      })
-      setFilterData1(newData1);
+      // const newData1 = userCars.filter((item) => {
+      //    const bookingStatus = item.booked.toString().toUpperCase();
+      //    const matchStatus = searchData.matchStatus.toString().toUpperCase();
+      //   return bookingStatus.includes(matchStatus);
+      // })
+      // setFilterData1(newData1);
       
     const newData = filterData1.filter((item) => {
       const city = item.fromCity.toUpperCase();
@@ -67,7 +68,7 @@ const Cars = () => {
 
   return (
     <section className="ftco-section">
-      <div className="container-fluid">
+      <div className="container-fluid customFluid">
         <CardTitle tag="h6" className="p-2 mb-5 container text-center">
           <div className="row justify-content-center">
             <div className="col-md-3 form-group mb-3">

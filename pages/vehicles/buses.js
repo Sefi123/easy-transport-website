@@ -13,9 +13,11 @@ const Buses = () => {
   const userBuses = useSelector(({ vehicles }) => vehicles.userBuses);
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData] = useState([]);
+  const [filterData1, setFilterData1] = useState([]);
   const [searchData, setSearchData] = useState({
     city: "Lahore",
     transmission: "Auto",
+    matchStatus:false,
   })
   const handleLoading = () => {
     setLoading(false);
@@ -35,23 +37,38 @@ const Buses = () => {
   }, [])
 
   useEffect(() => {
-    setFilterData(userBuses);
+    if(userBuses!=null){
+      const newData = userBuses.filter((item) => {
+         const bookingStatus = item.booked.toString().toUpperCase();
+         const matchStatus = searchData.matchStatus.toString().toUpperCase();
+        return bookingStatus.includes(matchStatus);
+      })
+      setFilterData(newData);
+      setFilterData1(newData);
+    }
   }, [userBuses])
 
   const filterDataFunction = () => {
-    const newData = userBuses.filter((item) => {
-      const city = item.fromCity.toUpperCase();
-      const transmission = item.transmission.toUpperCase();
-      const matchCity = searchData.city.toUpperCase();
-      const matchTransmission = searchData.transmission.toUpperCase();
-      return city.includes(matchCity) && transmission.includes(matchTransmission);
-    })
-    setFilterData(newData);
+    // const newData1 = userCars.filter((item) => {
+      //    const bookingStatus = item.booked.toString().toUpperCase();
+      //    const matchStatus = searchData.matchStatus.toString().toUpperCase();
+      //   return bookingStatus.includes(matchStatus);
+      // })
+      // setFilterData1(newData1);
+      
+      const newData = filterData1.filter((item) => {
+        const city = item.fromCity.toUpperCase();
+        const transmission = item.transmission.toUpperCase();
+        const matchCity = searchData.city.toUpperCase();
+        const matchTransmission = searchData.transmission.toUpperCase();
+        return city.includes(matchCity) && transmission.includes(matchTransmission);
+      })
+      setFilterData(newData);
   }
 
   return (
     <section className="ftco-section">
-      <div className="container-fluid">
+      <div className="container-fluid customFluid">
         <CardTitle tag="h6" className="p-2 mb-5 container text-center">
           <div className="row justify-content-center">
             <div className="col-md-3 form-group mb-3">
@@ -97,62 +114,64 @@ const Buses = () => {
             <span className="sr-only">Loading...</span> </div>
           <div className="spinner-grow text-danger" role="status">
             <span className="sr-only">Loading...</span> </div>
-        </div>) : (
-          <div className="row">
+        </div>) : (filterData.length<=0?(<div className="noData"><h6 className="GradientBorder">No Vehicles Available</h6></div>)
+        :(<div className="row">
 
-            {filterData !== null ? (filterData.map((bus, key) =>
-              <>
-                <Link href={{
-                  pathname: "/vehicles/vehicledetails",
-                  query: bus,
-                }}
-                  passHref>
-                  <div className="col-md-6 col-lg-3">
-                    <Card className="effectCard">
-                      <Image
-                        src={bus.photoUrl}
-                        alt="Bus Image"
-                        className="productsIMG"
-                        width={500}
-                        height={250}
-                        layout="responsive"
+        {filterData !== null ? (filterData.map((bus, key) =>
+          <>
+            <Link href={{
+              pathname: "/vehicles/vehicledetails",
+              query: bus,
+            }}
+              passHref>
+              <div className="col-md-6 col-lg-3">
+                <Card className="effectCard">
+                  <Image
+                    src={bus.photoUrl}
+                    alt="Bus Image"
+                    className="productsIMG"
+                    width={500}
+                    height={250}
+                    layout="responsive"
 
-                      />
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between mb-3">
-                          <h6 className="mb-0">Vehicle Name</h6>
-                          <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
-                        </div>
-                        <div className="d-flex justify-content-between mb-3">
-                          <h6 className="mb-0">Color</h6>
-                          <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
-                        </div>
-                        <div className="d-flex justify-content-between mb-3">
-                          <h6 className="mb-0">Model Year</h6>
-                          <p className="text-muted mb-0">{bus.modelYear}</p>
-                        </div>
-                        <div className="d-flex justify-content-between mb-3">
-                          <h6 className="mb-0">Transmission</h6>
-                          <p className="text-muted mb-0">{bus.transmission}</p>
-                        </div>
-                        <div className="d-flex justify-content-between mb-3">
-                          <h6 className="mb-0">City</h6>
-                          <p className="text-muted mb-0">{bus.fromCity}</p>
-                        </div>
-                        <div className="topBorder mb-3"></div>
-                        <div className="d-flex justify-content-between">
-                          <h6 className="mb-0">Per Day Charges</h6>
-                          <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
-                        </div>
-                      </div>
-                    </Card>
+                  />
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between mb-3">
+                      <h6 className="mb-0">Vehicle Name</h6>
+                      <p className="mb-0 text-muted text-capitalize">{bus.name}</p>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                      <h6 className="mb-0">Color</h6>
+                      <p className="text-muted mb-0 text-capitalize">{bus.color}</p>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                      <h6 className="mb-0">Model Year</h6>
+                      <p className="text-muted mb-0">{bus.modelYear}</p>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                      <h6 className="mb-0">Transmission</h6>
+                      <p className="text-muted mb-0">{bus.transmission}</p>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                      <h6 className="mb-0">City</h6>
+                      <p className="text-muted mb-0">{bus.fromCity}</p>
+                    </div>
+                    <div className="topBorder mb-3"></div>
+                    <div className="d-flex justify-content-between">
+                      <h6 className="mb-0">Per Day Charges</h6>
+                      <h6 className="text-muted mb-0">PKR {bus.perDayPrice}</h6>
+                    </div>
                   </div>
-                </Link>
+                </Card>
+              </div>
+            </Link>
 
-              </>
-            )) : <></>}
+          </>
+        )) : <></>}
 
-          </div>)}
+      </div>)
+          
+          )}
 
       </div>
     </section>

@@ -444,5 +444,11 @@ a {
   color: #000;
 }
 
+@media (min-width: 1100px) {
+  .customFluid{
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+ }
 
 

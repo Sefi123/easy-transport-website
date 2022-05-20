@@ -22,13 +22,17 @@ const Home = () => {
     setLoading(false);
   };
 
+  const getTransporterBookings =()=>{
+    const payload = {
+      registeredOwner_id: user.id,
+    };
+    setLoading(true);
+    dispatch(transporterBookings(payload, handleLoading));
+  }
+
   useEffect(() => {
     if (user !== null) {
-      const payload = {
-        registeredOwner_id: user.id,
-      };
-      setLoading(true);
-      dispatch(transporterBookings(payload, handleLoading));
+      getTransporterBookings();
     }
   }, [user]);
 
@@ -55,9 +59,8 @@ const Home = () => {
       registeredOwner_id: ownerid,
       booking_type: type,
     }
-    setLoading(true);
     dispatch(updateBookingStatus(payload, handleLoading));
-    
+    getTransporterBookings();
   }
  
   return (

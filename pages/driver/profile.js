@@ -15,6 +15,7 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const token = useSelector(({ auth }) => auth.token);
   const [data, setData] = useState({});
+  const [confPass, setConfPass]=useState("");
 
   useEffect(() => {
     if (user !== null) {
@@ -37,7 +38,7 @@ function Profile() {
     const payload = {
       name: data.name,
       email: data.email,
-      phone_no: data.phone,
+      phone_no: data.phone_no,
       age: data.age,
       perDayPrice: data.perDayPrice,
       address: data.address,
@@ -68,6 +69,25 @@ function Profile() {
     }
     dispatch(makeDriverAvailable(payload,handleLoading));
   }
+
+  const PhoneValidation = () => {
+    const phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
+    if (data.phone_no.match(phoneNo)) {
+      return <div></div>;
+    } else {
+      return (
+        <div className="password-match">Please Enter Correct Phone Number</div>
+      );
+    }
+  };
+
+  const PasswordMatch = () => {
+    if (data.password !== confPass) {
+      return <div className="password-match ms-3">Password not Matched</div>;
+    } else {
+      return <div></div>;
+    }
+  };
 
   return (
     <div>
@@ -117,6 +137,7 @@ function Profile() {
                         onChange={(e) => handleData("phone", e.target.value)}
                         required
                       />
+                       {!data.phone_no ? <></> : <PhoneValidation />}
                     </div>
                     <div className="col-md-6 form-group mb-3">
                       <label className="label">Address</label>
@@ -251,12 +272,13 @@ function Profile() {
                         type="password"
                         className="form-control"
                         placeholder="Confirm Password"
-                        value={data.confirmpassword}
+                        value={confPass}
                         onChange={(e) =>
                           handleData("confirmpassword", e.target.value)
                         }
                         required
                       />
+                      {!confPass ? <></> : <PasswordMatch />}
                     </div>
 
                     <div className="col-md-6 form-group mb-3 form-group vehicleButton">

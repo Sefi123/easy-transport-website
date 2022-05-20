@@ -16,25 +16,25 @@ export default function Home() {
   const driverBookings = useSelector(({ drivers }) => drivers.driverBookings);
   const router = useRouter()
   const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded]=useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [bookings, setBookings] = useState([]);
-  const [accepted, setAccepted]=useState(false);
+  const [accepted, setAccepted] = useState(false);
   const handleLoading = () => {
     setLoading(false);
   };
 
 
-const getBookings =()=>{
-  const payload = {
-    registeredOwner_id: user.id,
-  };
-  setLoading(true);
-  dispatch(getDriverBookings(payload, handleLoading));
-}
+  const getBookings = () => {
+    const payload = {
+      registeredOwner_id: user.id,
+    };
+    setLoading(true);
+    dispatch(getDriverBookings(payload, handleLoading));
+  }
 
   useEffect(() => {
     if (user !== null) {
-     getBookings();
+      getBookings();
     }
   }, [user]);
 
@@ -42,21 +42,21 @@ const getBookings =()=>{
     if (driverBookings !== null) {
       setBookings(driverBookings);
     }
-    if (isLoggedIn||!isLoggedIn) {
+    if (isLoggedIn || !isLoggedIn) {
       setLoaded(true);
     }
-  }, [driverBookings,isLoggedIn]);
+  }, [driverBookings, isLoggedIn]);
 
-  useEffect(()=>{
-    if(loaded){
-    if(!isLoggedIn){
-      router.push("/login")
+  useEffect(() => {
+    if (loaded) {
+      if (!isLoggedIn) {
+        router.push("/login")
+      }
     }
-  }
-  },[isLoggedIn,loaded]);
+  }, [isLoggedIn, loaded]);
 
-  const handleAccept=(ownerid,type)=>{
-    const payload={
+  const handleAccept = (ownerid, type) => {
+    const payload = {
       registeredOwner_id: ownerid,
       booking_type: type,
     }
@@ -129,37 +129,37 @@ const getBookings =()=>{
                             </td>
 
                             <td>
-                            <div className="ms-0">
-                                   {!booking.accepted?(
-                                     <> 
-                                   <div>
-                                     <button
-                                       type="button"
-                                       className="btn-success tableButton"
-                                      onClick={()=> handleAccept(booking.registeredOwner_id,booking.booking_type)}
-                                     >
-                                       Accept
-                                     </button>
-                                   </div>
-                                   <div className="mt-3">
-                                     <button
-                                       type="button"
-                                       className="btn-danger tableButton"
-                                     >
-                                       Reject
-                                     </button>
-                                   </div>
-                                   </>):( 
-                                     <>
-                                     <button
-                                       type="button"
-                                       className="btn-success acceptedButton"
-                                       disabled
-                                     >
-                                       Booking Accepted
-                                     </button>
-                                     </>)}
-                                 </div>
+                              <div className="ms-0">
+                                {!booking.accepted ? (
+                                  <>
+                                    <div>
+                                      <button
+                                        type="button"
+                                        className="btn-success tableButton"
+                                        onClick={() => handleAccept(booking.registeredOwner_id, booking.booking_type)}
+                                      >
+                                        Accept
+                                      </button>
+                                    </div>
+                                    <div className="mt-3">
+                                      <button
+                                        type="button"
+                                        className="btn-danger tableButton"
+                                      >
+                                        Reject
+                                      </button>
+                                    </div>
+                                  </>) : (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn-success acceptedButton"
+                                      disabled
+                                    >
+                                      Booking Accepted
+                                    </button>
+                                  </>)}
+                              </div>
                             </td>
                           </tr>
                         ))}

@@ -1,7 +1,7 @@
 import Repository, {baseUrl, getError} from "./genericRepository";
 
 const routes = {
-    getDrivers:"/v1/users/drivers",
+    getDrivers:"/v1/users/drivers?limit=100",
     driverBooking:"/v1/users/vehicle_request",
     getBookings:"/v1/users/get_vehicle_request",
     updatedriverStatus:"/v1/vehicle/post_accept_booking",
