@@ -59,3 +59,7 @@ export function getUserCars(payload, callback) {
     
     return { type: vehicleActionTypes.GET_USER_VEHICLE_BOOKINGS_SUCCESS, result };
   }
+  export function cancelVehicleBooking(payload, callback) {
+  
+    return { type: vehicleActionTypes.CANCEL_VEHICLE_BOOKING, payload, callback };
+  }

@@ -5,8 +5,8 @@ import Image from "next/image";
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
-import { getDriverBookings } from "../../redux/drivers/driver.actions";
-import { updateDriverStatus } from "../../redux/drivers/driver.actions";
+import { getDriverBookings, releaseDriver } from "../../redux/drivers/driver.actions";
+import { updateDriverStatus, rejectDriverBooking } from "../../redux/drivers/driver.actions";
 import Page404Error from "../error/404page";
 
 export default function Home() {
@@ -61,7 +61,29 @@ export default function Home() {
       booking_type: type,
     }
     dispatch(updateDriverStatus(payload, handleLoading));
-    getBookings();
+    setTimeout(() => {
+      getBookings();
+    }, 1000);
+  }
+  const handleReject=(ownerid,type)=>{
+    const payload={
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    dispatch(rejectDriverBooking(payload, handleLoading));
+    setTimeout(() => {
+      getBookings();
+    }, 1000);
+  }
+  const handleRelease=(ownerid,type)=>{
+    const payload={
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    dispatch(releaseDriver(payload, handleLoading));
+    setTimeout(() => {
+      getBookings();
+    }, 1000);
   }
 
   return (
@@ -145,20 +167,40 @@ export default function Home() {
                                       <button
                                         type="button"
                                         className="btn-danger tableButton"
+                                        onClick={() => handleReject(booking.registeredOwner_id, booking.booking_type)}
                                       >
                                         Reject
                                       </button>
                                     </div>
                                   </>) : (
-                                  <>
-                                    <button
-                                      type="button"
-                                      className="btn-success acceptedButton"
-                                      disabled
-                                    >
-                                      Booking Accepted
-                                    </button>
-                                  </>)}
+                                   <>
+                                   <div>
+                                   <button
+                                     type="button"
+                                     className="btn-success acceptedButton"
+                                     disabled
+                                   >
+                                     Booking Accepted
+                                   </button>
+                                   </div>
+                                   {!booking.is_Released?( <div className="mt-3">
+                                   <button
+                                     type="button"
+                                     className="btn-primary acceptedButton"
+                                     onClick={()=> handleRelease(booking.registeredOwner_id,booking.booking_type)}
+                                   >
+                                     Release Driver
+                                   </button>
+                                   </div>):( <div className="mt-3">
+                                   <button
+                                     type="button"
+                                     className="btn-success acceptedButton"
+                                    disabled
+                                   >
+                                     Driver Released
+                                   </button>
+                                   </div>)}
+                                   </>)}
                               </div>
                             </td>
                           </tr>

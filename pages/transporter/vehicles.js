@@ -66,7 +66,9 @@ const TransporterVehicles = () => {
       booking_type:"vehicle",
     }
     dispatch(makeVehicleAvailable(payload,handleLoading));
-    getRegisteredVehicles();
+    setTimeout(() => {
+      getRegisteredVehicles();
+    }, 1000);
   }
 
   const handleDelete = (ownerid, vehicleid) => {
@@ -74,10 +76,12 @@ const TransporterVehicles = () => {
       registeredOwner_id: ownerid,
       vehicle_id: vehicleid,
     };
-    setLoading(true);
     dispatch(deleteVehicle(payload, handleLoading));
-    const newData = vehicles.filter((item) => item.id !== vehicleid);
-    setVehicles(newData);
+    // const newData = vehicles.filter((item) => item.id !== vehicleid);
+    // setVehicles(newData);
+    setTimeout(() => {
+      getRegisteredVehicles();
+    }, 1000);
   }
   useEffect(()=>{
     if(loaded){

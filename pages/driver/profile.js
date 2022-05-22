@@ -312,19 +312,19 @@ function Profile() {
                       />):(<></>)}
                     </div>
                   </div>
-                  <div className="text-center">
-                    <h3 className="text-danger">{data.name}</h3>
+                  {user!=null?( <div className="text-center">
+                    <h3 className="text-danger">{user.name}</h3>
                     <div className="d-flex row">
-                      <h5 className="text-muted">{data.email}</h5>
+                      <h5 className="text-muted">{user.email}</h5>
                     </div>
                     <div>
-                      <h6 className="text-muted"> {data.phone_no}</h6>
+                      <h6 className="text-muted"> {user.phone_no}</h6>
                     </div>
                     <div className="d-flex justify-content-center mb-3">
                       <h6 className="mb-0 text-muted">Driver Status:</h6>
-                      <p className="text-muted mb-0 ms-2">{!data.booked ? (<h6>Available</h6>) : (<h6 className="mb-2 text-danger cursor-pointer  " onClick={() => makeAvailable()}>Make Available</h6>)}</p>
+                      <p className="text-muted mb-0 ms-2">{!user.booked ? (<h6>Available</h6>) : (<h6 className="mb-2 text-danger cursor-pointer  " onClick={() => makeAvailable()}>Make Available</h6>)}</p>
                     </div>
-                  </div>
+                  </div>):(<></>)}
                 </CardBody>
               </Card>
             </div>

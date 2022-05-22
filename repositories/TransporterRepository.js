@@ -3,10 +3,12 @@ import Repository, {baseUrl, getError} from "./genericRepository";
 const routes = {
     registerVehicle: "/v1/vehicle/register",
     getVehicles:"/v1/vehicle/get_vehicles_by_id?limit=100",
-    getBookings:"/v1/users/get_vehicle_request",
+    getBookings:"/v1/users/get_vehicle_request?limit=100",
     deleteVehicle:"/v1/vehicle/delete_vehicle?limit=1000",
     updateStatus:"/v1/vehicle/post_accept_booking",
     makeVehicleAvailable:"/v1/vehicle/make_vehicle_available",
+    rejectBooking:"/v1/vehicle/reject_Request",
+    releaseVehicle:"/v1/vehicle/vehicle_release",
   };
 
   class TransporterRepository {
@@ -90,6 +92,34 @@ const routes = {
       try {
         const request = await Repository.post(
           `${baseUrl}${routes.makeVehicleAvailable}`,
+          payload
+        );
+        const {data} = request;
+        return {
+          results: data.results,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
+    }
+    async rejectVehicleBooking(payload) {
+      try {
+        const request = await Repository.post(
+          `${baseUrl}${routes.rejectBooking}`,
+          payload
+        );
+        const {data} = request;
+        return {
+          results: data.results,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
+    }
+    async releaseVehicle(payload) {
+      try {
+        const request = await Repository.post(
+          `${baseUrl}${routes.releaseVehicle}`,
           payload
         );
         const {data} = request;

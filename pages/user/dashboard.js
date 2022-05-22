@@ -6,7 +6,8 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../redux/vehicles/vehicles.actions";
-import { getUserVehicleBookings } from "../../redux/vehicles/vehicles.actions";
+import { getUserVehicleBookings, cancelVehicleBooking } from "../../redux/vehicles/vehicles.actions";
+import { cancelDriverBooking } from "../../redux/drivers/driver.actions";
 import Page404Error from "../error/404page";
 
 export default function Home() {
@@ -23,19 +24,27 @@ export default function Home() {
   const handleLoading = () => {
     setLoading(false);
   };
+
+  const getVehicleBookings =()=>{
+    const vehiclePayload = {
+      user_id: user.id,
+      booking_type: "vehicle",
+    };
+    setLoading(true);
+    dispatch(getUserVehicleBookings(vehiclePayload, handleLoading));
+  }
+  const getDriverBookings =()=>{
+    const payload = {
+      user_id: user.id,
+      booking_type: "driver",
+    };
+    setLoading(true);
+    dispatch(getUserBookings(payload, handleLoading));
+  }
   useEffect(() => {
     if (user !== null) {
-      const payload = {
-        user_id: user.id,
-        booking_type: "driver",
-      };
-      const vehiclePayload = {
-        user_id: user.id,
-        booking_type: "vehicle",
-      };
-      setLoading(true);
-      dispatch(getUserBookings(payload, handleLoading));
-      dispatch(getUserVehicleBookings(vehiclePayload, handleLoading));
+    getVehicleBookings();
+    getDriverBookings();
     }
   }, [user]);
 
@@ -59,6 +68,28 @@ export default function Home() {
     }
   }
   },[isLoggedIn,loaded]);
+
+  const handleVehicleCancel=(vehicleid,ownerid,type)=>{
+    const payload={
+      vehicle_id: vehicleid,
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    dispatch(cancelVehicleBooking(payload, handleLoading));
+    setTimeout(() => {
+      getVehicleBookings();
+    }, 1000);
+  }
+  const handleDriverCancel=(ownerid,type)=>{
+    const payload={
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    dispatch(cancelDriverBooking(payload, handleLoading));
+    setTimeout(() => {
+      getDriverBookings();
+    }, 1000);
+  }
 
   return (
     <div>
@@ -84,7 +115,7 @@ export default function Home() {
                             <th>Customer Details</th>
                             <th>Vehicle Details</th>
                             <th>Booking Details</th>
-                            <th>Cancel Booking</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
 
@@ -129,15 +160,38 @@ export default function Home() {
                                    <button
                                   type="button"
                                   className="btn-danger tableButton"
+                                  onClick={()=> handleVehicleCancel(vBooking.vehicle_id,vBooking.registeredOwner_id,vBooking.booking_type)}
                                 >
                                   Cancel
-                                </button> ):(<button
+                                </button> ):(
+                                <>
+                                <div>
+                                <button
                                   type="button"
                                   className="btn-success acceptedButton"
                                   disabled
                                 >
                                   Booking Accepted
-                                </button>)}
+                                </button>
+                                </div>
+                                {!vBooking.is_Released?( <div className="mt-3">
+                                <button
+                                  type="button"
+                                  className="btn-primary acceptedButton"
+                                 disabled
+                                >
+                                  Vehicle Pending
+                                </button>
+                                </div>):( <div className="mt-3">
+                                <button
+                                  type="button"
+                                  className="btn-success acceptedButton"
+                                 disabled
+                                >
+                                  Vehicle Released
+                                </button>
+                                </div>)}
+                                </>)}
                                 
                               </td>
                             </tr>
@@ -215,15 +269,39 @@ export default function Home() {
                                    <button
                                   type="button"
                                   className="btn-danger tableButton"
+                                  onClick={()=> handleDriverCancel(dBooking.registeredOwner_id,dBooking.booking_type)}
                                 >
                                   Cancel
-                                </button> ):(<button
-                                  type="button"
-                                  className="btn-success acceptedButton"
-                                  disabled
-                                >
-                                  Booking Accepted
-                                </button>)}
+                                </button> ):(
+                                  <>
+                                  <div>
+                                  <button
+                                    type="button"
+                                    className="btn-success acceptedButton"
+                                    disabled
+                                  >
+                                    Booking Accepted
+                                  </button>
+                                  </div>
+                                  {!dBooking.is_Released?( <div className="mt-3">
+                                  <button
+                                    type="button"
+                                    className="btn-primary acceptedButton"
+                                   disabled
+                                  >
+                                    Driver Pending
+                                  </button>
+                                  </div>):( <div className="mt-3">
+                                  <button
+                                    type="button"
+                                    className="btn-success acceptedButton"
+                                   disabled
+                                  >
+                                    Driver Released
+                                  </button>
+                                  </div>)}
+                                  </>
+                                )}
                             </td>
                           </tr>
                         ))}

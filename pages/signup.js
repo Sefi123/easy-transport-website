@@ -21,6 +21,12 @@ const Signup = () => {
   const dispatch = useDispatch();
   const router=useRouter();
   const [imgName, setimgName] = useState("");
+  const [passMatch, setPassMatch]=useState(true);
+  const [validPhone, setValidPhone]=useState(true);
+  const [validCnic, setValidCnic]=useState(true);
+  const [validAge, setValidAge]=useState(true);
+  const [validCharges, setValidCharges]=useState(true);
+  const [validExp, setValidExp]=useState(true);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -110,10 +116,12 @@ const Signup = () => {
   };
 
   const PhoneValidation = () => {
-    const phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
+    let phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
     if (data.phone.match(phoneNo)) {
+      setValidPhone(true);
       return <div></div>;
     } else {
+      setValidPhone(false);
       return (
         <div className="password-match">Please Enter Correct Phone Number</div>
       );
@@ -122,40 +130,53 @@ const Signup = () => {
 
   const CNICValidation = () =>{
     if(!/^[0-9]+$/.test(data.cnic) || (data.cnic.length<13 || data.cnic.length>13))
-    {return(
+    {
+      setValidCnic(false);
+      return(
       <div className="password-match">Please Enter Correct CNIC Number</div>
     )
     } else{
+      setValidCnic(true);
       return <></>
     }
   }
   const AgeValidation=()=>{
     if(data.age<18){
+      setValidAge(false);
       return <div className="password-match">Age should not less than 18</div>;
     } else {
+      setValidAge(true);
       return <div></div>;
     }
   }
   const ExpValidation=()=>{
     if(data.drivingExperience<0){
+      setValidExp(false);
       return <div className="password-match">Experience should not less than 0</div>;
     } else {
+      setValidExp(true);
       return <div></div>;
     }
   }
   const ChargesValidation=()=>{
     if(data.perDayCharges<0){
+      setValidCharges(false);
       return <div className="password-match">Charges should not less than 0</div>;
     } else {
+      setValidCharges(true);
       return <div></div>;
     }
   }
 
   const PasswordMatch = () => {
     if (data.password != data.confirmpassword) {
+      setPassMatch(false);
       return <div className="password-match">Password not Matched</div>;
+      
     } else {
+      setPassMatch(true);
       return <div></div>;
+      
     }
   };
 
@@ -184,6 +205,14 @@ const Signup = () => {
     // e.preventDefault()
     router.push("/dashboard")
   }
+
+  const disablePastDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+};
 
   return (
     <div>
@@ -384,6 +413,7 @@ const Signup = () => {
                                   className="form-control"
                                   placeholder="dd-mm-yyyy"
                                   value={data.licenseExpiry}
+                                  min={disablePastDate()}
                                   onChange={(e) =>
                                     handleData("licenseExpiry", e.target.value)
                                   }
@@ -477,11 +507,18 @@ const Signup = () => {
                           onDrop(acceptedFiles, rejectedFiles, "Image")
                         }
                       />
+                      {!passMatch || (!validExp&&data.drivingExperience!="") || (!validAge&&data.age!="") || (!validCharges&&data.perDayCharges!="") || (!validPhone && data.phone!="") ||(!validCnic&&data.cnic!="")
+                      ?( 
                       <div className="form-group">
+                        <button type="submit" disabled className="signin-btn">
+                          Sign Up
+                        </button>
+                      </div>):( <div className="form-group">
                         <button type="submit" className="signin-btn">
                           Sign Up
                         </button>
-                      </div>
+                      </div>)}
+                     
                     </form>)}
 
                   </div>

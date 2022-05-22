@@ -226,15 +226,16 @@ function Profile() {
                   
                   </div>
                 </div>
-                <div className="text-center">
-                  <h3 className="text-danger">{data.name}</h3>
+                {user!=null?(<div className="text-center">
+                  <h3 className="text-danger">{user.name}</h3>
                   <div className="d-flex row">
-                    <h5 className="text-muted"> {data.email}</h5>
+                    <h5 className="text-muted"> {user.email}</h5>
                   </div>
                   <div>
-                    <h6 className="text-muted"> {data.phone_no}</h6>
+                    <h6 className="text-muted"> {user.phone_no}</h6>
                   </div>
-                </div>
+                </div>):(<></>)}
+                
               </CardBody>
             </Card>
           </div>

@@ -27,3 +27,15 @@ import driverActionTypes from "./driver.types";
   
     return { type: driverActionTypes.MAKE_DRIVER_AVAILABLE, payload, callback };
   }
+  export function rejectDriverBooking(payload, callback) {
+  
+    return { type: driverActionTypes.REJECT_DRIVER_BOOKING, payload, callback };
+  }
+  export function cancelDriverBooking(payload, callback) {
+  
+    return { type: driverActionTypes.CANCEL_DRIVER_BOOKING, payload, callback };
+  }
+  export function releaseDriver(payload, callback) {
+  
+    return { type: driverActionTypes.RELEASE_DRIVER, payload, callback };
+  }

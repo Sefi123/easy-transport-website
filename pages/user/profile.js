@@ -119,7 +119,7 @@ function Profile() {
                       className="form-control"
                       placeholder="Phone Number"
                       value={data.phone_no}
-                      onChange={(e) => handleData("phone", e.target.value)}
+                      onChange={(e) => handleData("phone_no", e.target.value)}
                       required
                     />
                     {!data.phone_no ? <></> : <PhoneValidation />}
@@ -155,7 +155,7 @@ function Profile() {
                       placeholder="Confirm Password"
                       value={confPass}
                       onChange={(e) =>
-                        handleData("confirmpassword", e.target.value)
+                        setConfPass(e.target.value)
                       }
                       required
                     />
@@ -195,15 +195,16 @@ function Profile() {
                     ):(<></>)}
                   </div>
                 </div>
-                <div className="text-center">
-                  <h3 className="text-danger">{data.name}</h3>
+                {user!=null?(<div className="text-center">
+                  <h3 className="text-danger">{user.name}</h3>
                   <div className="d-flex row">
                     <h5 className="text-muted"> {data.email}</h5>
                   </div>
                   <div>
                     <h6 className="text-muted"> {data.phone_no}</h6>
                   </div>
-                </div>
+                </div>):(<></>)}
+                
               </CardBody>
             </Card>
           </div>

@@ -16,6 +16,8 @@ const VehicleAddForm = () => {
   const dispatch = useDispatch();
   const user = useSelector(({ auth }) => auth.user);
   const [imgName, setimgName] = useState("");
+  const [validCharges, setValidCharges]=useState(true);
+  const [validCapacity, setValidCapacity]=useState(true);
   const [data, setData] = useState({
     vehicleName: "",
     numberPlate: "",
@@ -105,6 +107,25 @@ const VehicleAddForm = () => {
       });
     }
   };
+
+  const ChargesValidation=()=>{
+    if(data.charges<0){
+      setValidCharges(false);
+      return <div className="password-match">Charges should not less than 0</div>;
+    } else {
+      setValidCharges(true);
+      return <div></div>;
+    }
+  }
+  const CapacityValidation=()=>{
+    if(data.luggageCapacity<1){
+      setValidCapacity(false);
+      return <div className="password-match">Luggage Capacity should not less than 1</div>;
+    } else {
+      setValidCapacity(true);
+      return <div></div>;
+    }
+  }
 
   return (
     <div className="container">
@@ -208,6 +229,7 @@ const VehicleAddForm = () => {
                     }
                     required
                   />
+                  {!data.luggageCapacity?(<></>):(<CapacityValidation/>)}
                 </div>
                 <div className="col-md-4 form-group mb-3">
                   <label className="label">Select From City</label>
@@ -251,6 +273,7 @@ const VehicleAddForm = () => {
                     onChange={(e) => handleData("charges", e.target.value)}
                     required
                   />
+                   {!data.charges?(<></>):(<ChargesValidation/>)}
                 </div>
                 <div className="col-md-4 form-group mb-3">
                   <label className="label">Vehicle Picture</label>
@@ -265,9 +288,12 @@ const VehicleAddForm = () => {
                   />
                 </div>
                 <div className="col-md-4 mb-3 vehicleButton ">
-                  <button type="submit" className="signin-btn">
+                {(!validCharges&&data.charges!="") || (!validCapacity&&data.luggageCapacity!="")
+                  ?( <button type="submit" disabled className="signin-btn">
+                  Register Vehicle
+                </button>):( <button type="submit" className="signin-btn">
                     Register Vehicle
-                  </button>
+                  </button>)}
                 </div>
               </div>
             ) : (
@@ -298,6 +324,7 @@ const VehicleAddForm = () => {
                     onChange={(e) => handleData("charges", e.target.value)}
                     required
                   />
+                   {!data.charges?(<></>):(<ChargesValidation/>)}
                 </div>
                 <div className="col-md-4 form-group mb-3">
                   <label className="label">Vehicle Picture</label>
@@ -312,9 +339,13 @@ const VehicleAddForm = () => {
                   />
                 </div>
                 <div className="col-md-4 mb-3 vehicleButton">
-                  <button type="submit" className="signin-btn">
+                  {!validCharges && data.charges!=""
+                  ?( <button type="submit" disabled className="signin-btn">
+                  Register Vehicle
+                </button>):( <button type="submit" className="signin-btn">
                     Register Vehicle
-                  </button>
+                  </button>)}
+                 
                 </div>
               </div>
             )}

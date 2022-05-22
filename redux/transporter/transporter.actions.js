@@ -28,3 +28,9 @@ export function registerVehicle(payload, callback) {
   export function makeVehicleAvailable(payload, callback) {
     return { type: transporterActionTypes.MAKE_VEHICLE_AVAILABLE, payload, callback };
   }
+  export function rejectVehicleBooking(payload, callback) {
+    return { type: transporterActionTypes.REJECT_VEHICLE_BOOKING, payload, callback };
+  }
+  export function releaseVehicle(payload, callback) {
+    return { type: transporterActionTypes.RELEASE_VEHICLE, payload, callback };
+  }

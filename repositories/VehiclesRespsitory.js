@@ -3,7 +3,8 @@ import Repository, {baseUrl, getError} from "./genericRepository";
 const routes = {
     getVehicles:"/v1/vehicle/get_vehicles?limit=100",
     vehicleBooking:"/v1/users/vehicle_request",
-    getUserBookings:"/v1/users/get_Customer_Booking_List"
+    getUserBookings:"/v1/users/get_Customer_Booking_List?limit=100",
+    cancelBooking:"/v1/vehicle/reject_Request",
   };
 
   class VehiclesRepository {
@@ -146,6 +147,20 @@ const routes = {
         throw getError(error);
       }
   
+    }
+    async cancelVehicleBooking(payload) {
+      try {
+        const request = await Repository.post(
+          `${baseUrl}${routes.cancelBooking}`,
+          payload
+        );
+        const {data} = request;
+        return {
+          results: data.results,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
     }
     
     

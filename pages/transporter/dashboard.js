@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router'
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { transporterBookings } from "../../redux/transporter/transporter.actions";
+import { rejectVehicleBooking, releaseVehicle, transporterBookings } from "../../redux/transporter/transporter.actions";
 import { updateBookingStatus } from "../../redux/transporter/transporter.actions";
 import Page404Error from "../error/404page";
 
@@ -60,8 +60,33 @@ const Home = () => {
       booking_type: type,
     }
     dispatch(updateBookingStatus(payload, handleLoading));
-    getTransporterBookings();
+    setTimeout(() => {
+      getTransporterBookings();
+    }, 1000);
   }
+  const handleReject=(vehicleid,ownerid,type)=>{
+    const payload={
+      vehicle_id: vehicleid,
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    dispatch(rejectVehicleBooking(payload, handleLoading));
+    setTimeout(() => {
+      getTransporterBookings();
+    }, 1000);
+  }
+  const handleRelease=(vehicleid,ownerid,type)=>{
+    const payload={
+      vehicle_id: vehicleid,
+      registeredOwner_id: ownerid,
+      booking_type: type,
+    }
+    dispatch(releaseVehicle(payload, handleLoading));
+    setTimeout(() => {
+      getTransporterBookings();
+    }, 1000);
+  }
+
  
   return (
     <div>
@@ -154,12 +179,14 @@ const Home = () => {
                                      <button
                                        type="button"
                                        className="btn-danger tableButton"
+                                       onClick={()=> handleReject(booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
                                      >
                                        Reject
                                      </button>
                                    </div>
-                                   </>):( 
+                                   </>):(  
                                      <>
+                                     <div>
                                      <button
                                        type="button"
                                        className="btn-success acceptedButton"
@@ -167,6 +194,24 @@ const Home = () => {
                                      >
                                        Booking Accepted
                                      </button>
+                                     </div>
+                                     {!booking.is_Released?( <div className="mt-3">
+                                     <button
+                                       type="button"
+                                       className="btn-primary acceptedButton"
+                                       onClick={()=> handleRelease(booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
+                                     >
+                                       Release Vehicle
+                                     </button>
+                                     </div>):( <div className="mt-3">
+                                     <button
+                                       type="button"
+                                       className="btn-success acceptedButton"
+                                      disabled
+                                     >
+                                       Vehicle Released
+                                     </button>
+                                     </div>)}
                                      </>)}
                                  </div>
                                </td>

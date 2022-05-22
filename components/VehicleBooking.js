@@ -15,6 +15,8 @@ const VehicleBooking = (props) => {
   const user = useSelector(({ auth }) => auth.user);
   const [imgName, setimgName] = useState("");
   const vehicle = props.vehicleDetails;
+  const [validPhone, setValidPhone]=useState(true);
+  const [validCnic, setValidCnic]=useState(true);
   const [data, setData] = useState({
     Name: "",
     PhoneNo: "",
@@ -29,10 +31,13 @@ const VehicleBooking = (props) => {
 
   const CNICValidation = () =>{
     if(!/^[0-9]+$/.test(data.CNIC) || (data.CNIC.length<13 || data.CNIC.length>13))
-    {return(
+    {
+      setValidCnic(false);
+      return(
       <div className="password-match">Please Enter Correct CNIC Number</div>
     )
     } else{
+      setValidCnic(true);
       return <></>
     }
   }
@@ -46,8 +51,10 @@ const VehicleBooking = (props) => {
   const PhoneValidation = () => {
     const phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
     if (data.PhoneNo.match(phoneNo)) {
+      setValidPhone(true);
       return <div></div>;
     } else {
+      setValidPhone(false);
       return (
         <div className="password-match">Please Enter Correct Phone Number</div>
       );
@@ -77,7 +84,6 @@ const VehicleBooking = (props) => {
       vehicle_id: vehicle.id,
       vehicle_name: vehicle.name,
       booking_type:"vehicle",
-      accepted:false,
       perDayPrice: vehicle.perDayPrice,
       numberPlate: vehicle.numberPlate,
       modelYear: vehicle.modelYear,
@@ -91,6 +97,14 @@ const VehicleBooking = (props) => {
     setLoading(true);
     dispatch(vehicleBookingRequest(payload, handleLoading));
   };
+
+  const disablePastDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const yyyy = today.getFullYear();
+    return yyyy + "-" + mm + "-" + dd;
+};
 
   return (
     <Card className={`aboutUSCard container-fluid`}>
@@ -204,6 +218,7 @@ const VehicleBooking = (props) => {
             className="form-control"
             placeholder="Date In"
             value={data.DateIn}
+            min={disablePastDate()}
             onChange={(e) => handleData("DateIn", e.target.value)}
             required
           />
@@ -215,14 +230,18 @@ const VehicleBooking = (props) => {
             className="form-control"
             placeholder="Date Out"
             value={data.DateOut}
+            min={disablePastDate()}
             onChange={(e) => handleData("DateOut", e.target.value)}
             required
           />
         </div>
         <div className="col-md-6 mb-3 vehicleButton">
-          <button type="submit" className="signin-btn">
+          {(!validCnic&&data.CNIC!="") || (!validPhone&&data.PhoneNo!="")
+          ?( <button type="submit" disabled className="signin-btn">
+          Book Now
+        </button>):( <button type="submit" className="signin-btn">
             Book Now
-          </button>
+          </button>)}
         </div>
       </form>
     </Card>

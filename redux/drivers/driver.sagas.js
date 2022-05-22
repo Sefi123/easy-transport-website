@@ -108,6 +108,60 @@ function* makeDriverAvailableSaga(action) {
     yield cancel();
   }
 }
+function* rejectDriverBookingSaga(action) {
+  try {
+    const {results} = yield call(
+      DriverService.rejectDriverBooking,
+      action.payload
+    );
+    successNotification("Success","Request Rejected Sucessfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
+function* cancelDriverBookingSaga(action) {
+  try {
+    const {results} = yield call(
+      DriverService.cancelDriverBooking,
+      action.payload
+    );
+    successNotification("Success","Request Canceled Sucessfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
+function* releaseDriverSaga(action) {
+  try {
+    const {results} = yield call(
+      DriverService.releaseDriver,
+      action.payload
+    );
+    successNotification("Success","Driver Released Sucessfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
 
 
 
@@ -117,5 +171,8 @@ export default function* rootSagas() {
   yield all([takeEvery(driverActionTypes.GET_DRIVER_BOOKINGS, getDriverBookingsSaga)]);
   yield all([takeEvery(driverActionTypes.UPDATE_DRIVER_STATUS, updateDriverStatusSaga)]);
   yield all([takeEvery(driverActionTypes.MAKE_DRIVER_AVAILABLE, makeDriverAvailableSaga)]);
+  yield all([takeEvery(driverActionTypes.REJECT_DRIVER_BOOKING, rejectDriverBookingSaga)]);
+  yield all([takeEvery(driverActionTypes.CANCEL_DRIVER_BOOKING, cancelDriverBookingSaga)]);
+  yield all([takeEvery(driverActionTypes.RELEASE_DRIVER, releaseDriverSaga)]);
   
 }

@@ -123,6 +123,7 @@ function* vehicleBookingRequestSaga(action) {
     yield cancel();
   }
 }
+
 function* getUserBookingsSaga(action) {
   try {
       let _userBookings;
@@ -155,6 +156,24 @@ function* getUserVehicleBookingsSaga(action) {
       yield cancel();
     }
 }
+function* cancelVehicleBookingSaga(action) {
+  try {
+    const {results} = yield call(
+      VehiclesService.cancelVehicleBooking,
+      action.payload
+    );
+    successNotification("Success","Request Canceled Successfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
 
 
 
@@ -167,5 +186,6 @@ export default function* rootSagas() {
   yield all([takeEvery(vehiclesActionTypes.VEHICLE_BOOKING_REQUEST, vehicleBookingRequestSaga)]);
   yield all([takeEvery(vehiclesActionTypes.GET_USER_BOOKINGS, getUserBookingsSaga)]);
   yield all([takeEvery(vehiclesActionTypes.GET_USER_VEHICLE_BOOKINGS, getUserVehicleBookingsSaga)]);
+  yield all([takeEvery(vehiclesActionTypes.CANCEL_VEHICLE_BOOKING, cancelVehicleBookingSaga)]);
   
 }

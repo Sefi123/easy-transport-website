@@ -127,6 +127,42 @@ function* makeVehicleAvailableSaga(action) {
     yield cancel();
   }
 }
+function* rejectVehicleBookingSaga(action) {
+  try {
+    const {results} = yield call(
+      TransporterService.rejectVehicleBooking,
+      action.payload
+    );
+    successNotification("Success","Request Rejected Successfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
+function* releaseVehicleSaga(action) {
+  try {
+    const {results} = yield call(
+      TransporterService.releaseVehicle,
+      action.payload
+    );
+    successNotification("Success","Vehicle Released Successfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
 
 
 export default function* rootSagas() {
@@ -136,5 +172,7 @@ export default function* rootSagas() {
   yield all([takeEvery(transporterActionTypes.DELETE_VEHICLE, deleteVehicleSaga)]);
   yield all([takeEvery(transporterActionTypes.UPDATE_BOOKING_STATUS, updateBookingStatusSaga)]);
   yield all([takeEvery(transporterActionTypes.MAKE_VEHICLE_AVAILABLE, makeVehicleAvailableSaga)]);
+  yield all([takeEvery(transporterActionTypes.REJECT_VEHICLE_BOOKING, rejectVehicleBookingSaga)]);
+  yield all([takeEvery(transporterActionTypes.RELEASE_VEHICLE, releaseVehicleSaga)]);
   
 }
