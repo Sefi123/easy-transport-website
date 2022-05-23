@@ -1,7 +1,10 @@
 import { Button, Nav, NavItem } from "reactstrap";
 import Logo from "./Logo";
+import { useState } from "react";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { logOutRequest } from "../../../../redux/auth/auth.actions";
 import styles from "../../styles/Transporter.module.css"
 
 const navigation = [
@@ -24,8 +27,13 @@ const navigation = [
 ];
 
 const Sidebar = ({ showMobilemenu }) => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   let curl = useRouter();
   const location = curl.pathname;
+  const handleLoading = () => {
+    setLoading(false);
+  };
 
   return (
     <div className="p-3">
@@ -51,10 +59,11 @@ const Sidebar = ({ showMobilemenu }) => {
           ))}
           <Button
             color="danger"
-            tag="a"
-            target="_blank"
             className="mt-3"
-            href="#"
+            onClick={() => {
+              setLoading(true);
+              dispatch(logOutRequest(handleLoading));
+            }}
           >
             Log Out
           </Button>

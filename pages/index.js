@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import Banner from '../components/Banner'
 import Features from '../components/features'
 import Footer from '../components/Footer'
+// import Dashboard from '../components/DoctorHome'
 
 export default function Home() {
   return (

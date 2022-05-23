@@ -162,7 +162,7 @@ function* cancelVehicleBookingSaga(action) {
       VehiclesService.cancelVehicleBooking,
       action.payload
     );
-    successNotification("Success","Request Canceled Successfully");
+    successNotification("Success","Request Deleted Successfully");
     action.callback();
   } catch (error) {
     if (action && action.callback) {

@@ -11,6 +11,9 @@ import {
   warningNotification,
   infoNotification,
 } from "../components/notification/notification";
+import { connect } from "react-redux";
+import {driverData} from "../redux/drivers/selector";
+
 function DriverDetails() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const driversResult = useSelector(({ drivers }) => drivers.driversResult);
@@ -31,7 +34,6 @@ function DriverDetails() {
       
   }
   
-
   return (
     <div className="ftco-section">
       <div className="container-fluid ">
@@ -100,12 +102,21 @@ function DriverDetails() {
               </CardBody>
             </Card>
           </div> : <div className="col-md-6"> <DriverBooking driverDetails={driver} /> </div>}
-
-
         </div>
       </div>
     </div>
   );
 }
 
-export default DriverDetails;
+const makeMapStateToProps = () => {
+  const getDriverData = driverData()
+  const mapStateToProps = (state, ownProps) => {
+    debugger
+    return {
+       driver: getDriverData(state, ownProps)
+    }
+   }
+  return mapStateToProps
+ }
+ const DriverData=connect(makeMapStateToProps)(DriverDetails)
+ export default DriverData;

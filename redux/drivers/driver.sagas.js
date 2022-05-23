@@ -132,7 +132,7 @@ function* cancelDriverBookingSaga(action) {
       DriverService.cancelDriverBooking,
       action.payload
     );
-    successNotification("Success","Request Canceled Sucessfully");
+    successNotification("Success","Request Deleted Sucessfully");
     action.callback();
   } catch (error) {
     if (action && action.callback) {

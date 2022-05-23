@@ -69,10 +69,9 @@ export default function Home() {
   }
   },[isLoggedIn,loaded]);
 
-  const handleVehicleCancel=(vehicleid,ownerid,type)=>{
+  const handleVehicleCancel=(bookingid,type)=>{
     const payload={
-      vehicle_id: vehicleid,
-      registeredOwner_id: ownerid,
+      booking_id: bookingid,
       booking_type: type,
     }
     dispatch(cancelVehicleBooking(payload, handleLoading));
@@ -80,9 +79,9 @@ export default function Home() {
       getVehicleBookings();
     }, 1000);
   }
-  const handleDriverCancel=(ownerid,type)=>{
+  const handleDriverCancel=(bookingid,type)=>{
     const payload={
-      registeredOwner_id: ownerid,
+      booking_id: bookingid,
       booking_type: type,
     }
     dispatch(cancelDriverBooking(payload, handleLoading));
@@ -156,15 +155,15 @@ export default function Home() {
                               </td>
 
                               <td>
-                                {!vBooking.accepted?(
+                                {!vBooking.accepted && !vBooking.is_Rejected?(
                                    <button
                                   type="button"
                                   className="btn-danger tableButton"
-                                  onClick={()=> handleVehicleCancel(vBooking.vehicle_id,vBooking.registeredOwner_id,vBooking.booking_type)}
+                                  onClick={()=> handleVehicleCancel(vBooking.id,vBooking.booking_type)}
                                 >
                                   Cancel
                                 </button> ):(
-                                <>
+                               !vBooking.is_Rejected?( <>
                                 <div>
                                 <button
                                   type="button"
@@ -178,9 +177,9 @@ export default function Home() {
                                 <button
                                   type="button"
                                   className="btn-primary acceptedButton"
-                                 disabled
+                                  disabled
                                 >
-                                  Vehicle Pending
+                                  Pending Vehicle
                                 </button>
                                 </div>):( <div className="mt-3">
                                 <button
@@ -191,7 +190,24 @@ export default function Home() {
                                   Vehicle Released
                                 </button>
                                 </div>)}
-                                </>)}
+                                </>):(<><div>
+                                <button
+                                  type="button"
+                                  className="btn-secondary acceptedButton"
+                                  disabled
+                                >
+                                  Booking Rejected
+                                </button>
+                                </div>
+                                <div className="mt-3">
+                                <button
+                                  type="button"
+                                  className="btn-danger acceptedButton"
+                                  onClick={()=> handleVehicleCancel(vBooking.id,vBooking.booking_type)}
+                                >
+                                  Delete Booking
+                                </button>
+                                  </div></>))}
                                 
                               </td>
                             </tr>
@@ -265,15 +281,15 @@ export default function Home() {
                             </td>
 
                             <td>
-                            {!dBooking.accepted?(
+                            {!dBooking.accepted && !dBooking.is_Rejected?(
                                    <button
                                   type="button"
                                   className="btn-danger tableButton"
-                                  onClick={()=> handleDriverCancel(dBooking.registeredOwner_id,dBooking.booking_type)}
+                                  onClick={()=> handleDriverCancel(dBooking.id,dBooking.booking_type)}
                                 >
                                   Cancel
                                 </button> ):(
-                                  <>
+                                 !dBooking.is_Rejected?( <>
                                   <div>
                                   <button
                                     type="button"
@@ -287,9 +303,9 @@ export default function Home() {
                                   <button
                                     type="button"
                                     className="btn-primary acceptedButton"
-                                   disabled
+                                    disabled
                                   >
-                                    Driver Pending
+                                    Pending Driver
                                   </button>
                                   </div>):( <div className="mt-3">
                                   <button
@@ -300,7 +316,24 @@ export default function Home() {
                                     Driver Released
                                   </button>
                                   </div>)}
-                                  </>
+                                  </>):(<><div>
+                                  <button
+                                    type="button"
+                                    className="btn-secondary acceptedButton"
+                                    disabled
+                                  >
+                                    Booking Rejected
+                                  </button>
+                                  </div>
+                                  <div className="mt-3">
+                                  <button
+                                    type="button"
+                                    className="btn-danger acceptedButton"
+                                    onClick={()=> handleDriverCancel(dBooking.id,dBooking.booking_type)}
+                                  >
+                                    Delete Booking
+                                  </button>
+                                    </div></>)
                                 )}
                             </td>
                           </tr>

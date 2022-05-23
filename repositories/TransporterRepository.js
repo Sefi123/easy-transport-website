@@ -5,7 +5,7 @@ const routes = {
     getVehicles:"/v1/vehicle/get_vehicles_by_id?limit=100",
     getBookings:"/v1/users/get_vehicle_request?limit=100",
     deleteVehicle:"/v1/vehicle/delete_vehicle?limit=1000",
-    updateStatus:"/v1/vehicle/post_accept_booking",
+    acceptBooking:"/v1/vehicle/post_accept_booking",
     makeVehicleAvailable:"/v1/vehicle/make_vehicle_available",
     rejectBooking:"/v1/vehicle/reject_Request",
     releaseVehicle:"/v1/vehicle/vehicle_release",
@@ -77,7 +77,7 @@ const routes = {
     async updateBookingStatus(payload) {
       try {
         const request = await Repository.post(
-          `${baseUrl}${routes.updateStatus}`,
+          `${baseUrl}${routes.acceptBooking}`,
           payload
         );
         const {data} = request;

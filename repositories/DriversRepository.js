@@ -4,10 +4,11 @@ const routes = {
     getDrivers:"/v1/users/drivers?limit=100",
     driverBooking:"/v1/users/vehicle_request",
     getBookings:"/v1/users/get_vehicle_request?limit=100",
-    updatedriverStatus:"/v1/vehicle/post_accept_booking",
+    acceptBooking:"/v1/vehicle/post_accept_booking",
     makeDriverAvailable: "/v1/vehicle/make_vehicle_available",
     rejectBooking:"/v1/vehicle/reject_Request",
     releaseDriver:"/v1/vehicle/vehicle_release",
+    deleteBooking:"/v1/users/delete_reject_request",
   };
 
   class DriverRepository {
@@ -63,7 +64,7 @@ const routes = {
       
       try {
         const request = await Repository.post(
-         `${baseUrl}${routes.updatedriverStatus}`,
+         `${baseUrl}${routes.acceptBooking}`,
           payload,
         );
         const {data} = request;
@@ -110,7 +111,7 @@ const routes = {
     async cancelDriverBooking(payload) {
       try {
         const request = await Repository.post(
-          `${baseUrl}${routes.rejectBooking}`,
+          `${baseUrl}${routes.deleteBooking}`,
           payload
         );
         const {data} = request;

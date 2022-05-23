@@ -53,8 +53,9 @@ const Home = () => {
   }
   },[isLoggedIn,loaded]);
 
-  const handleAccept=(vehicleid,ownerid,type)=>{
+  const handleAccept=(bookingid,vehicleid,ownerid,type)=>{
     const payload={
+      booking_id: bookingid,
       vehicle_id: vehicleid,
       registeredOwner_id: ownerid,
       booking_type: type,
@@ -64,8 +65,9 @@ const Home = () => {
       getTransporterBookings();
     }, 1000);
   }
-  const handleReject=(vehicleid,ownerid,type)=>{
+  const handleReject=(bookingid,vehicleid,ownerid,type)=>{
     const payload={
+      booking_id: bookingid,
       vehicle_id: vehicleid,
       registeredOwner_id: ownerid,
       booking_type: type,
@@ -75,8 +77,9 @@ const Home = () => {
       getTransporterBookings();
     }, 1000);
   }
-  const handleRelease=(vehicleid,ownerid,type)=>{
+  const handleRelease=(bookingid,vehicleid,ownerid,type)=>{
     const payload={
+      booking_id: bookingid,
       vehicle_id: vehicleid,
       registeredOwner_id: ownerid,
       booking_type: type,
@@ -164,13 +167,13 @@ const Home = () => {
 
                                <td>
                                  <div className="ms-0">
-                                   {!booking.accepted?(
+                                   {!booking.accepted && !booking.is_Rejected?(
                                      <> 
                                    <div>
                                      <button
                                        type="button"
                                        className="btn-success tableButton"
-                                      onClick={()=> handleAccept(booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
+                                      onClick={()=> handleAccept(booking.id,booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
                                      >
                                        Accept
                                      </button>
@@ -179,40 +182,49 @@ const Home = () => {
                                      <button
                                        type="button"
                                        className="btn-danger tableButton"
-                                       onClick={()=> handleReject(booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
+                                       onClick={()=> handleReject(booking.id,booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
                                      >
                                        Reject
                                      </button>
                                    </div>
-                                   </>):(  
-                                     <>
-                                     <div>
-                                     <button
-                                       type="button"
-                                       className="btn-success acceptedButton"
+                                   </>):(
+                                     !booking.is_Rejected?( <>
+                                      <div>
+                                      <button
+                                        type="button"
+                                        className="btn-success acceptedButton"
+                                        disabled
+                                      >
+                                        Booking Accepted
+                                      </button>
+                                      </div>
+                                      {!booking.is_Released?( <div className="mt-3">
+                                      <button
+                                        type="button"
+                                        className="btn-primary acceptedButton"
+                                        onClick={()=> handleRelease(booking.id,booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
+                                      >
+                                        Release Vehicle
+                                      </button>
+                                      </div>):( <div className="mt-3">
+                                      <button
+                                        type="button"
+                                        className="btn-success acceptedButton"
                                        disabled
-                                     >
-                                       Booking Accepted
-                                     </button>
-                                     </div>
-                                     {!booking.is_Released?( <div className="mt-3">
-                                     <button
-                                       type="button"
-                                       className="btn-primary acceptedButton"
-                                       onClick={()=> handleRelease(booking.vehicle_id,booking.registeredOwner_id,booking.booking_type)}
-                                     >
-                                       Release Vehicle
-                                     </button>
-                                     </div>):( <div className="mt-3">
-                                     <button
-                                       type="button"
-                                       className="btn-success acceptedButton"
-                                      disabled
-                                     >
-                                       Vehicle Released
-                                     </button>
-                                     </div>)}
-                                     </>)}
+                                      >
+                                        Vehicle Released
+                                      </button>
+                                      </div>)}
+                                      </>):(<><div>
+                                      <button
+                                        type="button"
+                                        className="btn-secondary acceptedButton"
+                                        disabled
+                                      >
+                                        Booking Rejected
+                                      </button>
+                                      </div></>)  
+                                    )}
                                  </div>
                                </td>
 

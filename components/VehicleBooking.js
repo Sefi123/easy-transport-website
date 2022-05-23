@@ -130,7 +130,7 @@ const VehicleBooking = (props) => {
           <input
             type="text"
             className="form-control"
-            placeholder="Phone Number"
+            placeholder="03XXXXXXXXX"
             value={data.PhoneNo}
             onChange={(e) => handleData("PhoneNo", e.target.value)}
             required

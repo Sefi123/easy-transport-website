@@ -3,6 +3,7 @@ import "../styles/vehicles.css";
 import "../styles/dashboard.css";
 import "../styles/drivers.css";
 import "../styles/home.css";
+// import "../styles/doctor.css";
 import Navbar from "../components/Nav";
 import Footer from "../components/Footer";
 import Head from "next/head";
