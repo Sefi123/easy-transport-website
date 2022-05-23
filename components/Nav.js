@@ -20,12 +20,12 @@ const Navbar = () => {
     <nav className=" w-100 p-3 navbar navbar-expand-lg navbar-light position-fixed top-0 start-0">
       <div className="container-fluid">
         <Link href="/" passHref>
-        <a className="navbarBrand fw-bold">
+        <div className="navbarBrand fw-bold">
           Easy Transport
-        </a>
+        </div>
         </Link>
         <button
-          className="navbar-toggler "
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNavDropdown"
@@ -39,7 +39,7 @@ const Navbar = () => {
           className="collapse navbar-collapse justify-content-end"
           id="navbarNavDropdown"
         >
-          <ul className="navbar-nav text-center">
+          <ul className="navbar-nav navItems text-center">
             <Link href="/">
               <a className="nav-link">
                 <li className="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Home</li>

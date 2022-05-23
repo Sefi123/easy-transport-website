@@ -75,7 +75,22 @@
     font-size: 15pt;
     color: #dc3545;
     font-family: "Lucida Handwriting", "Brush Script MT", cursive;
+    cursor: pointer;
   }
+
+  @media (max-width: 992px) {
+    .navbarBrand{
+      color: #ffffff;
+      font-size: 17pt;
+    }
+    .nav-item{
+      color: white;
+    }
+    #navbarDropdownMenuLink {
+      color: rgb(255, 255, 255);
+    }
+  }
+  
 
   .btn-outline-white-banner {
     border: 2px solid white;
