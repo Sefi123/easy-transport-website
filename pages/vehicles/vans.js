@@ -49,12 +49,6 @@ const Vans = () => {
   }, [userVans])
 
   const filterDataFunction = () => {
-    // const newData1 = userCars.filter((item) => {
-      //    const bookingStatus = item.booked.toString().toUpperCase();
-      //    const matchStatus = searchData.matchStatus.toString().toUpperCase();
-      //   return bookingStatus.includes(matchStatus);
-      // })
-      // setFilterData1(newData1);
       
       const newData = filterData1.filter((item) => {
         const city = item.fromCity.toUpperCase();
@@ -117,12 +111,11 @@ const Vans = () => {
         </div>) : (filterData.length<=0?(<div className="noData"><h6 className="GradientBorder">No Vehicles Available</h6></div>)
         :(<div className="row">
 
-        {filterData !== null ? (filterData.map((van, key) =>
+        {(filterData.map((van, key) =>
           <>
-
             <Link href={{
               pathname: "/vehicles/vehicledetails",
-              query: van,
+              query: {id:van.id,type:van.vehicleType},
             }}
               passHref>
               <div className="col-md-6 col-lg-3">
@@ -167,7 +160,7 @@ const Vans = () => {
               </div>
             </Link>
           </>
-        )) : <></>}
+        ))}
       </div>)
           
           )}

@@ -1,12 +1,14 @@
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
+// import {useEffect} from "react";
 
-const driversResult = (state, props) => {
-    const id = props.id
-    const driverByid = state.drivers.driversResult?.filter(driver => driver.id.includes(id));
-    return driverByid
-  }
+// let driver_id;
+// export const getDriverId=(id)=>{
+//   driver_id=id;
+// }
 
-export const driverData = () => createSelector(
-    [ driversResult ],
-    (driver) => driver
-  )
+// const driversResult1 = state => state.drivers.driversResult;
+
+// export const getDriverData = createSelector([driversResult1], drivers => {
+//   return drivers.filter(driver => driver.id.includes(driver_id));
+// });
+

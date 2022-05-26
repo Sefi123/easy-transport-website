@@ -49,13 +49,7 @@ const Drivers = () => {
   }, [driversResult])
 
   const filterDataFunction = () => {
-  //   const newData1 = driversResult.filter((item) => {
-  //     const bookingStatus = item.booked.toString().toUpperCase();
-  //     const matchStatus = searchData.matchStatus.toString().toUpperCase();
-  //    return bookingStatus.includes(matchStatus);
-  //  })
-  //  setFilterData1(newData1);
-
+    
     const newData = filterData1.filter((item) => {
       const city = item.city.toUpperCase();
       const drivertype = item.driver_type.toUpperCase();
@@ -122,7 +116,7 @@ const Drivers = () => {
           <>
             <Link href={{
               pathname: "/driver-details",
-              query: driver,
+              query: {id:driver.id},
             }} passHref>
               <div className="col-md-6 col-lg-3">
                 <Card className="effectCard">

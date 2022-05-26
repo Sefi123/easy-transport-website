@@ -12,15 +12,21 @@ import {
   infoNotification,
 } from "../components/notification/notification";
 import { connect } from "react-redux";
-import {driverData} from "../redux/drivers/selector";
+import {getDriverData} from "../redux/drivers/selector";
+import { getDriverId } from "../redux/drivers/selector";
+import { getDrivers } from "../redux/drivers/driver.actions";
 
 function DriverDetails() {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const driversResult = useSelector(({ drivers }) => drivers.driversResult);
   const user = useSelector(({ auth }) => auth.user);
   const router = useRouter();
   const driver = router.query;
+  const driverID=driver.id;
   const [show, setShow] = useState(false);
+  const [filterData, setFilterData] = useState([]);
+  const [driverData, setDriverData] =useState({});
   const handleShow = () => {
       if(isLoggedIn && user.user_type==="Customer"){
         setShow(true);
@@ -33,6 +39,40 @@ function DriverDetails() {
       }
       
   }
+
+  const handleLoading = () => {
+    setLoading(false);
+  };
+
+  // useEffect(()=>{
+  //   if(filterData.length>0){
+  //   getDriverId(driverData.id)
+  //   }
+  // },[filterData])
+
+  useEffect(() => {
+    if(!driversResult){
+    const payload = {
+      user_type: "Driver",
+    };
+    dispatch(getDrivers(payload, handleLoading));
+  }
+  }, [driversResult])
+
+  useEffect(() => {
+    if (driversResult != null) {
+      const newData = driversResult.filter((item) => {
+        return item.id.includes(driverID);
+      })
+      setFilterData(newData); 
+    }
+  }, [driversResult])
+
+  useEffect(()=>{
+    if (filterData.length>0){
+      setDriverData(filterData[0]);
+    }
+  },[filterData])
   
   return (
     <div className="ftco-section">
@@ -40,10 +80,10 @@ function DriverDetails() {
         <div className="row justify-content-center">
           <div className="col-md-5 col-lg-3 justify-content-center  ">
             <Card className="effectCard">
-            {driver.photoUrl?( <div>
+            {driverData.photoUrl?( <div>
               
                 <Image
-                  src={driver.photoUrl}
+                  src={driverData.photoUrl}
                   alt="hero banner"
                   className="productDetailsIMG"
                   width={600}
@@ -66,12 +106,12 @@ function DriverDetails() {
                 
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Age</h6>
-                  <p className="mb-0 text-muted">{driver.age}</p>
+                  <p className="mb-0 text-muted">{driverData.age}</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">City</h6>
-                  <p className="mb-0 text-muted">{driver.city}</p>
+                  <p className="mb-0 text-muted">{driverData.city}</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
@@ -81,17 +121,17 @@ function DriverDetails() {
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Driving Experience</h6>
-                  <p className="mb-0 text-muted">{driver.drive_experience} Years</p>
+                  <p className="mb-0 text-muted">{driverData.drive_experience} Years</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Driving Type</h6>
-                  <p className="mb-0 text-muted text-capitalize">{driver.driver_type}</p>
+                  <p className="mb-0 text-muted text-capitalize">{driverData.driver_type}</p>
                 </div>
                 <div className="topBorder mb-3"></div>
                 <div className="d-flex justify-content-between mb-3">
                   <h6 className="mb-0">Per Day Charges</h6>
-                  <p className="mb-0 text-muted">PKR {driver.perDayPrice}</p>
+                  <p className="mb-0 text-muted">PKR {driverData.perDayPrice}</p>
                 </div>
                 <div className="topBorder mb-3 "></div>
                 <div className="d-flex justify-content-center">
@@ -101,22 +141,20 @@ function DriverDetails() {
                 </div>
               </CardBody>
             </Card>
-          </div> : <div className="col-md-6"> <DriverBooking driverDetails={driver} /> </div>}
+          </div> : <div className="col-md-6"> <DriverBooking driverDetails={driverData} /> </div>}
         </div>
       </div>
     </div>
   );
 }
 
-const makeMapStateToProps = () => {
-  const getDriverData = driverData()
-  const mapStateToProps = (state, ownProps) => {
-    debugger
-    return {
-       driver: getDriverData(state, ownProps)
-    }
-   }
-  return mapStateToProps
- }
- const DriverData=connect(makeMapStateToProps)(DriverDetails)
- export default DriverData;
+//   const mapStateToProps = (state) => {
+//     return {
+//        driverData: getDriverData(state)
+//     }
+//    }
+
+//  const DriverData=connect(mapStateToProps)(DriverDetails)
+//  export default DriverData;
+
+export default DriverDetails;

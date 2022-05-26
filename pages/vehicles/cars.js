@@ -48,13 +48,6 @@ const Cars = () => {
 }, [userCars])
 
   const filterDataFunction = () => {
-
-      // const newData1 = userCars.filter((item) => {
-      //    const bookingStatus = item.booked.toString().toUpperCase();
-      //    const matchStatus = searchData.matchStatus.toString().toUpperCase();
-      //   return bookingStatus.includes(matchStatus);
-      // })
-      // setFilterData1(newData1);
       
     const newData = filterData1.filter((item) => {
       const city = item.fromCity.toUpperCase();
@@ -124,7 +117,7 @@ const Cars = () => {
             <>
             <Link href={{
               pathname: "/vehicles/vehicledetails",
-              query: car,
+              query: {id:car.id,type:car.vehicleType},
             }}
               passHref>
               <div className="col-md-6 col-lg-3">
