@@ -52,21 +52,25 @@ function* loginSaga(action) {
       };
       _user = user;
     }
+    // if(_user.isEmailVerified){
     yield put(loginSuccess(_user,_tokens));
     for (const key of Object.keys(_tokens))
       localStorage.setItem(`user_${key}`, _tokens[key]);
 
     for (const key of Object.keys(_user))
       localStorage.setItem(`user_${key}`, _user[key]);
-
     action.callback();
     Router.push("/dashboard");
     successNotification("Welcome Back", "Logged In successfully");
+    // }
+    // else{
+    //   action.callback();
+    //   errorNotification("Verify Your Email First","Check your mailbox to verify email")
+    // }
   } catch (error) {
     if (action && action.callback) {
       action.callback();
       errorNotification("Error", error);
-      
     }
   } finally {
     yield cancel();
@@ -122,6 +126,21 @@ function* resetPasswordSaga({payload, callback}) {
     yield cancel();
   }
 }
+function* verifyEmailSaga({payload, callback}) {
+  try {
+    yield call(AuthService.verifyEmail, 
+      payload
+      );
+      successNotification("Success", "Your Email has been verified successfully!");
+    if (callback) callback();
+    Router.replace("/login");
+  } catch (error) {
+    errorNotification("Failed", error);
+    if (callback) callback(true);
+  } finally {
+    yield cancel();
+  }
+}
 
 export default function* rootSaga() {
   yield all([takeEvery(actionTypes.USER_SIGNUP_REQUEST, userSignUpSaga)]);
@@ -129,4 +148,5 @@ export default function* rootSaga() {
   yield all([takeEvery(actionTypes.LOGOUT, logOutSaga)]);
   yield all([takeLatest(actionTypes.FORGOTPASSWORD_REQUEST, forgotpasswordSaga)]);
   yield all([takeLatest(actionTypes.RESETPASSWORD_REQUEST, resetPasswordSaga)]);
+  yield all([takeLatest(actionTypes.VERIFY_EMAIL, verifyEmailSaga)]);
 }

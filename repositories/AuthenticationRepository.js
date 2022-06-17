@@ -1,6 +1,4 @@
 import Repository, {baseUrl, getError} from "./genericRepository";
-// import { getOsType } from "./utils";
-// const randomstring = require("randomstring");
 
 const routes = {
   userRegister: "/v1/users",
@@ -11,9 +9,8 @@ const routes = {
   verifyEmail: "/v1/auth/verify-email",
   forgetPassword: "/v1/auth/forgot-password",
   resetPassword: "/v1/auth/reset-password",
+  verifyEmail: "/v1/auth/verify-email"
 };
-
-// const deviceToken = randomstring.generate();
 
 class AuthenticationRepository {
   async userRegister(payload) {
@@ -69,6 +66,16 @@ class AuthenticationRepository {
     try {
       await Repository.post(
         `${baseUrl}${routes.resetPassword}?${token}`,
+        payload
+      );
+    } catch (error) {
+      throw getError(error);
+    }
+  }
+  async verifyEmail(payload) {
+    try {
+      await Repository.post(
+        `${baseUrl}${routes.verifyEmail}`,
         payload
       );
     } catch (error) {

@@ -21,6 +21,8 @@ const Signup = () => {
   const dispatch = useDispatch();
   const router=useRouter();
   const [imgName, setimgName] = useState("");
+  const [imgNameLicense, setimgNameLicense] = useState("");
+  const [imgNameCnic, setimgNameCnic] = useState("");
   const [passMatch, setPassMatch]=useState(true);
   const [validPhone, setValidPhone]=useState(true);
   const [validCnic, setValidCnic]=useState(true);
@@ -200,6 +202,46 @@ const Signup = () => {
       });
     }
   };
+  const onDropLicense = (acceptedFiles, rejectedFiles, imgNameLicense) => {
+    if (rejectedFiles.length > 0) {
+      warningNotification(
+        "warning",
+        "Upload only one image and size limit of 1 MB"
+      );
+      return;
+    } else if (acceptedFiles) {
+      convertImageToBase64(acceptedFiles[0], (result, success) => {
+        if (success) {
+          uploadImage(result, (url, success) => {
+            if (success) {
+              handleData("drivingLicense", `${url}`);
+              setimgNameLicense(acceptedFiles[0].name);
+            }
+          });
+        }
+      });
+    }
+  };
+  const onDropCnic = (acceptedFiles, rejectedFiles, imgNameCnic) => {
+    if (rejectedFiles.length > 0) {
+      warningNotification(
+        "warning",
+        "Upload only one image and size limit of 1 MB"
+      );
+      return;
+    } else if (acceptedFiles) {
+      convertImageToBase64(acceptedFiles[0], (result, success) => {
+        if (success) {
+          uploadImage(result, (url, success) => {
+            if (success) {
+              handleData("cnic", `${url}`);
+              setimgNameCnic(acceptedFiles[0].name);
+            }
+          });
+        }
+      });
+    }
+  };
 
   const handleRouter = () => {
     // e.preventDefault()
@@ -348,15 +390,15 @@ const Signup = () => {
                         <div>
                           <div className="form-group mb-3">
                             <label className="label">CNIC Number</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="CNIC"
-                              value={data.cnic}
-                              onChange={(e) => handleData("cnic", e.target.value)}
-                              required
-                            />
-                            {!data.cnic?(<></>):(<CNICValidation/>)}
+                            <FileUploader
+                        placeholder={imgNameCnic ? imgNameCnic : "Click here to upload"}
+                        accept={["image/jpeg", "image/png", "image/bmp"]}
+                        maxFiles={1}
+                        maxSize={1000000}
+                        onDrop={(acceptedFiles, rejectedFiles) =>
+                          onDropCnic(acceptedFiles, rejectedFiles, "Image")
+                        }
+                      />
                           </div>
                         </div>
                       ) : (
@@ -379,32 +421,30 @@ const Signup = () => {
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">CNIC Number</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  placeholder="CNIC"
-                                  value={data.cnic}
-                                  onChange={(e) =>
-                                    handleData("cnic", e.target.value)
-                                  }
-                                  required
-                                />
-                                {!data.cnic?(<></>):(<CNICValidation/>)}
+                                <FileUploader
+                        placeholder={imgNameCnic ? imgNameCnic : "Click here to upload"}
+                        accept={["image/jpeg", "image/png", "image/bmp"]}
+                        maxFiles={1}
+                        maxSize={1000000}
+                        onDrop={(acceptedFiles, rejectedFiles) =>
+                          onDropCnic(acceptedFiles, rejectedFiles, "Image")
+                        }
+                      />
+                                
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">
-                                  Driving License Number
+                                  Driving License
                                 </label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  placeholder="Driving License "
-                                  value={data.drivingLicense}
-                                  onChange={(e) =>
-                                    handleData("drivingLicense", e.target.value)
-                                  }
-                                  required
-                                />
+                                <FileUploader
+                        placeholder={imgNameLicense ? imgNameLicense : "Click here to upload"}
+                        accept={["image/jpeg", "image/png", "image/bmp"]}
+                        maxFiles={1}
+                        maxSize={1000000}
+                        onDrop={(acceptedFiles, rejectedFiles) =>
+                          onDropLicense(acceptedFiles, rejectedFiles, "Image")
+                        }
+                      />
                               </div>
                               <div className="form-group mb-3">
                                 <label className="label">License Expiry Date</label>

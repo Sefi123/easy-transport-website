@@ -9,6 +9,8 @@ const routes = {
     makeVehicleAvailable:"/v1/vehicle/make_vehicle_available",
     rejectBooking:"/v1/vehicle/reject_Request",
     releaseVehicle:"/v1/vehicle/vehicle_release",
+    updateVehicle:"/v1/vehicle/update_vehicle?vehicleId=",
+    updateProfile:"/v1/users/"
   };
 
   class TransporterRepository {
@@ -16,6 +18,34 @@ const routes = {
       try {
         const request = await Repository.post(
           `${baseUrl}${routes.registerVehicle}`,
+          payload
+        );
+        const {data} = request;
+        return {
+          results: data.results,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
+    }
+    async updateVehicle(payload, vehicleId) {
+      try {
+        const request = await Repository.post(
+          `${baseUrl}${routes.updateVehicle}${vehicleId}`,
+          payload
+        );
+        const {data} = request;
+        return {
+          results: data.results,
+        };
+      } catch (error) {
+        throw getError(error);
+      }
+    }
+    async updateProfile(payload, userId) {
+      try {
+        const request = await Repository.patch(
+          `${baseUrl}${routes.updateProfile}${userId}`,
           payload
         );
         const {data} = request;
