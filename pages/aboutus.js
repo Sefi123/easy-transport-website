@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import driver1 from "../assets/images/arslan.jpg";
 import driver2 from "../assets/images/shahzaib.jpg";
-import driver3 from "../assets/images/drivers/d4.jpg";
+import driver3 from "../assets/images/safeer.jpg";
 
 const AboutUs = () => {
   return (
@@ -152,6 +152,14 @@ const AboutUs = () => {
                       </a>
                     </p>
                     <p className="small text-danger mb-0">BS Software Engineer</p>
+                  </div>
+ <div className="d-flex justify-content-between mb-0">
+                    <p className="small">
+                      <a  className="text-muted mb-0">
+                        Role
+                      </a>
+                    </p>
+                    <p className="small text-danger mb-0">Node Js Backend</p>
                   </div>
                 
                 </div>
