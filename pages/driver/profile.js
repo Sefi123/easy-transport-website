@@ -6,6 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from 'next/router';
 import FullLayout from "../../components/DriverDashboard/components/Layout/FullLayout";
 import {makeDriverAvailable} from "../../redux/drivers/driver.actions";
+import FileUploader from "../../components/FileUploader";
+import { uploadImage } from "../../components/ImageUpload";
+import convertImageToBase64 from "../../components/ImageBase64";
+import {updateProfile} from "../../redux/transporter/transporter.actions"
+
 function Profile() {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const user = useSelector(({ auth }) => auth.user);
@@ -15,7 +20,10 @@ function Profile() {
   const [loading, setLoading] = useState(false);
   const token = useSelector(({ auth }) => auth.token);
   const [data, setData] = useState({});
-  const [confPass, setConfPass]=useState("");
+  const [imgName, setimgName] = useState("");
+  const [imgNameCnic, setimgNameCnic] = useState("");
+  const [imgNameLicense, setimgNameLicense] = useState("");
+  const [validPhone, setValidPhone]=useState(true);
 
   useEffect(() => {
     if (user !== null) {
@@ -45,13 +53,13 @@ function Profile() {
       driver_type: data.driver_type,
       license_number: data.license_number,
       drive_experience: data.drive_experience,
-      expiry_date: data.expiry_date,
+      expiry_date: data.expiry_date.split("T")[0].replaceAll('-', '/'),
       city: data.city,
-      password: data.password,
       photoUrl: data.photoUrl,
-    };
-    setLoading(true);
-    dispatch(userSignUpRequest(payload, handleLoading));
+      role:"user",
+      };
+    const userId=user.id;
+    dispatch(updateProfile(payload,userId ,handleLoading));
   };
 
   useEffect(() => {
@@ -71,21 +79,77 @@ function Profile() {
   }
 
   const PhoneValidation = () => {
-    const phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
+    let phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
     if (data.phone_no.match(phoneNo)) {
+      setValidPhone(true);
       return <div></div>;
     } else {
+      setValidPhone(false);
       return (
         <div className="password-match">Please Enter Correct Phone Number</div>
       );
     }
   };
+ 
+  const onDrop = (acceptedFiles, rejectedFiles, imgName) => {
+    if (rejectedFiles.length > 0) {
+      warningNotification(
+        "warning",
+        "Upload only one image and size limit of 1 MB"
+      );
+      return;
+    } else if (acceptedFiles) {
+      convertImageToBase64(acceptedFiles[0], (result, success) => {
+        if (success) {
+          uploadImage(result, (url, success) => {
+            if (success) {
+              handleData("photoUrl", `${url}`);
+              setimgName(acceptedFiles[0].name);
+            }
+          });
+        }
+      });
+    }
+  };
+  const onDropCnic = (acceptedFiles, rejectedFiles, imgName) => {
+    if (rejectedFiles.length > 0) {
+      warningNotification(
+        "warning",
+        "Upload only one image and size limit of 1 MB"
+      );
+      return;
+    } else if (acceptedFiles) {
+      convertImageToBase64(acceptedFiles[0], (result, success) => {
+        if (success) {
+          uploadImage(result, (url, success) => {
+            if (success) {
+              handleData("cnic", `${url}`);
+              setimgNameCnic(acceptedFiles[0].name);
+            }
+          });
+        }
+      });
+    }
+  };
 
-  const PasswordMatch = () => {
-    if (data.password !== confPass) {
-      return <div className="password-match ms-3">Password not Matched</div>;
-    } else {
-      return <div></div>;
+  const onDropLicense = (acceptedFiles, rejectedFiles, imgName) => {
+    if (rejectedFiles.length > 0) {
+      warningNotification(
+        "warning",
+        "Upload only one image and size limit of 1 MB"
+      );
+      return;
+    } else if (acceptedFiles) {
+      convertImageToBase64(acceptedFiles[0], (result, success) => {
+        if (success) {
+          uploadImage(result, (url, success) => {
+            if (success) {
+              handleData("license_number", `${url}`);
+              setimgNameCnic(acceptedFiles[0].name);
+            }
+          });
+        }
+      });
     }
   };
 
@@ -124,7 +188,7 @@ function Profile() {
                         placeholder="Email"
                         value={data.email}
                         onChange={(e) => handleData("email", e.target.value)}
-                        required
+                        disabled
                       />
                     </div>
                     <div className="col-md-6 form-group mb-3">
@@ -134,7 +198,7 @@ function Profile() {
                         className="form-control"
                         placeholder="Phone Number"
                         value={data.phone_no}
-                        onChange={(e) => handleData("phone", e.target.value)}
+                        onChange={(e) => handleData("phone_no", e.target.value)}
                         required
                       />
                        {!data.phone_no ? <></> : <PhoneValidation />}
@@ -170,37 +234,39 @@ function Profile() {
                         <option value="Sarghoda">Sarghoda</option>
                       </select>
                     </div>
-                    <div className="col-md-6 form-group mb-3">
-                      <label className="label">CNIC Number</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="CNIC"
-                        value={data.cnic}
-                        onChange={(e) => handleData("address", e.target.value)}
-                        required
+                 <div className="col-md-6 form-group mb-3">
+                  <label className="label">Cnic Picture</label>
+                      <FileUploader
+                        placeholder={imgNameCnic ? imgNameCnic : "Click here to upload"}
+                        accept={["image/jpeg", "image/png", "image/bmp"]}
+                        maxFiles={1}
+                        maxSize={1000000}
+                        onDrop={(acceptedFiles, rejectedFiles) =>
+                          onDropCnic(acceptedFiles, rejectedFiles, "Image")
+                        }
                       />
-                    </div>
+                      </div>
                     <div className="col-md-6 form-group mb-3">
                       <label className="label">Age</label>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         placeholder="Age"
                         value={data.age}
-                        onChange={(e) => handleData("address", e.target.value)}
+                        onChange={(e) => handleData("age", e.target.value)}
                         required
                       />
                     </div>
                     <div className="col-md-6 form-group mb-3">
-                      <label className="label">Driving License Number</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Driving License "
-                        value={data.license_number}
-                        onChange={(e) => handleData("drivingLicense", e.target.value)}
-                        required
+                      <label className="label">Driving License Picture</label>
+                      <FileUploader
+                        placeholder={imgNameLicense ? imgNameLicense : "Click here to upload"}
+                        accept={["image/jpeg", "image/png", "image/bmp"]}
+                        maxFiles={1}
+                        maxSize={1000000}
+                        onDrop={(acceptedFiles, rejectedFiles) =>
+                          onDropLicense(acceptedFiles, rejectedFiles, "Image")
+                        }
                       />
                     </div>
                     <div className="col-md-6 form-group mb-3">
@@ -219,11 +285,11 @@ function Profile() {
                     <div className="col-md-6 form-group mb-3">
                       <label className="label">Per Day Charges</label>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         placeholder="Per Day Charges "
                         value={data.perDayPrice}
-                        onChange={(e) => handleData("perDayCharges", e.target.value)}
+                        onChange={(e) => handleData("perDayPrice", e.target.value)}
                         required
                       />
                     </div>
@@ -234,7 +300,7 @@ function Profile() {
                         className="form-control"
                         placeholder="Driving Experience Years"
                         value={data.drive_experience}
-                        onChange={(e) => handleData("drivingExperience", e.target.value)}
+                        onChange={(e) => handleData("drive_experience", e.target.value)}
                         required
                       />
                     </div>
@@ -245,7 +311,7 @@ function Profile() {
                         className="form-control"
                         value={data.driver_type}
                         onChange={(e) =>
-                          handleData("driverType", e.target.value)
+                          handleData("driver_type", e.target.value)
                         }
                       >
                         <option value="Car">Car</option>
@@ -256,35 +322,25 @@ function Profile() {
                       </select>
                     </div>
                     <div className="col-md-6 form-group mb-3">
-                      <label className="label">Password</label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Password"
-                        value={data.password}
-                        onChange={(e) => handleData("password", e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="col-md-6 form-group mb-3">
-                      <label className="label">Confirm Password</label>
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Confirm Password"
-                        value={confPass}
-                        onChange={(e) =>
-                          handleData("confirmpassword", e.target.value)
+                  <label className="label">Profile Picture</label>
+                      <FileUploader
+                        placeholder={imgName ? imgName : "Click here to upload"}
+                        accept={["image/jpeg", "image/png", "image/bmp"]}
+                        maxFiles={1}
+                        maxSize={1000000}
+                        onDrop={(acceptedFiles, rejectedFiles) =>
+                          onDrop(acceptedFiles, rejectedFiles, "Image")
                         }
-                        required
                       />
-                      {!confPass ? <></> : <PasswordMatch />}
-                    </div>
-
+                      </div>
                     <div className="col-md-6 form-group mb-3 form-group vehicleButton">
-                      <button type="submit" className="signin-btn">
-                        Update Profile
-                      </button>
+                    { (!validPhone && data.phone!="" )?(
+                     <button type="submit" className="signin-btn" disabled>
+                      Update Profile
+                    </button>):(
+                    <button type="submit" className="signin-btn">
+                      Update Profile
+                    </button>)}
                     </div>
                   </form>
                 </CardBody>

@@ -37,6 +37,45 @@ function* registerVehicleSaga(action) {
     yield cancel();
   }
 }
+function* updateVehicleSaga(action) {
+  try {
+    const {results} = yield call(
+      TransporterService.updateVehicle,
+      action.payload,
+      action.vehicleId
+    );
+    successNotification("Success","Vehicle Updated Successfully");
+    Router.push("/transporter/vehicles");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
+function* updateProfileSaga(action) {
+  try {
+    const {results} = yield call(
+      TransporterService.updateProfile,
+      action.payload,
+      action.userId
+    );
+    successNotification("Success","Profile Updated Successfully");
+    action.callback();
+  } catch (error) {
+    if (action && action.callback) {
+      console.log("Error: ", error);
+      action.callback();
+      errorNotification("Error", error);
+    }
+  } finally {
+    yield cancel();
+  }
+}
 
 function* getVehiclesSaga(action) {
   try {
@@ -167,6 +206,8 @@ function* releaseVehicleSaga(action) {
 
 export default function* rootSagas() {
   yield all([takeEvery(transporterActionTypes.REGISTER_VEHICLE, registerVehicleSaga)]);
+  yield all([takeEvery(transporterActionTypes.UPDATE_VEHICLE, updateVehicleSaga)]);
+  yield all([takeEvery(transporterActionTypes.UPDATE_PROFILE, updateProfileSaga)]);
   yield all([takeEvery(transporterActionTypes.GET_VEHICLES, getVehiclesSaga)]);
   yield all([takeEvery(transporterActionTypes.TRANSPORTER_BOOKINGS, transporterBookingsSaga)]);
   yield all([takeEvery(transporterActionTypes.DELETE_VEHICLE, deleteVehicleSaga)]);

@@ -46,6 +46,29 @@ a {
   box-shadow: none;
 }
 
+.verifyEmailBtn {
+  border-radius: 10px;
+  background-color: #cf0d21;
+  color: white;
+  width: 8rem;
+  
+}
+.verifyEmailBtn:hover {
+  background-color: #d43444;
+  color: white;
+  border: 1px solid transparent;
+  outline: none !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.fw{
+  font-weight: 400;
+}
+.verifyEmail{
+  font-size: 3rem;
+}
+
+
 .login-btn {
   height: 40px;
   color: white;

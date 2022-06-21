@@ -142,7 +142,8 @@ const VehicleAddForm = () => {
               <span className="sr-only">Loading...</span> </div>
             <div className="spinner-grow text-danger" role="status">
               <span className="sr-only">Loading...</span> </div>
-          </div>):(  <form onSubmit={(e) => handleSubmit(e)} className="row">
+          </div>):( 
+             <form onSubmit={(e) => handleSubmit(e)} className="row">
           <div className="col-md-4 form-group mb-3">
             <label className="label">Select Vehicle Type</label>
             <select

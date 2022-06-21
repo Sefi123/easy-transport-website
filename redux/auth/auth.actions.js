@@ -35,3 +35,10 @@ export function resetPasswordRequests(payload, callback) {
     type: actionTypes.RESETPASSWORD_REQUEST, payload, callback,
   };
 }
+
+export function verifyEmail(payload, callback) {
+  return {
+    type: actionTypes.VERIFY_EMAIL, payload, callback,
+  };
+}
+

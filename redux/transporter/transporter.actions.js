@@ -3,6 +3,12 @@ import transporterActionTypes from "../transporter/transporter.types";
 export function registerVehicle(payload, callback) {
     return { type: transporterActionTypes.REGISTER_VEHICLE, payload, callback };
   }
+  export function updateVehicle(payload, vehicleId, callback) {
+    return { type: transporterActionTypes.UPDATE_VEHICLE, payload,vehicleId ,callback };
+  }
+  export function updateProfile(payload, userId, callback) {
+    return { type: transporterActionTypes.UPDATE_PROFILE, payload,userId ,callback };
+  }
   export function getVehicles(payload, callback) {
   
     return { type: transporterActionTypes.GET_VEHICLES, payload, callback };

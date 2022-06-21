@@ -3,8 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardTitle, CardBody } from "reactstrap";
-import driver1 from "../assets/images/drivers/d2.jpg";
-import driver2 from "../assets/images/drivers/d3.jpg";
+import driver1 from "../assets/images/arslan.jpg";
+import driver2 from "../assets/images/shahzaib.jpg";
 import driver3 from "../assets/images/drivers/d4.jpg";
 
 const AboutUs = () => {
@@ -26,14 +26,14 @@ const AboutUs = () => {
                   alt="hero banner"
                   className="productsIMG"
                   width={500}
-                  height={500}
-                  layout="responsive"
+                  height={600}
+                  
                 />
 
                 <div className="card-body">
                   <div className="d-flex justify-content-between">
                     <p className="small">
-                      <a href="#!" className="text-muted">
+                      <a className="text-muted">
                         Name
                       </a>
                     </p>
@@ -41,7 +41,7 @@ const AboutUs = () => {
                   </div>
                   <div className="d-flex justify-content-between">
                     <p className="small">
-                      <a href="#!" className="text-muted">
+                      <a className="text-muted">
                         Email
                       </a>
                     </p>
@@ -49,11 +49,19 @@ const AboutUs = () => {
                   </div>
                   <div className="d-flex justify-content-between mb-0">
                     <p className="small">
-                      <a href="#!" className="text-muted mb-0">
+                      <a  className="text-muted mb-0">
                         Profession
                       </a>
                     </p>
                     <p className="small text-danger mb-0">BS Software Engineer</p>
+                  </div>
+                    <div className="d-flex justify-content-between mb-0">
+                    <p className="small">
+                      <a  className="text-muted mb-0">
+                        Role
+                      </a>
+                    </p>
+                    <p className="small text-danger mb-0">Next Js Frontend</p>
                   </div>
                 
                 </div>
@@ -67,14 +75,14 @@ const AboutUs = () => {
                   alt="hero banner"
                   className="productsIMG"
                   width={500}
-                  height={500}
+                  height={600}
                   layout="responsive"
                 />
 
                 <div className="card-body">
                   <div className="d-flex justify-content-between">
                     <p className="small">
-                      <a href="#!" className="text-muted">
+                      <a  className="text-muted">
                         Name
                       </a>
                     </p>
@@ -82,7 +90,7 @@ const AboutUs = () => {
                   </div>
                   <div className="d-flex justify-content-between">
                     <p className="small">
-                      <a href="#!" className="text-muted">
+                      <a className="text-muted">
                         Email
                       </a>
                     </p>
@@ -90,11 +98,19 @@ const AboutUs = () => {
                   </div>
                   <div className="d-flex justify-content-between mb-0">
                     <p className="small">
-                      <a href="#!" className="text-muted mb-0">
+                      <a  className="text-muted mb-0">
                         Profession
                       </a>
                     </p>
                     <p className="small text-danger mb-0">BS Software Engineer</p>
+                  </div>
+ <div className="d-flex justify-content-between mb-0">
+                    <p className="small">
+                      <a  className="text-muted mb-0">
+                        Role
+                      </a>
+                    </p>
+                    <p className="small text-danger mb-0">Next Js Frontend</p>
                   </div>
                 
                 </div>
@@ -108,14 +124,14 @@ const AboutUs = () => {
                   alt="hero banner"
                   className="productsIMG"
                   width={500}
-                  height={500}
+                  height={600}
                   layout="responsive"
                 />
 
                 <div className="card-body">
                   <div className="d-flex justify-content-between">
                     <p className="small">
-                      <a href="#!" className="text-muted">
+                      <a className="text-muted">
                         Name
                       </a>
                     </p>
@@ -123,7 +139,7 @@ const AboutUs = () => {
                   </div>
                   <div className="d-flex justify-content-between">
                     <p className="small">
-                      <a href="#!" className="text-muted">
+                      <a  className="text-muted">
                         Email
                       </a>
                     </p>
@@ -131,7 +147,7 @@ const AboutUs = () => {
                   </div>
                   <div className="d-flex justify-content-between mb-0">
                     <p className="small">
-                      <a href="#!" className="text-muted mb-0">
+                      <a  className="text-muted mb-0">
                         Profession
                       </a>
                     </p>
