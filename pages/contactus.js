@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,} from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
@@ -7,29 +7,43 @@ import {
   errorNotification,
   warningNotification,
 } from "../components/notification/notification";
+import { contactUs } from "../redux/auth/auth.actions";
+import { useDispatch, useSelector } from "react-redux";
 const ContactUs = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
+  const user = useSelector(({ auth }) => auth.user);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-  // Handling the Name change
-  const handleName = (e) => {
-    setName(e.target.value);
+  const handleData = (key, value) => {
+    setData({ ...data, [key]: value });
+  };
+  const handleLoading = () => {
+    setLoading(false);
   };
 
-  // Handling the email change
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  // Handling the Subject change
-  const handleSubject = (e) => {
-    setSubject(e.target.value);
-  };
-
-  // Handling the Message change
-  const handleMessage = (e) => {
-    setMessage(e.target.value);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      errorNotification("Error", "Please Login First to Send Message");
+      return;
+    } else {
+      var payload = {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+        user_id: user.id,
+      };
+      setLoading(true);
+      dispatch(contactUs(payload, handleLoading));
+    }
   };
 
   return (
@@ -48,21 +62,25 @@ const ContactUs = () => {
                   <h2>Contact Us</h2>
                   <div className="d-flex justify-content-center">
                     <div>
-                    <i className="bi bi-geo-alt-fill"></i>
+                      <i className="bi bi-geo-alt-fill"></i>
                     </div>
                     <div className="h5 ms-1">Address</div>
                   </div>
-                  <p className="d-flex justify-content-center">Comsats Institute of Information Technology Lahore</p>
+                  <p className="d-flex justify-content-center">
+                    Comsats Institute of Information Technology Lahore
+                  </p>
                   <div className="d-flex justify-content-center">
                     <div>
-                    <i className="bi bi-envelope-fill"></i>
+                      <i className="bi bi-envelope-fill"></i>
                     </div>
                     <div className="h5 ms-2">General Support</div>
                   </div>
-                  <p className="d-flex justify-content-center">easytransport@company.com</p>
+                  <p className="d-flex justify-content-center">
+                    easytransport@company.com
+                  </p>
                   <div className="d-flex justify-content-center">
                     <div>
-                    <i className="bi bi-telephone-fill"></i>
+                      <i className="bi bi-telephone-fill"></i>
                     </div>
                     <div className="h5 ms-2">Lets Talk</div>
                   </div>
@@ -70,67 +88,89 @@ const ContactUs = () => {
                 </div>
               </div>
               <div className="login-wrap p-4 p-lg-5">
-                <div className="d-flex">
-                  <div className="w-100">
-                    <h3 className="mb-4">Get in Touch</h3>
+                {loading ? (
+                  <div className="d-flex justify-content-center ftco-section">
+                    <div className="spinner-grow text-danger" role="status">
+                      <span className="sr-only">Loading...</span>{" "}
+                    </div>
+                    <div className="spinner-grow text-danger" role="status">
+                      <span className="sr-only">Loading...</span>{" "}
+                    </div>
+                    <div className="spinner-grow text-danger" role="status">
+                      <span className="sr-only">Loading...</span>{" "}
+                    </div>
                   </div>
-                  
-                </div>
-                <form action="#" className="signin-form">
-                  <div className="form-group mb-3">
-                    <label className="label">Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name"
-                      onChange={handleName}
-                      value={name}
-                      required
-                    />
-                  </div>
-                  <div className="form-group mb-3">
-                    <label className="label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Email"
-                      onChange={handleEmail}
-                      value={email}
-                      required
-                    />
-                  </div>
-                  <div className="form-group mb-3">
-                    <label className="label">Subject</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Subject"
-                      onChange={handleSubject}
-                      value={subject}
-                      required
-                    />
-                  </div>
-                  <div className="form-group mb-3">
-                    <label className="label">Message</label>
-                    <textarea
-                      type="text"
-                      rows="5"
-                      maxLength="500"
-                      className="form-control"
-                      id="form-message"
-                      placeholder="Message"
-                      onChange={handleMessage}
-                      value={message}
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <button type="submit" className="signin-btn"
+                ) : (
+                  <>
+                    {" "}
+                    <div className="d-flex">
+                      <div className="w-100">
+                        <h3 className="mb-4">Get in Touch</h3>
+                      </div>
+                    </div>
+                    <form
+                      onSubmit={(e) => handleSubmit(e)}
+                      className="signin-form"
                     >
-                      Submit
-                    </button>
-                  </div>
-                </form>
+                      <div className="form-group mb-3">
+                        <label className="label">Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Name"
+                          onChange={(e) => handleData("name", e.target.value)}
+                          value={data.name}
+                          required
+                        />
+                      </div>
+                      <div className="form-group mb-3">
+                        <label className="label">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder="Email"
+                          onChange={(e) => handleData("email", e.target.value)}
+                          value={data.email}
+                          required
+                        />
+                      </div>
+                      <div className="form-group mb-3">
+                        <label className="label">Subject</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Subject"
+                          onChange={(e) =>
+                            handleData("subject", e.target.value)
+                          }
+                          value={data.subject}
+                          required
+                        />
+                      </div>
+                      <div className="form-group mb-3">
+                        <label className="label">Message</label>
+                        <textarea
+                          type="text"
+                          rows="5"
+                          maxLength="500"
+                          className="form-control"
+                          id="form-message"
+                          placeholder="Message"
+                          onChange={(e) =>
+                            handleData("message", e.target.value)
+                          }
+                          value={data.message}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <button type="submit" className="signin-btn">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                )}
               </div>
             </div>
           </div>

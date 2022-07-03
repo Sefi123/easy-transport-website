@@ -8,7 +8,7 @@ export function userSignUpRequest(payload, callback) {
   return { type: actionTypes.USER_SIGNUP_REQUEST, payload, callback };
 }
 
-export function loginSuccess(user,token) {
+export function loginSuccess(user, token) {
   return { type: actionTypes.LOGIN_SUCCESS, user, token };
 }
 
@@ -26,19 +26,31 @@ export function logOutSuccess() {
 
 export function forgotpasswordrequests(payload, callback) {
   return {
-    type: actionTypes.FORGOTPASSWORD_REQUEST, payload, callback,
+    type: actionTypes.FORGOTPASSWORD_REQUEST,
+    payload,
+    callback,
   };
 }
 
 export function resetPasswordRequests(payload, callback) {
   return {
-    type: actionTypes.RESETPASSWORD_REQUEST, payload, callback,
+    type: actionTypes.RESETPASSWORD_REQUEST,
+    payload,
+    callback,
   };
 }
 
 export function verifyEmail(payload, callback) {
   return {
-    type: actionTypes.VERIFY_EMAIL, payload, callback,
+    type: actionTypes.VERIFY_EMAIL,
+    payload,
+    callback,
   };
 }
-
+export function contactUs(payload, callback) {
+  return {
+    type: actionTypes.CONTACT_US,
+    payload,
+    callback,
+  };
+}

@@ -1,4 +1,4 @@
-import Repository, {baseUrl, getError} from "./genericRepository";
+import Repository, { baseUrl, getError } from "./genericRepository";
 
 const routes = {
   userRegister: "/v1/users",
@@ -9,7 +9,8 @@ const routes = {
   verifyEmail: "/v1/auth/verify-email",
   forgetPassword: "/v1/auth/forgot-password",
   resetPassword: "/v1/auth/reset-password",
-  verifyEmail: "/v1/auth/verify-email"
+  verifyEmail: "/v1/auth/verify-email",
+  contactUs: "/v1/users/contact-us",
 };
 
 class AuthenticationRepository {
@@ -19,7 +20,7 @@ class AuthenticationRepository {
         `${baseUrl}${routes.userRegister}`,
         payload
       );
-      const {data} = request;
+      const { data } = request;
       console.log(data);
       return {
         message: data.message,
@@ -32,16 +33,15 @@ class AuthenticationRepository {
 
   async login(payload) {
     try {
-      const postObject = {...payload};
+      const postObject = { ...payload };
       const request = await Repository.post(
         `${baseUrl}${routes.login}`,
         postObject
       );
-      const {data} = request;
+      const { data } = request;
       return {
         tokens: data.tokens,
         user: data.user,
-        
       };
     } catch (error) {
       throw getError(error);
@@ -72,12 +72,17 @@ class AuthenticationRepository {
       throw getError(error);
     }
   }
+  async contactUs(payload) {
+    try {
+      await Repository.post(`${baseUrl}${routes.contactUs}`, payload);
+    } catch (error) {
+      throw getError(error);
+    }
+  }
+
   async verifyEmail(payload) {
     try {
-      await Repository.post(
-        `${baseUrl}${routes.verifyEmail}`,
-        payload
-      );
+      await Repository.post(`${baseUrl}${routes.verifyEmail}`, payload);
     } catch (error) {
       throw getError(error);
     }
