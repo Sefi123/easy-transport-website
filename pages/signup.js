@@ -12,23 +12,23 @@ import FileUploader from "../components/FileUploader";
 import { uploadImage } from "../components/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import convertImageToBase64 from "../components/ImageBase64";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import Page404Error from "../pages/error/404page";
 
 const Signup = () => {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const router=useRouter();
+  const router = useRouter();
   const [imgName, setimgName] = useState("");
   const [imgNameLicense, setimgNameLicense] = useState("");
   const [imgNameCnic, setimgNameCnic] = useState("");
-  const [passMatch, setPassMatch]=useState(true);
-  const [validPhone, setValidPhone]=useState(true);
-  const [validCnic, setValidCnic]=useState(true);
-  const [validAge, setValidAge]=useState(true);
-  const [validCharges, setValidCharges]=useState(true);
-  const [validExp, setValidExp]=useState(true);
+  const [passMatch, setPassMatch] = useState(true);
+  const [validPhone, setValidPhone] = useState(true);
+  const [validCnic, setValidCnic] = useState(true);
+  const [validAge, setValidAge] = useState(true);
+  const [validCharges, setValidCharges] = useState(true);
+  const [validExp, setValidExp] = useState(true);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -51,7 +51,6 @@ const Signup = () => {
 
   const handleData = (key, value) => {
     setData({ ...data, [key]: value });
-
   };
   const handleLoading = () => {
     setLoading(false);
@@ -74,9 +73,8 @@ const Signup = () => {
           photoUrl: data.photoUrl,
           user_type: data.accountType,
           role: data.role,
-        }
-      }
-      else if (data.accountType === "Transporter") {
+        };
+      } else if (data.accountType === "Transporter") {
         var payload = {
           name: data.name,
           email: data.email,
@@ -88,9 +86,8 @@ const Signup = () => {
           photoUrl: data.photoUrl,
           user_type: data.accountType,
           role: data.role,
-        }
-      }
-      else {
+        };
+      } else {
         var payload = {
           name: data.name,
           email: data.email,
@@ -102,7 +99,7 @@ const Signup = () => {
           perDayPrice: data.perDayCharges,
           driver_type: data.driverType,
           license_number: data.drivingLicense,
-          expiry_date: data.licenseExpiry.replaceAll('-', '/'),
+          expiry_date: data.licenseExpiry.replaceAll("-", "/"),
           drive_experience: data.drivingExperience,
           age: data.age,
           password: data.password,
@@ -130,55 +127,60 @@ const Signup = () => {
     }
   };
 
-  const CNICValidation = () =>{
-    if(!/^[0-9]+$/.test(data.cnic) || (data.cnic.length<13 || data.cnic.length>13))
-    {
+  const CNICValidation = () => {
+    if (
+      !/^[0-9]+$/.test(data.cnic) ||
+      data.cnic.length < 13 ||
+      data.cnic.length > 13
+    ) {
       setValidCnic(false);
-      return(
-      <div className="password-match">Please Enter Correct CNIC Number</div>
-    )
-    } else{
+      return (
+        <div className="password-match">Please Enter Correct CNIC Number</div>
+      );
+    } else {
       setValidCnic(true);
-      return <></>
+      return <></>;
     }
-  }
-  const AgeValidation=()=>{
-    if(data.age<18){
+  };
+  const AgeValidation = () => {
+    if (data.age < 18) {
       setValidAge(false);
       return <div className="password-match">Age should not less than 18</div>;
     } else {
       setValidAge(true);
       return <div></div>;
     }
-  }
-  const ExpValidation=()=>{
-    if(data.drivingExperience<0){
+  };
+  const ExpValidation = () => {
+    if (data.drivingExperience < 0) {
       setValidExp(false);
-      return <div className="password-match">Experience should not less than 0</div>;
+      return (
+        <div className="password-match">Experience should not less than 0</div>
+      );
     } else {
       setValidExp(true);
       return <div></div>;
     }
-  }
-  const ChargesValidation=()=>{
-    if(data.perDayCharges<0){
+  };
+  const ChargesValidation = () => {
+    if (data.perDayCharges < 0) {
       setValidCharges(false);
-      return <div className="password-match">Charges should not less than 0</div>;
+      return (
+        <div className="password-match">Charges should not less than 0</div>
+      );
     } else {
       setValidCharges(true);
       return <div></div>;
     }
-  }
+  };
 
   const PasswordMatch = () => {
     if (data.password != data.confirmpassword) {
       setPassMatch(false);
       return <div className="password-match">Password not Matched</div>;
-      
     } else {
       setPassMatch(true);
       return <div></div>;
-      
     }
   };
 
@@ -245,8 +247,8 @@ const Signup = () => {
 
   const handleRouter = () => {
     // e.preventDefault()
-    router.push("/dashboard")
-  }
+    router.push("/dashboard");
+  };
 
   const disablePastDate = () => {
     const today = new Date();
@@ -254,7 +256,7 @@ const Signup = () => {
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const yyyy = today.getFullYear();
     return yyyy + "-" + mm + "-" + dd;
-};
+  };
 
   return (
     <div>
@@ -303,264 +305,357 @@ const Signup = () => {
                     </p>
                   </div> */}
                     </div>
-                    {loading ? (<div className="d-flex justify-content-center signup-spinner">
-                      <div className="spinner-grow text-danger" role="status">
-                        <span className="sr-only">Loading...</span> </div>
-                      <div className="spinner-grow text-danger" role="status">
-                        <span className="sr-only">Loading...</span> </div>
-                      <div className="spinner-grow text-danger" role="status">
-                        <span className="sr-only">Loading...</span> </div>
-                    </div>) : (<form onSubmit={(e) => handleSubmit(e)} className="signin-form">
-                      <div className="form-group mb-3">
-                        <label className="label">Select Account Type</label>
-                        <select
-                          id="accountType"
-                          className="form-control"
-                          onChange={(e) =>
-                            handleData("accountType", e.target.value)
-                          }
-                        >
-                          <option value="Customer">Customer</option>
-                          <option value="Transporter">Transporter</option>
-                          <option value="Driver">Driver</option>
-                        </select>
-                      </div>
-                      <div className="form-group mb-3">
-                        <label className="label">Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Name"
-                          value={data.name}
-                          onChange={(e) => handleData("name", e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label className="label">Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          placeholder="Email"
-                          value={data.email}
-                          onChange={(e) => handleData("email", e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label className="label">Phone Number</label>
-                        <input
-                          type="tel"
-                          className="form-control"
-                          placeholder="Phone Number"
-                          value={data.phone}
-                          onChange={(e) => handleData("phone", e.target.value)}
-                          required
-                        />
-                      </div>
-                      {!data.phone ? <></> : <PhoneValidation />}
-                      <div className="form-group mb-3">
-                        <label className="label">Address</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Address"
-                          value={data.address}
-                          onChange={(e) => handleData("address", e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label className="label">Select City</label>
-                        <select
-                          id="accountType"
-                          className="form-control"
-                          onChange={(e) => handleData("city", e.target.value)}
-                        >
-                          <option value="Lahore">Lahore</option>
-                          <option value="Karachi">Karachi</option>
-                          <option value="Islamabad">Islamabad</option>
-                          <option value="Multan">Multan</option>
-                          <option value="Gujranwala">Gujranwala</option>
-                          <option value="Quetta">Quetta</option>
-                          <option value="Sarghoda">Sarghoda</option>
-                        </select>
-                      </div>
-                      {data.accountType === "Transporter" ? (
-                        <div>
-                          <div className="form-group mb-3">
-                            <label className="label">CNIC Number</label>
-                            <FileUploader
-                        placeholder={imgNameCnic ? imgNameCnic : "Click here to upload"}
-                        accept={["image/jpeg", "image/png", "image/bmp"]}
-                        maxFiles={1}
-                        maxSize={1000000}
-                        onDrop={(acceptedFiles, rejectedFiles) =>
-                          onDropCnic(acceptedFiles, rejectedFiles, "Image")
-                        }
-                      />
-                          </div>
+                    {loading ? (
+                      <div className="d-flex justify-content-center signup-spinner">
+                        <div className="spinner-grow text-danger" role="status">
+                          <span className="sr-only">Loading...</span>{" "}
                         </div>
-                      ) : (
-                        <>
-                          {data.accountType === "Driver" ? (
-                            <div>
-                              <div className="form-group mb-3">
-                                <label className="label">Age</label>
-                                <input
-                                  type="number"
-                                  className="form-control"
-                                  placeholder="Age"
-                                  value={data.age}
-                                  onChange={(e) =>
-                                    handleData("age", e.target.value)
-                                  }
-                                  required
-                                />
-                                {!data.age?(<></>):(<AgeValidation/>)}
-                              </div>
-                              <div className="form-group mb-3">
-                                <label className="label">CNIC Number</label>
-                                <FileUploader
-                        placeholder={imgNameCnic ? imgNameCnic : "Click here to upload"}
-                        accept={["image/jpeg", "image/png", "image/bmp"]}
-                        maxFiles={1}
-                        maxSize={1000000}
-                        onDrop={(acceptedFiles, rejectedFiles) =>
-                          onDropCnic(acceptedFiles, rejectedFiles, "Image")
-                        }
-                      />
-                                
-                              </div>
-                              <div className="form-group mb-3">
-                                <label className="label">
-                                  Driving License
-                                </label>
-                                <FileUploader
-                        placeholder={imgNameLicense ? imgNameLicense : "Click here to upload"}
-                        accept={["image/jpeg", "image/png", "image/bmp"]}
-                        maxFiles={1}
-                        maxSize={1000000}
-                        onDrop={(acceptedFiles, rejectedFiles) =>
-                          onDropLicense(acceptedFiles, rejectedFiles, "Image")
-                        }
-                      />
-                              </div>
-                              <div className="form-group mb-3">
-                                <label className="label">License Expiry Date</label>
-                                <input
-                                  type="date"
-                                  className="form-control"
-                                  placeholder="dd-mm-yyyy"
-                                  value={data.licenseExpiry}
-                                  min={disablePastDate()}
-                                  onChange={(e) =>
-                                    handleData("licenseExpiry", e.target.value)
-                                  }
-                                  required
-                                />
-                              </div>
-                              <div className="form-group mb-3">
-                                <label className="label">Per Day Charges</label>
-                                <input
-                                  type="number"
-                                  className="form-control"
-                                  placeholder="Per Day Charges "
-                                  value={data.perDayCharges}
-                                  onChange={(e) =>
-                                    handleData("perDayCharges", e.target.value)
-                                  }
-                                  required
-                                />
-                                 {!data.perDayCharges?(<></>):(<ChargesValidation/>)}
-                              </div>
-                              <div className="form-group mb-3">
-                                <label className="label">Driving Experience</label>
-                                <input
-                                  type="number"
-                                  className="form-control"
-                                  placeholder="Driving Experience Years"
-                                  value={data.drivingExperience}
-                                  onChange={(e) =>
-                                    handleData("drivingExperience", e.target.value)
-                                  }
-                                  required
-                                />
-                                 {!data.drivingExperience?(<></>):(<ExpValidation/>)}
-                              </div>
-                              <div className="form-group mb-3">
-                                <label className="label">Select Driver Type</label>
-                                <select
-                                  id="driverType"
-                                  className="form-control"
-                                  onChange={(e) =>
-                                    handleData("driverType", e.target.value)
-                                  }
-                                >
-                                  <option value="Car">Car</option>
-                                  <option value="Bus">Bus</option>
-                                  <option value="Van">Van</option>
-                                  <option value="Small Truck">Small Truck</option>
-                                  <option value="Heavy Truck">Heavy Truck</option>
-                                </select>
-                              </div>
+                        <div className="spinner-grow text-danger" role="status">
+                          <span className="sr-only">Loading...</span>{" "}
+                        </div>
+                        <div className="spinner-grow text-danger" role="status">
+                          <span className="sr-only">Loading...</span>{" "}
+                        </div>
+                      </div>
+                    ) : (
+                      <form
+                        onSubmit={(e) => handleSubmit(e)}
+                        className="signin-form"
+                      >
+                        <div className="form-group mb-3">
+                          <label className="label">Select Account Type</label>
+                          <select
+                            id="accountType"
+                            className="form-control"
+                            onChange={(e) =>
+                              handleData("accountType", e.target.value)
+                            }
+                          >
+                            <option value="Customer">Customer</option>
+                            <option value="Transporter">Transporter</option>
+                            <option value="Driver">Driver</option>
+                          </select>
+                        </div>
+                        <div className="form-group mb-3">
+                          <label className="label">Name</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Name"
+                            value={data.name}
+                            onChange={(e) => handleData("name", e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group mb-3">
+                          <label className="label">Email</label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Email"
+                            value={data.email}
+                            onChange={(e) =>
+                              handleData("email", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="form-group mb-3">
+                          <label className="label">Phone Number</label>
+                          <input
+                            type="tel"
+                            className="form-control"
+                            placeholder="Phone Number"
+                            value={data.phone}
+                            onChange={(e) =>
+                              handleData("phone", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        {!data.phone ? <></> : <PhoneValidation />}
+                        <div className="form-group mb-3">
+                          <label className="label">Address</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Address"
+                            value={data.address}
+                            onChange={(e) =>
+                              handleData("address", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="form-group mb-3">
+                          <label className="label">Select City</label>
+                          <select
+                            id="accountType"
+                            className="form-control"
+                            onChange={(e) => handleData("city", e.target.value)}
+                          >
+                            <option value="Lahore">Lahore</option>
+                            <option value="Karachi">Karachi</option>
+                            <option value="Islamabad">Islamabad</option>
+                            <option value="Multan">Multan</option>
+                            <option value="Gujranwala">Gujranwala</option>
+                            <option value="Quetta">Quetta</option>
+                            <option value="Sarghoda">Sarghoda</option>
+                          </select>
+                        </div>
+                        {data.accountType === "Transporter" ? (
+                          <div>
+                            <div className="form-group mb-3">
+                              <label className="label">CNIC Picture</label>
+                              <FileUploader
+                                placeholder={
+                                  imgNameCnic
+                                    ? imgNameCnic
+                                    : "Click here to upload"
+                                }
+                                accept={[
+                                  "image/jpeg",
+                                  "image/png",
+                                  "image/bmp",
+                                ]}
+                                maxFiles={1}
+                                maxSize={1000000}
+                                onDrop={(acceptedFiles, rejectedFiles) =>
+                                  onDropCnic(
+                                    acceptedFiles,
+                                    rejectedFiles,
+                                    "Image"
+                                  )
+                                }
+                              />
                             </div>
-                          ) : (
-                            <></>
-                          )}
-                        </>
-                      )}
+                          </div>
+                        ) : (
+                          <>
+                            {data.accountType === "Driver" ? (
+                              <div>
+                                <div className="form-group mb-3">
+                                  <label className="label">Age</label>
+                                  <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Age"
+                                    value={data.age}
+                                    onChange={(e) =>
+                                      handleData("age", e.target.value)
+                                    }
+                                    required
+                                  />
+                                  {!data.age ? <></> : <AgeValidation />}
+                                </div>
+                                <div className="form-group mb-3">
+                                  <label className="label">CNIC Picture</label>
+                                  <FileUploader
+                                    placeholder={
+                                      imgNameCnic
+                                        ? imgNameCnic
+                                        : "Click here to upload"
+                                    }
+                                    accept={[
+                                      "image/jpeg",
+                                      "image/png",
+                                      "image/bmp",
+                                    ]}
+                                    maxFiles={1}
+                                    maxSize={1000000}
+                                    onDrop={(acceptedFiles, rejectedFiles) =>
+                                      onDropCnic(
+                                        acceptedFiles,
+                                        rejectedFiles,
+                                        "Image"
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group mb-3">
+                                  <label className="label">
+                                    Driving License
+                                  </label>
+                                  <FileUploader
+                                    placeholder={
+                                      imgNameLicense
+                                        ? imgNameLicense
+                                        : "Click here to upload"
+                                    }
+                                    accept={[
+                                      "image/jpeg",
+                                      "image/png",
+                                      "image/bmp",
+                                    ]}
+                                    maxFiles={1}
+                                    maxSize={1000000}
+                                    onDrop={(acceptedFiles, rejectedFiles) =>
+                                      onDropLicense(
+                                        acceptedFiles,
+                                        rejectedFiles,
+                                        "Image"
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="form-group mb-3">
+                                  <label className="label">
+                                    License Expiry Date
+                                  </label>
+                                  <input
+                                    type="date"
+                                    className="form-control"
+                                    placeholder="dd-mm-yyyy"
+                                    value={data.licenseExpiry}
+                                    min={disablePastDate()}
+                                    onChange={(e) =>
+                                      handleData(
+                                        "licenseExpiry",
+                                        e.target.value
+                                      )
+                                    }
+                                    required
+                                  />
+                                </div>
+                                <div className="form-group mb-3">
+                                  <label className="label">
+                                    Per Day Charges
+                                  </label>
+                                  <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Per Day Charges "
+                                    value={data.perDayCharges}
+                                    onChange={(e) =>
+                                      handleData(
+                                        "perDayCharges",
+                                        e.target.value
+                                      )
+                                    }
+                                    required
+                                  />
+                                  {!data.perDayCharges ? (
+                                    <></>
+                                  ) : (
+                                    <ChargesValidation />
+                                  )}
+                                </div>
+                                <div className="form-group mb-3">
+                                  <label className="label">
+                                    Driving Experience
+                                  </label>
+                                  <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Driving Experience Years"
+                                    value={data.drivingExperience}
+                                    onChange={(e) =>
+                                      handleData(
+                                        "drivingExperience",
+                                        e.target.value
+                                      )
+                                    }
+                                    required
+                                  />
+                                  {!data.drivingExperience ? (
+                                    <></>
+                                  ) : (
+                                    <ExpValidation />
+                                  )}
+                                </div>
+                                <div className="form-group mb-3">
+                                  <label className="label">
+                                    Select Driver Type
+                                  </label>
+                                  <select
+                                    id="driverType"
+                                    className="form-control"
+                                    onChange={(e) =>
+                                      handleData("driverType", e.target.value)
+                                    }
+                                  >
+                                    <option value="Car">Car</option>
+                                    <option value="Bus">Bus</option>
+                                    <option value="Van">Van</option>
+                                    <option value="Small Truck">
+                                      Small Truck
+                                    </option>
+                                    <option value="Heavy Truck">
+                                      Heavy Truck
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        )}
 
-                      <div className="form-group mb-3">
-                        <label className="label">Password</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Password"
-                          value={data.password}
-                          onChange={(e) => handleData("password", e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label className="label">Confirm Password</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Confirm Password"
-                          value={data.confirmpassword}
-                          onChange={(e) =>
-                            handleData("confirmpassword", e.target.value)
+                        <div className="form-group mb-3">
+                          <label className="label">Password</label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Password"
+                            value={data.password}
+                            onChange={(e) =>
+                              handleData("password", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="form-group mb-3">
+                          <label className="label">Confirm Password</label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Confirm Password"
+                            value={data.confirmpassword}
+                            onChange={(e) =>
+                              handleData("confirmpassword", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        {!data.confirmpassword ? <></> : <PasswordMatch />}
+
+                        <label className="label">Profile Picture</label>
+                        <FileUploader
+                          placeholder={
+                            imgName ? imgName : "Click here to upload"
                           }
-                          required
+                          accept={["image/jpeg", "image/png", "image/bmp"]}
+                          maxFiles={1}
+                          maxSize={1000000}
+                          onDrop={(acceptedFiles, rejectedFiles) =>
+                            onDrop(acceptedFiles, rejectedFiles, "Image")
+                          }
                         />
-                      </div>
-                      {!data.confirmpassword ? <></> : <PasswordMatch />}
-
-                      <label className="label">Profile Picture</label>
-                      <FileUploader
-                        placeholder={imgName ? imgName : "Click here to upload"}
-                        accept={["image/jpeg", "image/png", "image/bmp"]}
-                        maxFiles={1}
-                        maxSize={1000000}
-                        onDrop={(acceptedFiles, rejectedFiles) =>
-                          onDrop(acceptedFiles, rejectedFiles, "Image")
-                        }
-                      />
-                      {!passMatch || (!validExp&&data.drivingExperience!="") || (!validAge&&data.age!="") || (!validCharges&&data.perDayCharges!="") || (!validPhone && data.phone!="") ||(!validCnic&&data.cnic!="")
-                      ?( 
-                      <div className="form-group">
-                        <button type="submit" disabled className="signin-btn">
-                          Sign Up
-                        </button>
-                      </div>):( <div className="form-group">
-                        <button type="submit" className="signin-btn">
-                          Sign Up
-                        </button>
-                      </div>)}
-                     
-                    </form>)}
-
+                        {!passMatch ||
+                        (!validExp && data.drivingExperience != "") ||
+                        (!validAge && data.age != "") ||
+                        (!validCharges && data.perDayCharges != "") ||
+                        (!validPhone && data.phone != "") ||
+                        (!validCnic && data.cnic != "") ? (
+                          <div className="form-group">
+                            <button
+                              type="submit"
+                              disabled
+                              className="signin-btn"
+                            >
+                              Sign Up
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="form-group">
+                            <button type="submit" className="signin-btn">
+                              Sign Up
+                            </button>
+                          </div>
+                        )}
+                      </form>
+                    )}
                   </div>
                 </div>
               </div>

@@ -1,15 +1,15 @@
 import React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import styles from '../styles/Home.module.css'
+import styles from "../styles/Home.module.css";
 import { useDispatch } from "react-redux";
 import { errorNotification } from "../components/notification/notification";
 import { resetPasswordRequests } from "../redux/auth/auth.actions";
 
 const ResetPassword = () => {
-
   const [loading, setLoading] = useState(false);
+  const [passMatch, setPassMatch] = useState(true);
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -34,19 +34,15 @@ const ResetPassword = () => {
     dispatch(resetPasswordRequests(payload, handleLoading));
   };
 
-  const PasswordMatch = () =>{
-      if(data.password!=data.confirmpassword)
-      {
-          return(<div className="password-match">
-            Password not Matched
-            </div>);
-      }
-      else{
-        return(<div>
-            
-            </div>);
-      }
-  }
+  const PasswordMatch = () => {
+    if (data.password != data.confirmpassword) {
+      setPassMatch(false);
+      return <div className="password-match">Password not Matched</div>;
+    } else {
+      setPassMatch(true);
+      return <div></div>;
+    }
+  };
 
   return (
     <section className="ftco-section">
@@ -81,8 +77,7 @@ const ResetPassword = () => {
                     <h3 className="mb-4">Reset Password</h3>
                   </div>
                 </div>
-                <form action="#" className="signin-form">
-                 
+                <form onSubmit={(e) => handleSubmit(e)} className="signin-form">
                   <div className="form-group mb-3">
                     <label className="label">Password</label>
                     <input
@@ -100,19 +95,25 @@ const ResetPassword = () => {
                       type="password"
                       className="form-control"
                       placeholder="Confirm New Password"
-                      onChange={(e)=> handleData("confirmpassword",e.target.value)}
+                      onChange={(e) =>
+                        handleData("confirmpassword", e.target.value)
+                      }
                       value={data.confirmpassword}
                       required
                     />
                   </div>
-                  {!data.confirmpassword?(<></>):(<PasswordMatch/>)}
+                  {!data.confirmpassword ? <></> : <PasswordMatch />}
 
                   <div className="form-group">
-                    <button type="submit" className="signin-btn"
-                    onClick={(e) => handleSubmit(e)}
-                    >
-                      Reset Password
-                    </button>
+                    {!passMatch ? (
+                      <button type="submit" className="signin-btn" disabled>
+                        Reset Password
+                      </button>
+                    ) : (
+                      <button type="submit" className="signin-btn">
+                        Reset Password
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>
