@@ -1,11 +1,11 @@
 import React from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import styles from '../styles/Home.module.css'
+import styles from "../styles/Home.module.css";
 import { loginRequest } from "../redux/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import {
   errorNotification,
   warningNotification,
@@ -16,7 +16,7 @@ import Page404Error from "../pages/error/404page";
 const Login = () => {
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn);
   const [loading, setLoading] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",
@@ -38,10 +38,8 @@ const Login = () => {
   };
 
   const handleRouter = () => {
-    // e.preventDefault()
-    router.push("/dashboard")
-  }
-
+    router.push("/dashboard");
+  };
 
   return (
     <div>
@@ -92,65 +90,61 @@ const Login = () => {
                   </div> */}
                     </div>
                     {loading ? (
-                    <div className="d-flex justify-content-center ftco-section">
-                      <div className="spinner-grow text-danger" role="status">
-                        <span className="sr-only">Loading...</span> </div>
-                      <div className="spinner-grow text-danger" role="status">
-                        <span className="sr-only">Loading...</span> </div>
-                      <div className="spinner-grow text-danger" role="status">
-                        <span className="sr-only">Loading...</span> </div>
-                    </div>
+                      <div className="d-flex justify-content-center ftco-section">
+                        <div className="spinner-grow text-danger" role="status">
+                          <span className="sr-only">Loading...</span>{" "}
+                        </div>
+                        <div className="spinner-grow text-danger" role="status">
+                          <span className="sr-only">Loading...</span>{" "}
+                        </div>
+                        <div className="spinner-grow text-danger" role="status">
+                          <span className="sr-only">Loading...</span>{" "}
+                        </div>
+                      </div>
                     ) : (
-                    <form onSubmit={(e) => handleSubmit(e)} className="signin-form">
-                      <div className="form-group mb-3">
-                        <label className="label">Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          placeholder="Email"
-                          value={data.email}
-                          onChange={(e) => handleData("email", e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group mb-3">
-                        <label className="label">Password</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          placeholder="Password"
-                          value={data.password}
-                          onChange={(e) => handleData("password", e.target.value)}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <button type="submit" className="signin-btn"
-                        >
-                          Sign In
-                        </button>
-                      </div>
+                      <form
+                        onSubmit={(e) => handleSubmit(e)}
+                        className="signin-form"
+                      >
+                        <div className="form-group mb-3">
+                          <label className="label">Email</label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Email"
+                            value={data.email}
+                            onChange={(e) =>
+                              handleData("email", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="form-group mb-3">
+                          <label className="label">Password</label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            placeholder="Password"
+                            value={data.password}
+                            onChange={(e) =>
+                              handleData("password", e.target.value)
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <button type="submit" className="signin-btn">
+                            Sign In
+                          </button>
+                        </div>
 
-                      <div className="d-flex justify-content-between align-items-center">
-                        {/* <div className="form-check mb-0">
-                      <input
-                        className="form-check-input me-2 checkbox "
-                        type="checkbox"
-                        value=""
-                        id="form2Example3"
-                      />
-                      <label className="form-check-label remember-me">
-                        Remember me
-                      </label>
-                    </div> */}
-                        <Link href="/forget-password" passHref>
-                          <a className="forget-password">
-                            Forgot password?
-                          </a>
-                        </Link>
-                      </div>
-                    </form>)}
-
+                        <div className="d-flex justify-content-between align-items-center">
+                          <Link href="/forget-password" passHref>
+                            <a className="forget-password">Forgot password?</a>
+                          </Link>
+                        </div>
+                      </form>
+                    )}
                   </div>
                 </div>
               </div>

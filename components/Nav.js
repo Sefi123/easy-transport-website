@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";

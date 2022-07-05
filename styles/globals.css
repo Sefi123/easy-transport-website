@@ -18,24 +18,21 @@ a {
   z-index: 10;
   background-color: rgb(255, 255, 255);
   border-bottom: 1px solid #ececec;
-
 }
 
 @media (max-width: 992px) {
   .navbar {
-    background-color: #000010;
+    background-color: #ffffff;
   }
-  .navbar-toggler{
-    background-color: white;
+  .navbar-toggler {
+    background-color: rgb(255, 255, 255);
   }
-
 }
 
 .btn {
   border-radius: 10px;
   background-color: #dc3545;
   color: white;
-  
 }
 .btn:hover {
   background-color: #ca1426;
@@ -51,7 +48,6 @@ a {
   background-color: #cf0d21;
   color: white;
   width: 8rem;
-  
 }
 .verifyEmailBtn:hover {
   background-color: #d43444;
@@ -61,13 +57,12 @@ a {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.fw{
+.fw {
   font-weight: 400;
 }
-.verifyEmail{
+.verifyEmail {
   font-size: 3rem;
 }
-
 
 .login-btn {
   height: 40px;
@@ -107,10 +102,10 @@ a {
   padding: 7em 0;
   background-color: rgb(255, 255, 255);
 }
-.signup-spinner{
+.signup-spinner {
   padding: 25em 0;
 }
-.vehicles-spinner{
+.vehicles-spinner {
   padding: 12em 0;
 }
 .container {
@@ -119,7 +114,7 @@ a {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-} 
+}
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
@@ -183,8 +178,6 @@ a {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  
-  
 }
 
 .login-wrap {
@@ -242,11 +235,11 @@ a {
   -webkit-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  -webkit-appearance: menulist!important;
-  -moz-appearance: menulist!important;
-  -ms-appearance: menulist!important;
-   -o-appearance: menulist!important;
-   appearance: menulist!important;
+  -webkit-appearance: menulist !important;
+  -moz-appearance: menulist !important;
+  -ms-appearance: menulist !important;
+  -o-appearance: menulist !important;
+  appearance: menulist !important;
 }
 
 .form-control:active {
@@ -271,26 +264,24 @@ a {
   color: #ca1426;
 }
 
-.checkbox:focus{
+.checkbox:focus {
   outline: none !important;
   -webkit-box-shadow: none;
   box-shadow: none;
   border-color: rgb(170, 170, 170);
 }
-.checkbox:checked{
+.checkbox:checked {
   background-color: #ca1426;
   border-color: transparent;
   border: 1px solid transparent;
   outline: none !important;
   -webkit-box-shadow: none;
   box-shadow: none;
-  
 }
 
 .forget-password {
   font-size: 12pt;
   color: #ca1426;
-  
 }
 .forget-password:hover {
   font-size: 12pt;
@@ -314,50 +305,46 @@ a {
   -ms-flex-order: 13;
   order: 13;
 }
-.account-type{
+.account-type {
   flex-direction: row;
   display: flex;
   justify-content: space-between;
 }
-.password-match{
+.password-match {
   color: #ca1426;
   margin-bottom: 10px;
 }
-#form-message{
+#form-message {
   height: 50%;
   border-radius: 10px;
 }
 
-.imageupload:hover{
+.imageupload:hover {
   background-color: #dc3545;
   color: white;
 }
-.imageupload{
+.imageupload {
   color: gray;
-  
-  
 }
-.imageicon{
+.imageicon {
   justify-content: space-between;
   display: flex;
 }
-.imagetext{
+.imagetext {
   margin-top: 4pt;
-  display:inline-block;
-  overflow:hidden !important;
+  display: inline-block;
+  overflow: hidden !important;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 220px;
-  
 }
 
-.dashnav{
+.dashnav {
   z-index: 1;
 }
 
-
 /* Transporter Dashboard */
-.pageWrapper{
+.pageWrapper {
   padding: 7rem 0;
   min-height: 100vh;
   z-index: 1;
@@ -366,7 +353,6 @@ a {
 .contentArea {
   flex-grow: 1;
   z-index: 1;
-  
 }
 
 .wrapper {
@@ -376,99 +362,95 @@ a {
 .card {
   margin-bottom: 30px;
   box-shadow: 0 0.3rem 0.5rem rgb(187, 187, 187);
-  
 }
 
 .cursor-pointer {
   cursor: pointer;
 }
 
- .button-group .btn {
-   margin: 3px;
-  
- }
+.button-group .btn {
+  margin: 3px;
+}
 .btn-white {
-   border: 1px solid transparent;
- }
+  border: 1px solid transparent;
+}
 .simplebar-scrollbar:before {
   background: #a0a0a0;
 }
 
- .vehicleForm h3{
-   font-weight: 300;
- }
+.vehicleForm h3 {
+  font-weight: 300;
+}
 
- .vehicleButton{
-   margin-top: 1.5rem;
- }
- .searchButton{
+.vehicleButton {
+  margin-top: 1.5rem;
+}
+.searchButton {
   margin-top: 1.5rem;
 }
 
-.topBorder{
+.topBorder {
   border-top: 1px solid rgb(190, 27, 27);
 }
 
-.transporterImg{
+.transporterImg {
   width: 300px;
   height: 300px;
 }
 
-.pageError{
-
+.pageError {
   margin-top: 100;
-   padding: 20rem 0;
+  padding: 20rem 0;
   background-color: rgb(255, 255, 255);
   flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.pageError h2{
+.pageError h2 {
   color: red;
   text-decoration: underline;
 }
 
-.FAQCard{
+.FAQCard {
   border-radius: 30px;
 }
 
-.servicesicon{
-    background-color: #fff;
-    display: inline-block;
-    width: 150px;
-    height: 150px;
-    border-radius: 63%;
-    text-align: center;
-    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
-    line-height: 150px;
-    font-size: 62px;
-    color: #fedf00;
+.servicesicon {
+  background-color: #fff;
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 63%;
+  text-align: center;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  line-height: 150px;
+  font-size: 62px;
+  color: #fedf00;
 }
 
-.servicesicon img{
+.servicesicon img {
   width: 50%;
 }
 
-.fontWeight{
-  font-weight:450;
+.fontWeight {
+  font-weight: 450;
 }
 
-.servicesPara{
+.servicesPara {
   text-align: justify;
 }
-.FAQSText{
+.FAQSText {
   text-align: justify;
   font-size: 15px;
 }
 
-.pageHeading{
+.pageHeading {
   text-align: center;
   font-size: 3.5rem;
-  font-family: 'Product Sans Bold';
-  
+  font-family: "Product Sans Bold";
 }
-.pageBody{
+.pageBody {
   display: block;
   text-align: justify;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -478,9 +460,8 @@ a {
 }
 
 @media (min-width: 1100px) {
-  .customFluid{
+  .customFluid {
     padding-left: 50px;
     padding-right: 50px;
   }
- }
-
+}

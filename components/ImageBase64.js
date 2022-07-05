@@ -9,7 +9,7 @@ const convertImageToBase64 = (img, cb) => {
   reader.onerror = function (error) {
     errorNotification(
       "error",
-      "Error occured while parsing your image\nTry again"
+      "Error occured while parsing your image Try again"
     );
     cb(reader.result, false);
   };

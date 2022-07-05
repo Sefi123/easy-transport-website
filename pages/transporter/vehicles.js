@@ -42,7 +42,7 @@ const TransporterVehicles = () => {
   const handleData = (key, value) => {
     setvehicleData({ ...vehicleData, [key]: value });
   };
-  
+
   const handleShow = () => {
     setShow(true);
   };
@@ -52,7 +52,10 @@ const TransporterVehicles = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      if(vehicleData.vehicleType==="Small Truck" || vehicleData.vehicleType==="Heavy Truck"){
+    if (
+      vehicleData.vehicleType === "Small Truck" ||
+      vehicleData.vehicleType === "Heavy Truck"
+    ) {
       const payload = {
         vehicleType: vehicleData.vehicleType,
         name: vehicleData.name,
@@ -69,13 +72,12 @@ const TransporterVehicles = () => {
         booked: false,
         registeredOwner_id: user.id,
       };
-      const vehicleId=vehicleData.id;
+      const vehicleId = vehicleData.id;
       dispatch(updateVehicle(payload, vehicleId, handleLoading));
       setTimeout(() => {
         getRegisteredVehicles();
       }, 1000);
-
-    } else{
+    } else {
       const payload = {
         vehicleType: vehicleData.vehicleType,
         name: vehicleData.name,
@@ -90,14 +92,13 @@ const TransporterVehicles = () => {
         booked: false,
         registeredOwner_id: user.id,
       };
-      const vehicleId=vehicleData.id;
-      dispatch(updateVehicle(payload, vehicleId ,handleLoading));
+      const vehicleId = vehicleData.id;
+      dispatch(updateVehicle(payload, vehicleId, handleLoading));
       setTimeout(() => {
         getRegisteredVehicles();
       }, 1000);
     }
-     
-    }
+  };
 
   const getRegisteredVehicles = () => {
     const payload = {
@@ -140,8 +141,6 @@ const TransporterVehicles = () => {
       vehicle_id: vehicleid,
     };
     dispatch(deleteVehicle(payload, handleLoading));
-    // const newData = vehicles.filter((item) => item.id !== vehicleid);
-    // setVehicles(newData);
     setTimeout(() => {
       getRegisteredVehicles();
     }, 1000);
@@ -331,59 +330,59 @@ const TransporterVehicles = () => {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body"> 
-             <form onSubmit={(e) => handleSubmit(e)} className="row">
-          <div className="col-md-6 form-group mb-3">
-            <label className="label">Select Vehicle Type</label>
-            <select
-              id="vehicleType"
-              className="form-control"
-              onChange={(e) => handleData("vehicleType", e.target.value)}
-              value={vehicleData.vehicleType}
-              disabled
-            >
-              <option value="Car">Car</option>
-              <option value="Bus">Bus</option>
-              <option value="Van">Van</option>
-              <option value="Small Truck">Small Truck</option>
-              <option value="Heavy Truck">Heavy Truck</option>
-            </select>
-          </div>
-          <div className="col-md-6 form-group mb-3">
-            <label className="label">Vehicle Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Vehicle Name"
-              value={vehicleData.name}
-              onChange={(e) => handleData("name", e.target.value)}
-              required
-            />
-          </div>
-          <div className="col-md-6 form-group mb-3">
-            <label className="label">Number Plate</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Number Plate"
-              value={vehicleData.numberPlate}
-              onChange={(e) => handleData("numberPlate", e.target.value)}
-              disabled
-            />
-          </div>
-          <div className="col-md-6 form-group mb-3">
-            <label className="label">Model Year</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Model Year"
-              value={vehicleData.modelYear}
-              onChange={(e) => handleData("modelYear", e.target.value)}
-              disabled
-            />
-          </div>
+            <div className="modal-body">
+              <form onSubmit={(e) => handleSubmit(e)} className="row">
+                <div className="col-md-6 form-group mb-3">
+                  <label className="label">Select Vehicle Type</label>
+                  <select
+                    id="vehicleType"
+                    className="form-control"
+                    onChange={(e) => handleData("vehicleType", e.target.value)}
+                    value={vehicleData.vehicleType}
+                    disabled
+                  >
+                    <option value="Car">Car</option>
+                    <option value="Bus">Bus</option>
+                    <option value="Van">Van</option>
+                    <option value="Small Truck">Small Truck</option>
+                    <option value="Heavy Truck">Heavy Truck</option>
+                  </select>
+                </div>
+                <div className="col-md-6 form-group mb-3">
+                  <label className="label">Vehicle Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Vehicle Name"
+                    value={vehicleData.name}
+                    onChange={(e) => handleData("name", e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="col-md-6 form-group mb-3">
+                  <label className="label">Number Plate</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Number Plate"
+                    value={vehicleData.numberPlate}
+                    onChange={(e) => handleData("numberPlate", e.target.value)}
+                    disabled
+                  />
+                </div>
+                <div className="col-md-6 form-group mb-3">
+                  <label className="label">Model Year</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Model Year"
+                    value={vehicleData.modelYear}
+                    onChange={(e) => handleData("modelYear", e.target.value)}
+                    disabled
+                  />
+                </div>
 
-          <div className="col-md-6 form-group mb-3">
+                <div className="col-md-6 form-group mb-3">
                   <label className="label">Select Transmission</label>
                   <select
                     id="selectCity"
@@ -396,113 +395,116 @@ const TransporterVehicles = () => {
                     <option value="Manual">Manual</option>
                   </select>
                 </div>
-          <div className="col-md-6 form-group mb-3">
-            <label className="label">Vehicle Color</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Color"
-              value={vehicleData.color}
-              onChange={(e) => handleData("color", e.target.value)}
-              required
-            />
-          </div>
-          {vehicleData.vehicleType === "Small Truck" ||
-            vehicleData.vehicleType === "Heavy Truck" ?
-             (<>
-              <div className="col-md-6 form-group mb-3">
-                  <label className="label">Luggage Capacity</label>
+                <div className="col-md-6 form-group mb-3">
+                  <label className="label">Vehicle Color</label>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
-                    placeholder="KG Luggage Capacity"
-                    value={vehicleData.luggageCapacity}
-                    min={1}
-                    onChange={(e) =>
-                      handleData("luggageCapacity", e.target.value)
-                    }
+                    placeholder="Color"
+                    value={vehicleData.color}
+                    onChange={(e) => handleData("color", e.target.value)}
                     required
                   />
-                  
                 </div>
-                <div className="col-md-6 form-group mb-3">
-                  <label className="label">Select From City</label>
-                  <select
-                    id="selectCity"
-                    className="form-control"
-                    onChange={(e) => handleData("fromCity", e.target.value)}
-                    value={vehicleData.fromCity}
-                  >
-                    <option value="Lahore">Lahore</option>
-                    <option value="Karachi">Karachi</option>
-                    <option value="Islamabad">Islamabad</option>
-                    <option value="Multan">Multan</option>
-                    <option value="Gujranwala">Gujranwala</option>
-                    <option value="Quetta">Quetta</option>
-                    <option value="Sarghoda">Sarghoda</option>
-                  </select>
-                </div>
-                <div className="col-md-6 form-group mb-3">
-                  <label className="label">Select To City</label>
-                  <select
-                    id="selectCity"
-                    className="form-control"
-                    onChange={(e) => handleData("toCity", e.target.value)}
-                    value={vehicleData.toCity}
-                  >
-                    <option value="Karachi">Karachi</option>
-                    <option value="Lahore">Lahore</option>
-                    <option value="Islamabad">Islamabad</option>
-                    <option value="Multan">Multan</option>
-                    <option value="Gujranwala">Gujranwala</option>
-                    <option value="Quetta">Quetta</option>
-                    <option value="Sarghoda">Sarghoda</option>
-                  </select>
-                </div>
-                <div className="col-md-6 form-group mb-3">
-                  <label className="label">Average Charges</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Average Charges"
-                    value={vehicleData.perDayPrice}
-                    onChange={(e) => handleData("perDayPrice", e.target.value)}
-                    required
-                  />
-                   
-                </div>
-                </>)
-             :
-             (<><div className="col-md-6 form-group mb-3">
-            <label className="label">PerDay Charges</label>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="PerDay Charges"
-              value={vehicleData.perDayPrice}
-              onChange={(e) => handleData("perDayPrice", e.target.value)}
-              required
-            />
-             
-          </div>
-          <div className="col-md-6 form-group mb-3">
-          <label className="label">Select City</label>
-          <select
-            id="selectCity"
-            className="form-control"
-            onChange={(e) => handleData("fromCity", e.target.value)}
-            value={vehicleData.fromCity}
-          >
-            <option value="Lahore">Lahore</option>
-            <option value="Karachi">Karachi</option>
-            <option value="Islamabad">Islamabad</option>
-            <option value="Multan">Multan</option>
-            <option value="Gujranwala">Gujranwala</option>
-            <option value="Quetta">Quetta</option>
-            <option value="Sarghoda">Sarghoda</option>
-          </select>
-        </div>
-        </>)}
+                {vehicleData.vehicleType === "Small Truck" ||
+                vehicleData.vehicleType === "Heavy Truck" ? (
+                  <>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Luggage Capacity</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="KG Luggage Capacity"
+                        value={vehicleData.luggageCapacity}
+                        min={1}
+                        onChange={(e) =>
+                          handleData("luggageCapacity", e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Select From City</label>
+                      <select
+                        id="selectCity"
+                        className="form-control"
+                        onChange={(e) => handleData("fromCity", e.target.value)}
+                        value={vehicleData.fromCity}
+                      >
+                        <option value="Lahore">Lahore</option>
+                        <option value="Karachi">Karachi</option>
+                        <option value="Islamabad">Islamabad</option>
+                        <option value="Multan">Multan</option>
+                        <option value="Gujranwala">Gujranwala</option>
+                        <option value="Quetta">Quetta</option>
+                        <option value="Sarghoda">Sarghoda</option>
+                      </select>
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Select To City</label>
+                      <select
+                        id="selectCity"
+                        className="form-control"
+                        onChange={(e) => handleData("toCity", e.target.value)}
+                        value={vehicleData.toCity}
+                      >
+                        <option value="Karachi">Karachi</option>
+                        <option value="Lahore">Lahore</option>
+                        <option value="Islamabad">Islamabad</option>
+                        <option value="Multan">Multan</option>
+                        <option value="Gujranwala">Gujranwala</option>
+                        <option value="Quetta">Quetta</option>
+                        <option value="Sarghoda">Sarghoda</option>
+                      </select>
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Average Charges</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Average Charges"
+                        value={vehicleData.perDayPrice}
+                        onChange={(e) =>
+                          handleData("perDayPrice", e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">PerDay Charges</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        placeholder="PerDay Charges"
+                        value={vehicleData.perDayPrice}
+                        onChange={(e) =>
+                          handleData("perDayPrice", e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Select City</label>
+                      <select
+                        id="selectCity"
+                        className="form-control"
+                        onChange={(e) => handleData("fromCity", e.target.value)}
+                        value={vehicleData.fromCity}
+                      >
+                        <option value="Lahore">Lahore</option>
+                        <option value="Karachi">Karachi</option>
+                        <option value="Islamabad">Islamabad</option>
+                        <option value="Multan">Multan</option>
+                        <option value="Gujranwala">Gujranwala</option>
+                        <option value="Quetta">Quetta</option>
+                        <option value="Sarghoda">Sarghoda</option>
+                      </select>
+                    </div>
+                  </>
+                )}
                 <div className="col-md-6 form-group mb-3">
                   <label className="label">Vehicle Picture</label>
                   <FileUploader
@@ -516,19 +518,19 @@ const TransporterVehicles = () => {
                   />
                 </div>
                 <div className="modal-footer">
-              <button
-                type="button"
-                className="btn-danger tableButton"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="submit" className="btn-success tableButton">
-                Save
-              </button>
+                  <button
+                    type="button"
+                    className="btn-danger tableButton"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" className="btn-success tableButton">
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
-          </div>
           </div>
         </div>
       </div>
@@ -536,13 +538,4 @@ const TransporterVehicles = () => {
   );
 };
 
-// const mapStateToProps = ({auth,transporter})=>{
-//   return{
-//     data:auth.user
-//   }
-// }
-
-// const VehicleMapped= connect(mapStateToProps,null)(Vehicles);
-
-// export default VehicleMapped;
 export default TransporterVehicles;

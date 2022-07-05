@@ -28,14 +28,6 @@ instance.interceptors.request.use(
 
 export default instance;
 
-// export const serializeQuery = (query) => {
-//   return Object.keys(query)
-//     .map(
-//       (key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
-//     )
-//     .join("&");
-// };
-
 export const getError = (error) => {
   if (error.response) {
     if (error?.response?.data?.data?.errorMessage) {
