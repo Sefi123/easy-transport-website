@@ -12,6 +12,10 @@ export function loginSuccess(user, token) {
   return { type: actionTypes.LOGIN_SUCCESS, user, token };
 }
 
+export function updateSuccess(results) {
+  return { type: actionTypes.UPDATE_SUCCESS, results };
+}
+
 export function signUpSuccess() {
   return { type: actionTypes.SIGNUP_SUCCESS };
 }

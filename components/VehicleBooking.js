@@ -15,8 +15,8 @@ const VehicleBooking = (props) => {
   const user = useSelector(({ auth }) => auth.user);
   const [imgName, setimgName] = useState("");
   const vehicle = props.vehicleDetails;
-  const [validPhone, setValidPhone]=useState(true);
-  const [validCnic, setValidCnic]=useState(true);
+  const [validPhone, setValidPhone] = useState(true);
+  const [validCnic, setValidCnic] = useState(true);
   const [data, setData] = useState({
     Name: "",
     PhoneNo: "",
@@ -26,21 +26,23 @@ const VehicleBooking = (props) => {
     ToCity: "",
     DateIn: "",
     DateOut: "",
-
   });
 
-  const CNICValidation = () =>{
-    if(!/^[0-9]+$/.test(data.CNIC) || (data.CNIC.length<13 || data.CNIC.length>13))
-    {
+  const CNICValidation = () => {
+    if (
+      !/^[0-9]+$/.test(data.CNIC) ||
+      data.CNIC.length < 13 ||
+      data.CNIC.length > 13
+    ) {
       setValidCnic(false);
-      return(
-      <div className="password-match">Please Enter Correct CNIC Number</div>
-    )
-    } else{
+      return (
+        <div className="password-match">Please Enter Correct CNIC Number</div>
+      );
+    } else {
       setValidCnic(true);
-      return <></>
+      return <></>;
     }
-  }
+  };
   const handleData = (key, value) => {
     setData({ ...data, [key]: value });
   };
@@ -61,18 +63,19 @@ const VehicleBooking = (props) => {
     }
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let fromCity;
     let toCity;
-    if(vehicle.vehicleType==="Small Truck" || vehicle.vehicleType==="Heavy Truck"){
-      fromCity=vehicle.fromCity;
-      toCity=vehicle.toCity
-    }
-    else{
-      fromCity=data.FromCity;
-      toCity=data.ToCity;
+    if (
+      vehicle.vehicleType === "Small Truck" ||
+      vehicle.vehicleType === "Heavy Truck"
+    ) {
+      fromCity = vehicle.fromCity;
+      toCity = vehicle.toCity;
+    } else {
+      fromCity = data.FromCity;
+      toCity = data.ToCity;
     }
     const payload = {
       user_id: user.id,
@@ -83,17 +86,15 @@ const VehicleBooking = (props) => {
       toCity: toCity,
       vehicle_id: vehicle.id,
       vehicle_name: vehicle.name,
-      booking_type:"vehicle",
+      booking_type: "vehicle",
       perDayPrice: vehicle.perDayPrice,
       numberPlate: vehicle.numberPlate,
       modelYear: vehicle.modelYear,
       address: data.Address,
-      dateIn: data.DateIn.replaceAll('-','/'),
-      dateOut: data.DateOut.replaceAll('-','/'),
+      dateIn: data.DateIn.replaceAll("-", "/"),
+      dateOut: data.DateOut.replaceAll("-", "/"),
       registeredOwner_id: vehicle.registeredOwner_id,
-
     };
-    console.log(payload);
     setLoading(true);
     dispatch(vehicleBookingRequest(payload, handleLoading));
   };
@@ -104,7 +105,7 @@ const VehicleBooking = (props) => {
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const yyyy = today.getFullYear();
     return yyyy + "-" + mm + "-" + dd;
-};
+  };
 
   return (
     <Card className={`aboutUSCard container-fluid`}>
@@ -159,58 +160,62 @@ const VehicleBooking = (props) => {
             onChange={(e) => handleData("CNIC", e.target.value)}
             required
           />
-           {!data.CNIC?(<></>):(<CNICValidation/>)}
+          {!data.CNIC ? <></> : <CNICValidation />}
         </div>
-      {vehicle.vehicleType==="Small Truck" || vehicle.vehicleType==="Heavy Truck" ? (
-        <>
-        <div className="col-md-6 form-group mb-3">
-        <label className="label">From City</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="From City"
-          value={vehicle.fromCity}
-          onChange={(e) => handleData("FromCity", e.target.value)}
-          disabled
-        />
-      </div>
-      <div className="col-md-6 form-group mb-3">
-        <label className="label">To City</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="To City"
-          value={vehicle.toCity}
-          onChange={(e) => handleData("ToCity", e.target.value)}
-          disabled
-        />
-      </div>
-      </>
+        {vehicle.vehicleType === "Small Truck" ||
+        vehicle.vehicleType === "Heavy Truck" ? (
+          <>
+            <div className="col-md-6 form-group mb-3">
+              <label className="label">From City</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="From City"
+                value={vehicle.fromCity}
+                onChange={(e) => handleData("FromCity", e.target.value)}
+                disabled
+              />
+            </div>
+            <div className="col-md-6 form-group mb-3">
+              <label className="label">To City</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="To City"
+                value={vehicle.toCity}
+                onChange={(e) => handleData("ToCity", e.target.value)}
+                disabled
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="col-md-6 form-group mb-3">
+              <label className="label">From City</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="From City"
+                value={data.FromCity}
+                onChange={(e) => handleData("FromCity", e.target.value)}
+                required
+              />
+            </div>
+            <div className="col-md-6 form-group mb-3">
+              <label className="label">To City</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="To City"
+                value={data.ToCity}
+                onChange={(e) => handleData("ToCity", e.target.value)}
+                required
+              />
+            </div>
+          </>
+        )}
 
-      ):(<> <div className="col-md-6 form-group mb-3">
-      <label className="label">From City</label>
-      <input
-        type="text"
-        className="form-control"
-        placeholder="From City"
-        value={data.FromCity}
-        onChange={(e) => handleData("FromCity", e.target.value)}
-        required
-      />
-    </div>
-    <div className="col-md-6 form-group mb-3">
-      <label className="label">To City</label>
-      <input
-        type="text"
-        className="form-control"
-        placeholder="To City"
-        value={data.ToCity}
-        onChange={(e) => handleData("ToCity", e.target.value)}
-        required
-      />
-    </div>
-</>)}
-       
         <div className="col-md-6 form-group mb-3">
           <label className="label">Date In</label>
           <input
@@ -236,12 +241,16 @@ const VehicleBooking = (props) => {
           />
         </div>
         <div className="col-md-6 mb-3 vehicleButton">
-          {(!validCnic&&data.CNIC!="") || (!validPhone&&data.PhoneNo!="")
-          ?( <button type="submit" disabled className="signin-btn">
-          Book Now
-        </button>):( <button type="submit" className="signin-btn">
-            Book Now
-          </button>)}
+          {(!validCnic && data.CNIC != "") ||
+          (!validPhone && data.PhoneNo != "") ? (
+            <button type="submit" disabled className="signin-btn">
+              Book Now
+            </button>
+          ) : (
+            <button type="submit" className="signin-btn">
+              Book Now
+            </button>
+          )}
         </div>
       </form>
     </Card>

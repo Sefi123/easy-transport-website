@@ -1,12 +1,12 @@
 import React from "react";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Card, CardTitle, CardBody } from "reactstrap";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import FullLayout from "../../components/UserDashboard/components/Layout/FullLayout";
 import user from "../../components/TransporterDashboard/images/users/user1.jpg";
-import {updateProfile} from "../../redux/transporter/transporter.actions"
+import { updateProfile } from "../../redux/transporter/transporter.actions";
 import FileUploader from "../../components/FileUploader";
 import { uploadImage } from "../../components/ImageUpload";
 import convertImageToBase64 from "../../components/ImageBase64";
@@ -16,12 +16,12 @@ function Profile() {
   const user = useSelector(({ auth }) => auth.user);
   const router = useRouter();
   const dispatch = useDispatch();
-  const [loaded, setLoaded]=useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imgName, setimgName] = useState("");
   const token = useSelector(({ auth }) => auth.token);
   const [data, setData] = useState({});
-  const [validPhone, setValidPhone]=useState(true);
+  const [validPhone, setValidPhone] = useState(true);
 
   const handleData = (key, value) => {
     setData({ ...data, [key]: value });
@@ -34,10 +34,10 @@ function Profile() {
     if (user !== null) {
       setData(user);
     }
-    if (isLoggedIn||!isLoggedIn) {
+    if (isLoggedIn || !isLoggedIn) {
       setLoaded(true);
     }
-  }, [user,isLoggedIn])
+  }, [user, isLoggedIn]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,18 +50,17 @@ function Profile() {
       photoUrl: data.photoUrl,
       role: "user",
     };
-    const userId=user.id;
-    dispatch(updateProfile(payload, userId,handleLoading));
-   
+    const userId = user.id;
+    dispatch(updateProfile(payload, userId, handleLoading));
   };
 
-  useEffect(()=>{
-    if(loaded){
-    if(!isLoggedIn){
-      router.push("/login")
+  useEffect(() => {
+    if (loaded) {
+      if (!isLoggedIn) {
+        router.push("/login");
+      }
     }
-  }
-  },[isLoggedIn,loaded]);
+  }, [isLoggedIn, loaded]);
 
   const PhoneValidation = () => {
     let phoneNo = /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/;
@@ -98,68 +97,68 @@ function Profile() {
   };
 
   return (
-    <div> 
+    <div>
       <FullLayout>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-8">
-            <Card className="bg-white">
-              <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-                <i className="bi bi-person me-2" />
-                Edit Profile
-              </CardTitle>
-              <CardBody>
-                <form
-                  onSubmit={(e) => handleSubmit(e)}
-                  className="signin-form row"
-                >
-                  <div className="col-md-6 form-group mb-3">
-                    <label className="label">Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name"
-                      value={data.name}
-                      onChange={(e) => handleData("name", e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 form-group mb-3">
-                    <label className="label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Email"
-                      value={data.email}
-                      onChange={(e) => handleData("email", e.target.value)}
-                      disabled
-                    />
-                  </div>
-                  <div className="col-md-6 form-group mb-3">
-                    <label className="label">Phone Number</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      placeholder="Phone Number"
-                      value={data.phone_no}
-                      onChange={(e) => handleData("phone_no", e.target.value)}
-                      required
-                    />
-                    {!data.phone_no ? <></> : <PhoneValidation />}
-                  </div>
-                  <div className="col-md-6 form-group mb-3">
-                    <label className="label">Address</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Address"
-                      value={data.address}
-                      onChange={(e) => handleData("address", e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6 form-group mb-3">
-                  <label className="label">Profile Picture</label>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-8">
+              <Card className="bg-white">
+                <CardTitle tag="h6" className="border-bottom p-3 mb-0">
+                  <i className="bi bi-person me-2" />
+                  Edit Profile
+                </CardTitle>
+                <CardBody>
+                  <form
+                    onSubmit={(e) => handleSubmit(e)}
+                    className="signin-form row"
+                  >
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Name"
+                        value={data.name}
+                        onChange={(e) => handleData("name", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Email</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Email"
+                        value={data.email}
+                        onChange={(e) => handleData("email", e.target.value)}
+                        disabled
+                      />
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Phone Number</label>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        placeholder="Phone Number"
+                        value={data.phone_no}
+                        onChange={(e) => handleData("phone_no", e.target.value)}
+                        required
+                      />
+                      {!data.phone_no ? <></> : <PhoneValidation />}
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Address</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Address"
+                        value={data.address}
+                        onChange={(e) => handleData("address", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6 form-group mb-3">
+                      <label className="label">Profile Picture</label>
                       <FileUploader
                         placeholder={imgName ? imgName : "Click here to upload"}
                         accept={["image/jpeg", "image/png", "image/bmp"]}
@@ -169,62 +168,67 @@ function Profile() {
                           onDrop(acceptedFiles, rejectedFiles, "Image")
                         }
                       />
+                    </div>
+                    <div className="col-md-6 form-group mb-3 form-group vehicleButton">
+                      {!validPhone && data.phone != "" ? (
+                        <button type="submit" className="signin-btn" disabled>
+                          Update Profile
+                        </button>
+                      ) : (
+                        <button type="submit" className="signin-btn">
+                          Update Profile
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                </CardBody>
+              </Card>
+            </div>
+            <div className="col-md-4">
+              <Card className="bg-white">
+                <CardTitle
+                  tag="h6"
+                  className="border-bottom text-center p-3 mb-0 "
+                >
+                  <i className="bi bi-person me-2" />
+                  Your Profile
+                </CardTitle>
+                <CardBody>
+                  <div className="justify-content-center row">
+                    <div className="transporterImg">
+                      {data.photoUrl ? (
+                        <Image
+                          src={data.photoUrl}
+                          alt="hero banner"
+                          height={300}
+                          width={300}
+                          className="rounded-circle"
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                  {user != null ? (
+                    <div className="text-center">
+                      <h3 className="text-danger">{user.name}</h3>
+                      <div className="d-flex row">
+                        <h5 className="text-muted"> {data.email}</h5>
                       </div>
-                  <div className="col-md-6 form-group mb-3 form-group vehicleButton">
-                  { (!validPhone && data.phone!="" )?(
-                     <button type="submit" className="signin-btn" disabled>
-                      Update Profile
-                    </button>):(
-                    <button type="submit" className="signin-btn">
-                      Update Profile
-                    </button>)}
-                    
-                  </div>
-                </form>
-              </CardBody>
-            </Card>
-          </div>
-          <div className="col-md-4">
-            <Card className="bg-white">
-              <CardTitle
-                tag="h6"
-                className="border-bottom text-center p-3 mb-0 "
-              >
-                <i className="bi bi-person me-2" />
-                Your Profile
-              </CardTitle>
-              <CardBody>
-                <div className="justify-content-center row">
-                  <div className="transporterImg">
-                  {data.photoUrl?(
-                    <Image
-                      src={data.photoUrl}
-                      alt="hero banner"
-                      height={300}
-                      width={300}
-                      className="rounded-circle"
-                    />
-                    ):(<></>)}
-                  </div>
-                </div>
-                {user!=null?(<div className="text-center">
-                  <h3 className="text-danger">{user.name}</h3>
-                  <div className="d-flex row">
-                    <h5 className="text-muted"> {data.email}</h5>
-                  </div>
-                  <div>
-                    <h6 className="text-muted"> {data.phone_no}</h6>
-                  </div>
-                </div>):(<></>)}
-                
-              </CardBody>
-            </Card>
+                      <div>
+                        <h6 className="text-muted"> {data.phone_no}</h6>
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </CardBody>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
-    </FullLayout>
+      </FullLayout>
     </div>
-    
   );
 }
 
