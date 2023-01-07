@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseDomain = "https://easy-transport-fyp.herokuapp.com";
+// const baseDomain = "https://easy-transport-fyp.herokuapp.com";
+const baseDomain = "https://sefi123-fyp-production.up.railway.app";
 
 export const appName = "easy_transport";
 
